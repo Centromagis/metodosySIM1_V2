@@ -1,0 +1,120 @@
+---
+title: <span style="color:#034a94"> **Parámetros de gráficos**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readr)
+library(tidyverse)
+library(DT)
+library(paqueteMETODOS)
+
+data("CarreraLuz22")
+data("evaluacion")
+data("inflacionov22")
+```
+
+</br></br>
+
+A continuación se presentan algunos de los parámetros para el manejo de gráficos.
+
+
+</br>
+
+#  **Márgenes de los gráficos**
+
+</br>
+
+Es posible que se requiera aumentar los margenes de los gráfico con el propósito de que aparezcan las etiquetas completamente.
+
+A partir del siguiente gráfico se realizan algunos ajustes en cuanto sus márgenes y  tamaño de los textos.
+
+```{r}
+# Gráfico normal
+x=rnorm(100,100,20)
+plot(density(x))
+```
+
+</br></br>
+
+### **Márgenes de la gráfica  c(bottom, left, top, right)**
+
+```{r}
+
+par(mar = c(5, 4, 4, 2) + 0.1)
+x=rnorm(100,100,20)
+plot(density(x))
+```
+
+</br></br>
+
+###  **Márgenes de la gráfica**
+```{r}
+
+par(mai = c(1.5, 1.5, 1.5, 1.5))
+x=rnorm(100,100,20)
+plot(density(x))
+
+```
+ 
+ </br></br>
+ 
+ ### **Matriz de gráficos mfrow = c(2, 2)**
+
+Para presentar varios gráficos en una sola imagen se emplea el parámetro mfrow para indicar cuantas filas y columnas tendrá la figura.
+
+
+```{r}
+x=rnorm(100,100,20)
+y=rnorm(100,100,25)
+z=rbinom(100,4,0.30)
+t=1:100
+par(mfrow = c(2, 2) ) # Definición de la matriz
+
+plot(density(x))
+barplot(table(z))
+hist(x)
+plot(x,y)
+```
+
+</br></br>
+
+### **Márgenes exteriores c(bottom, left, top, right)**
+
+```{r}
+
+par(mfrow = c(2, 2),   # Matriz de gráficos 2x2
+    oma = c(3, 5, 2, 4) )  # Márgenes de la imagen
+plot(density(x))
+barplot(table(z))
+hist(x)
+plot(x,y)
+
+```
+
+</br></br>
+
+# **Tamaño texto**
+
+
+
+```{r}
+x=rnorm(100,100,20)
+plot(density(x),cex.lab=.8,  # Tamaño de etiqueta ejes
+                cex.axis=2, # Tamaño escalas de los ejes 
+                cex.main=1.5, # Tamaño del titulo
+                cex.sub=1)    # Tamaño del subtitulo
+```
+
+
+
+
+

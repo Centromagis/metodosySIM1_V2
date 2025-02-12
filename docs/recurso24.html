@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Indicadores de dispersión</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos básicos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10.html">Conceptos básicos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso11.html">Conceptos</a>
+    </li>
+    <li>
+      <a href="recurso12.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso13.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso15.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20.html">Análisis de datos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso21.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Representación gráfica de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30.html">Representación gráfica</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso31.html">Representación de variables cualitativas</a>
+    </li>
+    <li>
+      <a href="recurso32.html">Representación de variables cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33.html">Representaciones multivariadas</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40.html">Introducción a R</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso41.html">Objetos en R</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso42.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Indicadores de dispersión</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p></br></p>
+<p>Supongamos que tenemos dos grupos de participantes patrocinados por
+dos empresas. Se sabe que ambos grupos tienen el mismo promedio de edad,
+con una media de <strong>28 años</strong>. A primera vista, podríamos
+asumir que ambos grupos tienen una composición similar debido a la
+coincidencia en el promedio. Sin embargo, esto no necesariamente es
+cierto.</p>
+<p>A continuación, se presentan los datos correspondientes a dos grupos.
+Aunque ambos tienen una media de <strong>28</strong>, sus distribuciones
+son claramente diferentes. Este hecho demuestra que la media, por sí
+sola, no es suficiente para describir completamente las características
+de un conjunto de datos.</p>
+<p>Es necesario contar con otro indicador que proporcione información
+sobre <strong>qué tan dispersos son los datos</strong>, lo cual es
+crucial para determinar si los grupos son similares no solo en su
+centro, sino también en su variabilidad. Esta necesidad se aborda
+mediante los <strong>indicadores de dispersión</strong>.</p>
+<p><br/></p>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="80%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Grupo 1</strong></td>
+<td align="left">27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27,
+34,</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25,
+23</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Grupo 2</strong></td>
+<td align="left">35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19,
+20,</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40,
+18</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p></br></p>
+<p>A continuación, se presentan los códigos para crear un
+<strong>data.frame</strong> en <strong>R</strong> que contiene los datos
+de los dos grupos, agrupando las edades de cada participante en una sola
+estructura de datos para su análisis.</p>
+<pre class="r"><code># Datos del Grupo 1
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+
+# Datos del Grupo 2
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con las edades y el grupo correspondiente
+data5 = data.frame(
+  Edad = c(G1, G2),
+  Grupo = rep(c(&quot;Grupo 1&quot;, &quot;Grupo 2&quot;), each = 30)
+)</code></pre>
+<p></br></br></p>
+<h2>
+Indicadores de dispersión
+</h2>
+<h3>
+Rango
+</h3>
+<p>El <strong>rango</strong> es el indicador de dispersión más sencillo
+de calcular. Representa la diferencia entre el valor máximo y el valor
+mínimo de un conjunto de datos, proporcionando una medida básica de la
+extensión de la distribución.</p>
+<p>El rango se calcula como:</p>
+<p><span class="math display">\[
+r = \max(x) - \min(x)
+\]</span></p>
+<h4>
+Características:
+</h4>
+<ul>
+<li><p><strong>Fácil cálculo</strong>: Requiere únicamente los valores
+extremos (máximo y mínimo) del conjunto de datos.</p></li>
+<li><p><strong>Medida básica de dispersión</strong>: Indica la amplitud
+de la distribución, aunque no refleja la variabilidad dentro de los
+datos.</p></li>
+<li><p><strong>Sensibilidad a valores atípicos</strong>: El rango puede
+verse significativamente afectado por la presencia de datos
+extremos.</p></li>
+</ul>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En el caso de los dos grupos mencionados anteriormente, se presentan
+a continuación el promedio y el rango de las edades para cada grupo:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>Grupo 1</strong></th>
+<th align="left"><strong>Grupo 2</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\bar{x}_{1} = 28\)</span>
+años</td>
+<td align="left"><span class="math inline">\(\bar{x}_{2} = 28\)</span>
+años</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(r_{1} = 16\)</span>
+años</td>
+<td align="left"><span class="math inline">\(r_{2} = 38\)</span>
+años</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Aunque ambos grupos tienen el mismo promedio de edad (<span
+class="math inline">\(28\)</span> años), el rango muestra que las edades
+en el <strong>Grupo 2</strong> están mucho más dispersas (<span
+class="math inline">\(r_{2} = 38\)</span> años) en comparación con el
+<strong>Grupo 1</strong> (<span class="math inline">\(r_{1} =
+16\)</span> años).</p></li>
+<li><p>Esto resalta la necesidad de utilizar indicadores adicionales,
+como la varianza o la desviación estándar, para comprender completamente
+las características de la distribución.</p></li>
+</ul>
+</p>
+</div>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>Valida los resultados del ejemplo anterior usando
+<strong>R</strong>.</p>
+</blockquote>
+</div>
+<p></br></br></p>
+<h3>
+Varianza
+</h3>
+<p>La <strong>varianza</strong> es una de las medidas de dispersión más
+utilizadas en estadística. Está definida como el promedio de los
+cuadrados de las diferencias entre los datos y su media.
+Matemáticamente, se expresa como:</p>
+<p><span class="math display">\[
+s^{2}=\frac{1}{n-1} \sum_{i=1}^{n} (x_{i}-\bar{x})^{2}
+\]</span></p>
+<p>La varianza se podría interpretar como un promedio de las diferencias
+cuadradas entre los datos y su media, proporcionando una medida del
+grado de dispersión de los datos alrededor de su centro.</p>
+<hr />
+<h4>
+Propiedades de la varianza
+</h4>
+<ol style="list-style-type: decimal">
+<li><p><strong>Fórmula alternativa</strong>:<br />
+<span class="math display">\[
+s^{2} = \frac{1}{n} \sum x_{i}^{2} - (\bar{x})^{2}
+\]</span></p></li>
+<li><p><strong>No negatividad</strong>:<br />
+La varianza siempre es no negativa:<br />
+<span class="math display">\[
+s^{2} \geq 0
+\]</span></p></li>
+<li><p><strong>Varianza de una constante</strong>:<br />
+Si todos los valores son iguales a una constante <span
+class="math inline">\(k\)</span>, entonces la varianza es cero:<br />
+<span class="math display">\[
+s_{k}^{2} = 0
+\]</span></p></li>
+<li><p><strong>Escalamiento por una constante</strong>:<br />
+Si <span class="math inline">\(y_{i} = k x_{i}\)</span>, entonces:<br />
+<span class="math display">\[
+s_{y}^{2} = k^{2} s_{x}^{2}
+\]</span></p></li>
+<li><p><strong>Desplazamiento por una constante</strong>:<br />
+Si <span class="math inline">\(y_{i} = x_{i} + k\)</span>,
+entonces:<br />
+<span class="math display">\[
+s_{y}^{2} = s_{x}^{2}
+\]</span></p></li>
+<li><p><strong>Combinación lineal de dos variables</strong>:</p>
+<p>Si <span class="math inline">\(z_{i} = a x_{i} + b y_{i}\)</span>, la
+varianza de <span class="math inline">\(z_{i}\)</span> se calcula
+como:<br />
+<span class="math display">\[
+s_{z}^{2} = a^{2}s_{x}^{2} + b^{2}s_{y}^{2} + 2ab \cdot \text{cov}(x, y)
+\]</span></p>
+<p>En el contexto de la fórmula de <span
+class="math inline">\(s_{z}^{2}\)</span>, el término <span
+class="math inline">\(2ab \cdot \text{cov}(x, y)\)</span> representa el
+efecto conjunto de la relación lineal entre las variables <span
+class="math inline">\(x\)</span> e <span
+class="math inline">\(y\)</span> en la varianza de <span
+class="math inline">\(z\)</span>.</p>
+<p><strong>Explicación del término de covarianza (<span
+class="math inline">\(\text{cov}(x, y)\)</span>)</strong>:<br />
+La covarianza mide el grado de relación lineal entre las variables <span
+class="math inline">\(x\)</span> e <span
+class="math inline">\(y\)</span>. Matemáticamente, se define como:<br />
+<span class="math display">\[
+  \text{cov}(x, y) = \frac{1}{n-1} \sum_{i=1}^{n} \Big((x_{i} -
+\bar{x})(y_{i} - \bar{y})\Big)
+  \]</span><br />
+La covarianza puede ser positiva, negativa o igual a cero:</p>
+<ul>
+<li><p><strong>Positiva</strong>: Si <span
+class="math inline">\(x\)</span> e <span
+class="math inline">\(y\)</span> tienden a aumentar o disminuir
+juntas.</p></li>
+<li><p><strong>Negativa</strong>: Si <span
+class="math inline">\(x\)</span> aumenta cuando <span
+class="math inline">\(y\)</span> disminuye, y viceversa.</p></li>
+<li><p><strong>Cero</strong>: Si <span class="math inline">\(x\)</span>
+e <span class="math inline">\(y\)</span> no tienen una relación
+lineal.</p></li>
+</ul></li>
+</ol>
+<hr />
+<h4>
+Limitación de la varianza
+</h4>
+<p>Un problema importante de la varianza es su
+<strong>interpretación</strong>, ya que sus unidades están elevadas al
+cuadrado. En la mayoría de los casos, esta característica dificulta la
+interpretación directa de los resultados.</p>
+<p>Por esta razón, se utiliza una medida de dispersión alternativa: la
+<strong>desviación estándar</strong>, que se calcula como la raíz
+cuadrada de la varianza. La desviación estándar tiene las mismas
+unidades que los datos originales, facilitando así la
+interpretación.</p>
+<hr />
+<h4>
+Aplicaciones
+</h4>
+<p>La varianza se utiliza ampliamente en estadística descriptiva e
+inferencial para:</p>
+<ul>
+<li><p>Cuantificar la dispersión de los datos.</p></li>
+<li><p>Comparar la variabilidad entre diferentes conjuntos de
+datos.</p></li>
+<li><p>Estimar la incertidumbre en modelos estadísticos y
+probabilísticos.</p></li>
+</ul>
+<p><br/><br/></p>
+<h3>
+Desviación estándar
+</h3>
+<p>La <strong>desviación estándar</strong> es una medida de dispersión
+que se calcula como la raíz cuadrada de la varianza. Matemáticamente, se
+expresa como:</p>
+<p><span class="math display">\[
+s = \sqrt{s^{2}}
+\]</span></p>
+<p><br/></p>
+<h4>
+Interpretación
+</h4>
+<ul>
+<li><p>La desviación estándar representa el promedio de las desviaciones
+de los datos con respecto a la media, pero en las mismas unidades que
+los datos originales.</p></li>
+<li><p>A diferencia de la varianza, la desviación estándar es más fácil
+de interpretar y comparar, ya que no está expresada en unidades al
+cuadrado.</p></li>
+</ul>
+<p><br/></p>
+<h4>
+Propiedades
+</h4>
+<ol style="list-style-type: decimal">
+<li><p>Es siempre no negativa:<br />
+<span class="math display">\[
+s \geq 0
+\]</span></p></li>
+<li><p>Una desviación estándar pequeña indica que los datos están
+concentrados cerca de la media, mientras que una desviación estándar
+grande indica mayor dispersión.</p></li>
+<li><p>Es sensible a valores atípicos, ya que estos incrementan
+considerablemente su valor.</p></li>
+</ol>
+<p><br/></p>
+<h4>
+Aplicaciones:
+</h4>
+<ul>
+<li><p>Describir la dispersión de un conjunto de datos en términos de su
+media.</p></li>
+<li><p>Comparar la variabilidad entre diferentes conjuntos de
+datos.</p></li>
+<li><p>Estimar la incertidumbre en modelos estadísticos.</p></li>
+</ul>
+<p></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se presentan los resultados del promedio, la
+varianza y la desviación estándar de las edades de los dos grupos
+mencionados previamente.</p>
+<p>Aunque la desviación estándar facilita la interpretación debido a que
+tiene las mismas unidades que la variable, tanto la desviación estándar
+como la varianza son útiles para comparar dos grupos con igual media.
+Sin embargo, cuando las medias son diferentes, es necesario considerar
+otras medidas o métodos de análisis.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>Grupo 1</strong></th>
+<th align="left"><strong>Grupo 2</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\bar{x}_{1} = 28\)</span>
+años</td>
+<td align="left"><span class="math inline">\(\bar{x}_{2} = 28\)</span>
+años</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(s^{2}_{1} = 16.62\)</span>
+años<span class="math inline">\(^2\)</span></td>
+<td align="left"><span class="math inline">\(s^{2}_{2} = 116.89\)</span>
+años<span class="math inline">\(^2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(s_{1}  = 4.16\)</span>
+años</td>
+<td align="left"><span class="math inline">\(s_{2} = 10.81\)</span>
+años</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p></br></p>
+<p>Aunque ambos grupos tienen la misma media (<span
+class="math inline">\(28\)</span> años), las diferencias en la
+dispersión se hacen evidentes al analizar la varianza y la desviación
+estándar.</p>
+<p>En caso de que las medias de los grupos sean diferentes, se deben
+considerar alternativas como el <strong>coeficiente de
+variación</strong> para evaluar la dispersión relativa.</p>
+</p>
+</div>
+<p></br></p>
+<div class="caja-nota">
+<h3>
+Nota
+</h3>
+<blockquote>
+<p>Es importante destacar que las propiedades definidas para la
+<strong>varianza</strong> no aplican directamente a la
+<strong>desviación estándar</strong>, ya que la raíz cuadrada no es una
+función lineal. Por lo tanto: <br/><br/></p>
+<ul>
+<li><p>Las relaciones de escala y combinación que son válidas para la
+varianza no se mantienen de manera exacta para la desviación estándar.
+<br/></p></li>
+<li><p>Aunque la desviación estándar es útil para interpretar la
+dispersión en las mismas unidades que los datos, pierde algunas de las
+características algebraicas que hacen a la varianza especialmente útil
+en análisis estadísticos avanzados. <br/><br/></p></li>
+</ul>
+<p>Si bien la desviación estándar es más intuitiva para la
+interpretación práctica, la varianza sigue siendo preferida en contextos
+teóricos y matemáticos debido a su simplicidad algebraica.</p>
+</blockquote>
+</div>
+<p><br/> <br/></p>
+<h3>
+Coeficiente de variación
+</h3>
+<p>El <strong>coeficiente de variación</strong> (<span
+class="math inline">\(CV\)</span>) es un indicador adimensional que mide
+la relación entre la desviación estándar y la media, expresándola en
+porcentaje. Este indicador es útil para evaluar la dispersión relativa
+de un conjunto de datos, independientemente de las unidades de
+medida.</p>
+<p>Este se calcula con la siguiente expresión:</p>
+<p><span class="math display">\[
+CV = \dfrac{s}{\vert\bar{x}\vert} \times 100 \%
+\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><p><span class="math inline">\(s\)</span>: Desviación
+estándar.</p></li>
+<li><p><span class="math inline">\(\bar{x}\)</span>: Media del conjunto
+de datos.</p></li>
+</ul>
+<br/>
+<h4>
+Reglas empíricas
+</h4>
+<p>El <strong>coeficiente de variación</strong> (<span
+class="math inline">\(CV\)</span>) indica qué tan grande o pequeña es la
+<strong>desviación estándar</strong> con respecto a su
+<strong>media</strong>. Es especialmente útil para comparar la
+dispersión de diferentes conjuntos de datos, incluso si tienen
+diferentes escalas o unidades de medida.</p>
+<h4>
+Interpretación
+</h4>
+<p>Existen diversas reglas empíricas para interpretar el
+<strong>coeficiente de variación</strong> (<span
+class="math inline">\(CV\)</span>), que permiten clasificar los
+conjuntos de datos según su nivel de dispersión relativa. Una de las más
+comunes establece los siguientes niveles:</p>
+<ul>
+<li><p><strong>Muy homogéneo</strong>: Si <span class="math inline">\(CV
+\leq 10\%\)</span>, el grupo de datos se considera <strong>muy
+homogéneo</strong>, con poca dispersión relativa.</p></li>
+<li><p><strong>Homogéneo</strong>: Si <span class="math inline">\(10\%
+&lt; CV \leq 20\%\)</span>, el grupo de datos se considera
+<strong>homogéneo</strong>, con una dispersión moderada.</p></li>
+<li><p><strong>Moderadamente heterogéneo</strong>: Si <span
+class="math inline">\(20\% &lt; CV \leq 30\%\)</span>, el grupo de datos
+presenta una <strong>moderada heterogeneidad</strong>, indicando mayor
+dispersión relativa.</p></li>
+<li><p><strong>Heterogéneo</strong>: Si <span class="math inline">\(30\%
+&lt; CV \leq 40\%\)</span>, el grupo de datos se considera
+<strong>heterogéneo</strong>, con una alta dispersión relativa.</p></li>
+<li><p><strong>Muy heterogéneo</strong>: Si <span
+class="math inline">\(CV &gt; 40\%\)</span>, el grupo de datos se
+clasifica como <strong>muy heterogéneo</strong>, indicando una
+dispersión relativa muy alta.</p></li>
+</ul>
+<br/>
+<h4>
+Aplicaciones
+</h4>
+<ul>
+<li><p>Comparar la dispersión relativa entre diferentes grupos o
+variables.</p></li>
+<li><p>Determinar el <strong>grado de variabilidad</strong> de los datos
+respecto a la media.</p></li>
+<li><p>Resolver problemas relacionados con la dispersión,
+independientemente de la magnitud o las unidades de los datos.</p></li>
+</ul>
+<p></br></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se presentan los códigos y resultados del
+<strong>coeficiente de variación</strong> (<span
+class="math inline">\(CV\)</span>) para los dos grupos que se han estado
+trabajando en los ejemplos anteriores, relacionados con la edad de los
+usuarios de dos empresas.</p>
+<p>El código en R:</p>
+<pre>
+# Datos de los grupos
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con ambos grupos
+data6 = data.frame(G1, G2) 
+
+# Calcular estadísticas descriptivas, incluyendo el coeficiente de variación
+summarytools::descr(data6)
+</pre>
+<pre class="r"><code># Datos de los grupos
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con ambos grupos
+data6 = data.frame(G1, G2) 
+
+# Calcular estadísticas descriptivas, incluyendo el coeficiente de variación
+summarytools::descr(data6)</code></pre>
+<p>Después de ejecutar el código, se obtuvieron los siguientes
+resultados:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>Grupo 1</strong></th>
+<th align="left"><strong>Grupo 2</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\bar{x}_{1} = 28\)</span>
+años</td>
+<td align="left"><span class="math inline">\(\bar{x}_{2} = 28\)</span>
+años</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(CV_{1}  = 15\)</span>
+%</td>
+<td align="left"><span class="math inline">\(CV_{2} = 39\)</span> %</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Grupo 1</strong>: Con un coeficiente de variación del 15%, el
+Grupo 1 puede considerarse homogéneo según la regla empírica que
+establece un límite del 20%, indicando una moderada dispersión relativa
+respecto a la media.</p>
+<p><strong>Grupo 2</strong>: Con un coeficiente de variación del 39%, el
+Grupo 2 se clasifica como muy heterogéneo, indicando una alta dispersión
+relativa respecto a la media.</p>
+</p>
+</div>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>Valida los resultados anteriores.</p>
+</blockquote>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

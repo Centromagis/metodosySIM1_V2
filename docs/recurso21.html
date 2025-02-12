@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Tablas de frecuencia</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos básicos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10.html">Conceptos básicos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso11.html">Conceptos</a>
+    </li>
+    <li>
+      <a href="recurso12.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso13.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso15.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20.html">Análisis de datos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso21.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Representación gráfica de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30.html">Representación gráfica</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso31.html">Representación de variables cualitativas</a>
+    </li>
+    <li>
+      <a href="recurso32.html">Representación de variables cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33.html">Representaciones multivariadas</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40.html">Introducción a R</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso41.html">Objetos en R</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso42.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868"> <strong>Tablas
+de frecuencia</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p><br/><br/></p>
+<p>Las tablas de frecuencia constituyen una herramienta fundamental para
+resumir información, ya que permiten obtener una primera impresión de
+los valores presentes en una variable, así como identificar posibles
+errores de sistematización o datos faltantes (NA).</p>
+<p>Para contar el número de datos faltantes en una base de datos, se
+puede utilizar la combinación de las funciones <code>table()</code> e
+<code>is.na()</code>. Adicionalmente, es posible detectar problemas de
+sistematización, como categorías de una misma variable que presentan
+notaciones inconsistentes.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Un ejemplo ilustrativo es la variable <strong>ubicacion</strong> de
+la base de datos <code>Cali</code>, la cual fue construida a partir de
+la información sobre Covid-19 disponible en Datos Abiertos. El siguiente
+código demuestra cómo utilizar las funciones mencionadas para
+identificar datos faltantes y analizar posibles inconsistencias en la
+notación de las categorías de una variable:</p>
+<pre>
+library(paqueteMETODOS)
+data("vivienda_faltantes")
+
+# Contar datos faltantes
+faltantes<- table(is.na(vivienda_faltantes))
+
+# Verificar la variable 'ubicacion'
+conteo<- table(Cali$ubicacion)
+conteo
+</pre>
+<pre class="r"><code>library(paqueteMETODOS)
+data(&quot;vivienda_faltantes&quot;)
+
+# Contar datos faltantes
+faltantes&lt;- table(is.na(vivienda_faltantes))
+
+# Verificar la variable &#39;ubicacion&#39;
+conteo&lt;- table(Cali$ubicacion)</code></pre>
+<p>Al analizar las categorías de la variable <strong>ubicacion</strong>,
+se observan inconsistencias en la notación, ya que una misma categoría
+aparece representada de diferentes maneras: <em>casa</em>, <em>Casa</em>
+y <em>CASA</em>. Estas inconsistencias pueden dificultar el análisis y
+la interpretación de los datos, especialmente en la generación de tablas
+de frecuencia y resúmenes estadísticos.</p>
+<pre>
+  casa         Casa         CASA    Fallecido   Hospital   Hospital   UCI 
+  300         393547         5         8929       20            1 
+  
+  N/A 
+  3343 
+</pre>
+</p>
+</div>
+<p></br></br></p>
+<p></br></p>
+<h2>
+Variables cualitativas
+</h2>
+<p></br></p>
+<p>Las distribuciones de frecuencia, también conocidas como tablas de
+frecuencia, son herramientas útiles para agrupar datos y obtener una
+visión más clara de sus características. Estas tablas están compuestas
+por una <strong>primera columna</strong> que presenta <strong>las
+clases</strong> (filas de la tabla), las cuales corresponden a las
+<strong>categorías</strong> observadas de una <strong>variable
+cualitativa</strong>.</p>
+<p>Cuando la variable tiene una escala de medición
+<strong>nominal</strong>, el <strong>ordenamiento</strong> de las
+categorías dentro de la tabla de frecuencias queda <strong>a discreción
+del investigador</strong>. Por el contrario, si la variable posee una
+<strong>escala ordinal</strong>, el <strong>ordenamiento</strong> de las
+categorías debe <strong>respetar la jerarquía</strong> inherente a dicha
+escala, asegurando que refleje adecuadamente la relación entre las
+categorías.</p>
+<p>Para las variables <strong>cualitativas en escala nominal</strong>,
+las tablas de frecuencia constan de tres columnas principales,
+organizadas de la siguiente manera:</p>
+<div class="content-box-blue">
+<table>
+<colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="79%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>Columna</strong></th>
+<th align="left"><strong>Símbolo</strong></th>
+<th align="left"><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">c1</td>
+<td align="left"></td>
+<td align="left">Representa los diferentes valores que toma la
+variable.</td>
+</tr>
+<tr class="even">
+<td align="left">c2</td>
+<td align="left"><span class="math inline">\(n_{i}\)</span></td>
+<td align="left">Frecuencia absoluta, que indica el conteo de cada uno
+de los valores distintos que toma la variable.</td>
+</tr>
+<tr class="odd">
+<td align="left">c3</td>
+<td align="left"><span class="math inline">\(f_{i}\)</span></td>
+<td align="left">Frecuencia relativa, expresada como el porcentaje de la
+cantidad total de datos correspondientes a cada valor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>En el caso de las variables <strong>cualitativas en escala
+ordinal</strong>, además de las columnas descritas en el ejemplo
+anterior, se incorporan dos columnas adicionales que permiten analizar
+los datos en función de su acumulación. Estas son:</p>
+<div class="content-box-blue">
+<table>
+<colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="79%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>Columna</strong></th>
+<th align="left"><strong>Símbolo</strong></th>
+<th align="left"><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">c4</td>
+<td align="left"><span class="math inline">\(N_{i}\)</span></td>
+<td align="left">Frecuencia absoluta acumulada, que indica el conteo de
+los casos menores o iguales al nivel correspondiente.</td>
+</tr>
+<tr class="even">
+<td align="left">c5</td>
+<td align="left"><span class="math inline">\(F_{i}\)</span></td>
+<td align="left">Frecuencia relativa acumulada, que expresa el
+porcentaje acumulado hasta el nivel correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Estas columnas adicionales son particularmente útiles para
+interpretar el comportamiento de las variables ordinales, proporcionando
+una visión acumulativa que facilita el análisis de tendencias o patrones
+jerárquicos.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se presentan los códigos de <strong>R</strong> y la
+tabla para una <strong>variable cualitativa nominal</strong>:
+confederaciones participantes en Qatar 2022.</p>
+<pre>
+# Instalar y cargar el paquete necesario
+# install.packages("kableExtra")
+library(kableExtra)
+
+# Datos
+Confederaciones <- c("Africa - CFA", "Asia - AFC", "Europa - UEFA", "Centro, Norte América - CONCACAF", "Oceanía - OFC", "Suramérica - COMEBOL")
+Frecuencia_abs <- c(5, 5, 13, 4, 0, 4)
+Frecuencia_rel <- Frecuencia_abs / sum(Frecuencia_abs)
+
+# Crear el dataframe
+df <- data.frame(Confederaciones, Frecuencia_abs, Frecuencia_rel)
+
+# Crear la tabla formateada con kableExtra
+tabla11 <- df %>%
+kbl() %>%
+kable_paper(full_width = FALSE) %>%
+row_spec(0, bold = TRUE) %>%
+column_spec(2:3, width = "1cm") %>%
+collapse_rows(columns = 1, valign = "middle")
+
+# Mostrar la tabla formateada
+# tabla11
+</pre>
+<pre class="r"><code># Instalar y cargar el paquete necesario
+# install.packages(&quot;kableExtra&quot;)
+library(kableExtra)
+
+# Datos
+Confederaciones &lt;- c(&quot;Africa - CFA&quot;, &quot;Asia - AFC&quot;, &quot;Europa - UEFA&quot;, &quot;Centro, Norte América - CONCACAF&quot;, &quot;Oceanía - OFC&quot;, &quot;Suramérica - COMEBOL&quot;)
+Frecuencia_abs &lt;- c(5, 5, 13, 4, 0, 4)
+Frecuencia_rel &lt;- Frecuencia_abs / sum(Frecuencia_abs)
+
+# Crear el dataframe
+df &lt;- data.frame(Confederaciones, Frecuencia_abs, Frecuencia_rel)
+
+# Crear la tabla formateada con kableExtra
+tabla11 &lt;- df %&gt;%
+kbl() %&gt;%
+kable_paper(full_width = FALSE) %&gt;%
+row_spec(0, bold = TRUE) %&gt;%
+column_spec(2:3, width = &quot;1cm&quot;) %&gt;%
+collapse_rows(columns = 1, valign = &quot;middle&quot;)
+
+# Mostrar la tabla formateada
+# tabla11</code></pre>
+<p><strong>Tabla 1.25</strong> Distribución del número de equipos
+participantes en Qatar 2022 por confederaciones.</p>
+<pre>
+Confederaciones                     Frecuencia_abs    Frecuencia_rel
+Africa - CFA                            5                   0.1612903
+Asia - AFC                            5                 0.1612903
+Europa - UEFA                           13                0.4193548
+Centro, Norte América - CONCACAF        4                   0.1290323
+Oceanía - OFC                           0                   0.0000000
+Suramérica - COMEBOL                    4                   0.1290323
+</pre>
+<center>
+<sub> Fuente : <a
+href="https://es.wikipedia.org/wiki/Clasificaci%C3%B3n_para_la_Copa_Mundial_de_F%C3%BAtbol_de_2022">wikipedia</a>
+</sub>
+</center>
+<p>En la <strong>Tabla 1.25</strong>, se destaca la mayor participación
+de los países afiliados a la UEFA, que representan 13 países,
+equivalentes al 41.9% del total de participantes. Les siguen la CFA y la
+AFC, cada una con una participación del 16.1%.</p>
+</p>
+</div>
+<p></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se presentan los códigos utilizados y la tabla
+resultante para la <strong>variable cualitativa ordinal</strong>: Nivel
+de calificación (ver <strong>Tabla 1.26</strong>).</p>
+<pre>
+# Crear un vector que contiene los niveles de calificación, replicando cada categoría
+# según su frecuencia observada.
+Nivel.Calificacion = c( 
+  rep("1. Muy regular", 12837),   # Repite la categoría "1. Muy regular" 12,837 veces.
+  rep("2. Regular", 21988),       # Repite la categoría "2. Regular" 21,988 veces.
+  rep("3. Bueno", 22300),         # Repite la categoría "3. Bueno" 22,300 veces.
+  rep("4. Muy bueno", 24466),     # Repite la categoría "4. Muy bueno" 24,466 veces.
+  rep("5. Excelente", 22313)      # Repite la categoría "5. Excelente" 22,313 veces.
+)
+
+# Generar una tabla de frecuencias absolutas de la variable `Nivel.Calificacion`.
+t1 = table(Nivel.Calificacion)
+
+# Generar una tabla de frecuencias detallada que incluye frecuencias absolutas,
+# relativas, acumuladas y porcentajes, utilizando la función `freq()` del paquete `summarytools`.
+
+# summarytools::freq(Nivel.Calificacion)
+</pre>
+<pre class="r"><code># Crear un vector que contiene los niveles de calificación, replicando cada categoría
+# según su frecuencia observada.
+Nivel.Calificacion = c( 
+  rep(&quot;1. Muy regular&quot;, 12837),   # Repite la categoría &quot;1. Muy regular&quot; 12,837 veces.
+  rep(&quot;2. Regular&quot;, 21988),       # Repite la categoría &quot;2. Regular&quot; 21,988 veces.
+  rep(&quot;3. Bueno&quot;, 22300),         # Repite la categoría &quot;3. Bueno&quot; 22,300 veces.
+  rep(&quot;4. Muy bueno&quot;, 24466),     # Repite la categoría &quot;4. Muy bueno&quot; 24,466 veces.
+  rep(&quot;5. Excelente&quot;, 22313)      # Repite la categoría &quot;5. Excelente&quot; 22,313 veces.
+)
+
+# Generar una tabla de frecuencias absolutas de la variable `Nivel.Calificacion`.
+t1 = table(Nivel.Calificacion)
+
+# Generar una tabla de frecuencias detallada que incluye frecuencias absolutas,
+# relativas, acumuladas y porcentajes, utilizando la función `freq()` del paquete `summarytools`.
+
+# summarytools::freq(Nivel.Calificacion)</code></pre>
+<p><strong>Tabla 1.26</strong> : Nivel de satisfacción usuarios
+aerolinea, servicio de alimentación/bebidas.</p>
+<pre>
+Frequencies  
+Calificacion  
+Type: Character  
+
+                         Freq   % Valid   % Valid Cum.   % Total   % Total Cum.
+-------------------- -------- --------- -------------- --------- --------------
+      1. Muy regular    12837     12.35          12.35     12.35          12.35
+          2. Regular    21988     21.16          33.52     21.16          33.52
+            3. Bueno    22300     21.46          54.98     21.46          54.98
+        4. Muy bueno    24466     23.55          78.53     23.55          78.53
+        5. Excelente    22313     21.47         100.00     21.47         100.00
+                <NA>        0                               0.00         100.00
+               Total   103904    100.00         100.00    100.00         100.00
+</pre>
+<p>En este caso, el orden de los resultados es relevante, dado que se
+trata de una variable en escala ordinal. Se observa que el 33.52% de las
+respuestas corresponden a las categorías Regular y Muy regular, mientras
+que el 66.48% restante agrupa respuestas favorables, correspondientes a
+las categorías Bueno, Muy bueno y Excelente.</p>
+</p>
+</div>
+<p><br/></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Con el paquete <code>formattable</code>, es posible construir tablas
+más elegantes y visualmente atractivas, lo que facilita tanto la
+interpretación como el análisis de datos. A continuación, se presenta un
+conjunto de datos ficticio con información de estudiantes, acompañado de
+los códigos utilizados para aplicar formatos personalizados. Los
+resultados obtenidos se muestran en la <strong>Tabla 1.27</strong>.</p>
+<p>La intensidad de los colores asignados a los valores de las variables
+permite identificar de manera inmediata aquellos valores más altos,
+proporcionando un enfoque visual que mejora la comprensión de los
+datos.</p>
+<pre>
+# Crear un data frame con información ficticia de estudiantes
+df <- data.frame(
+  id = 1:10,  # Identificador único para cada estudiante
+  nombre = c("Juan", "Carlos", "James", "David", "Jenny",
+             "Harold", "Leonardo", "John", "Ana", "Luz"),  # Nombres de los estudiantes
+  edad = c(25, 27, 30, 28, 29, 29, 35, 27, 31, 30),  # Edades de los estudiantes
+  grado = c("C", "A", "A", "C", "B", "B", "B", "A", "C", "C"),  # Grados asignados (A, B, C)
+  Examen1 = c(8.9, 9.5, 9.6, 8.9, 9.1, 9.3, 9.3, 9.9, 8.5, 8.6),  # Calificaciones del primer examen
+  Examen2 = c(9.1, 9.1, 9.2, 9.1, 8.9, 8.5, 9.2, 9.3, 9.1, 8.8),  # Calificaciones del segundo examen
+  Promedio = c(9, 9.3, 9.4, 9, 9, 8.9, 9.25, 9.6, 8.8, 8.7),  # Promedio de calificaciones
+  Entrevista = c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),  # Resultado de la entrevista (TRUE para aprobado, FALSE para no aprobado)
+  stringsAsFactors = FALSE  # Evitar que las columnas de texto se conviertan automáticamente en factores
+)
+
+# Cargar la librería 'formattable' para dar formato visual a los datos
+library(formattable)
+
+# Aplicar formato a las columnas del data frame y visualizarlo
+formattable(df, list(
+  # Aplicar un degradado de color en la columna 'edad'
+  edad = color_tile("white", "orange"),
+  
+  # Dar formato a la columna 'grado' resaltando en verde y en negrita los valores "A"
+  grado = formatter("span", 
+                    style = x ~ ifelse(x == "A", 
+                                       style(color = "green", font.weight = "bold"), NA)),
+  
+  # Normalizar las columnas 'Examen1' y 'Examen2' y representarlas como barras horizontales
+  area(col = c(Examen1, Examen2)) ~ normalize_bar("pink", 0.2),
+  
+  # Formatear la columna 'Promedio' mostrando el valor con dos decimales y su rango,
+  # resaltando en verde los 3 primeros promedios más altos
+  Promedio = formatter("span",
+                       style = x ~ style(color = ifelse(rank(-x) <= 3, "green", "gray")),
+                       x ~ sprintf("%.2f (rank: %02d)", x, rank(-x))),
+  
+  # Dar formato a la columna 'Entrevista', usando íconos e indicando "Sí" o "No" en texto
+  Entrevista = formatter("span",
+                         style = x ~ style(color = ifelse(x, "green", "red")),
+                         x ~ icontext(ifelse(x, "ok", "remove"), ifelse(x, "Sí", "No")))
+))
+</pre>
+<pre class="r"><code># Crear un data frame con información ficticia de estudiantes
+df &lt;- data.frame(
+  id = 1:10,  # Identificador único para cada estudiante
+  nombre = c(&quot;Juan&quot;, &quot;Carlos&quot;, &quot;James&quot;, &quot;David&quot;, &quot;Jenny&quot;,
+             &quot;Harold&quot;, &quot;Leonardo&quot;, &quot;John&quot;, &quot;Ana&quot;, &quot;Luz&quot;),  # Nombres de los estudiantes
+  edad = c(25, 27, 30, 28, 29, 29, 35, 27, 31, 30),  # Edades de los estudiantes
+  grado = c(&quot;C&quot;, &quot;A&quot;, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;C&quot;, &quot;C&quot;),  # Grados asignados (A, B, C)
+  Examen1 = c(8.9, 9.5, 9.6, 8.9, 9.1, 9.3, 9.3, 9.9, 8.5, 8.6),  # Calificaciones del primer examen
+  Examen2 = c(9.1, 9.1, 9.2, 9.1, 8.9, 8.5, 9.2, 9.3, 9.1, 8.8),  # Calificaciones del segundo examen
+  Promedio = c(9, 9.3, 9.4, 9, 9, 8.9, 9.25, 9.6, 8.8, 8.7),  # Promedio de calificaciones
+  Entrevista = c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),  # Resultado de la entrevista (TRUE para aprobado, FALSE para no aprobado)
+  stringsAsFactors = FALSE  # Evitar que las columnas de texto se conviertan automáticamente en factores
+)
+
+# Cargar la librería &#39;formattable&#39; para dar formato visual a los datos
+library(formattable)
+
+# Aplicar formato a las columnas del data frame y visualizarlo
+formattable(df, list(
+  # Aplicar un degradado de color en la columna &#39;edad&#39;
+  edad = color_tile(&quot;white&quot;, &quot;orange&quot;),
+  
+  # Dar formato a la columna &#39;grado&#39; resaltando en verde y en negrita los valores &quot;A&quot;
+  grado = formatter(&quot;span&quot;, 
+                    style = x ~ ifelse(x == &quot;A&quot;, 
+                                       style(color = &quot;green&quot;, font.weight = &quot;bold&quot;), NA)),
+  
+  # Normalizar las columnas &#39;Examen1&#39; y &#39;Examen2&#39; y representarlas como barras horizontales
+  area(col = c(Examen1, Examen2)) ~ normalize_bar(&quot;pink&quot;, 0.2),
+  
+  # Formatear la columna &#39;Promedio&#39; mostrando el valor con dos decimales y su rango,
+  # resaltando en verde los 3 primeros promedios más altos
+  Promedio = formatter(&quot;span&quot;,
+                       style = x ~ style(color = ifelse(rank(-x) &lt;= 3, &quot;green&quot;, &quot;gray&quot;)),
+                       x ~ sprintf(&quot;%.2f (rank: %02d)&quot;, x, rank(-x))),
+  
+  # Dar formato a la columna &#39;Entrevista&#39;, usando íconos e indicando &quot;Sí&quot; o &quot;No&quot; en texto
+  Entrevista = formatter(&quot;span&quot;,
+                         style = x ~ style(color = ifelse(x, &quot;green&quot;, &quot;red&quot;)),
+                         x ~ icontext(ifelse(x, &quot;ok&quot;, &quot;remove&quot;), ifelse(x, &quot;Sí&quot;, &quot;No&quot;)))
+))</code></pre>
+<p><strong>Tabla 1.27</strong> : Distribución de frecuencia de la
+información de los estudiantes del proceso de admisión.</p>
+<p><img src="img/tabla_nom.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<sub> Tomada de : <a href="https://renkun-ken.github.io/formattable/"
+class="uri">https://renkun-ken.github.io/formattable/</a> - MIT License.
+</sub>
+</center>
+</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

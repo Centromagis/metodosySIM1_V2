@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Representación de variables cuantitativas</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos básicos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10.html">Conceptos básicos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso11.html">Conceptos</a>
+    </li>
+    <li>
+      <a href="recurso12.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso13.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso15.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20.html">Análisis de datos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso21.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Representación gráfica de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30.html">Representación gráfica</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso31.html">Representación de variables cualitativas</a>
+    </li>
+    <li>
+      <a href="recurso32.html">Representación de variables cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33.html">Representaciones multivariadas</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40.html">Introducción a R</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso41.html">Objetos en R</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso42.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Representación de variables cuantitativas</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p></br></p>
+<h3>
+Variables cuantitativas
+</h3>
+<p>Para las <strong>variables cuantitativas</strong> en escalas de
+<strong>intervalo</strong> o <strong>razón</strong>, es fundamental
+utilizar gráficos que permitan visualizar sus principales
+características, como el <strong>centro</strong>, la
+<strong>dispersión</strong> y la <strong>forma</strong> de la
+distribución de los datos. Estos gráficos no solo facilitan la
+interpretación, sino que también son herramientas clave para el análisis
+exploratorio de datos.</p>
+</br></br>
+<h4>
+Tipos de gráficos para una variable
+</h4>
+<p></br> 1. <strong>Diagrama de tallos y hojas</strong>:</p>
+<ul>
+<li><p>Este gráfico permite observar la distribución de los datos en
+detalle, proporcionando una representación tabular y gráfica
+simultáneamente.</p></li>
+<li><p>Es especialmente útil para conjuntos de datos pequeños, ya que
+permite identificar valores individuales y agruparlos en
+clases.</p></li>
+<li><p>Aunque no es nativo de <code>ggplot2</code>, se puede aproximar
+mediante histogramas con intervalos pequeños.</p></li>
+</ul>
+<p></br> 2. <strong>Gráfico de Cajas (Boxplot)</strong>:</p>
+<ul>
+<li><p>Resume los datos de manera compacta, mostrando:</p>
+<ul>
+<li><p>La <strong>mediana</strong> como medida de tendencia
+central.</p></li>
+<li><p>Los <strong>cuartiles</strong> para evaluar la
+dispersión.</p></li>
+<li><p>El <strong>rango intercuartílico</strong> y los valores extremos
+o atípicos.</p></li>
+</ul></li>
+<li><p>Es ideal para comparar la dispersión entre diferentes grupos o
+identificar anomalías en los datos.</p></li>
+</ul>
+<p></br><br />
+3. <strong>Histograma</strong>:</p>
+<ul>
+<li><p>Representa la frecuencia de los datos distribuidos en intervalos
+específicos (bins).</p></li>
+<li><p><strong>Número de Intervalos</strong>: Se recomienda que el
+número de divisiones sea <strong>entre 7 y 15</strong>. Este rango
+permite resumir los datos de manera efectiva sin perder detalles
+importantes ni sobrecargar la gráfica.</p></li>
+<li><p><strong>Tamaño de los Intervalos</strong>: Si la variable es
+continua y ha sido discretizada, es preferible utilizar intervalos con
+límites de números enteros en lugar de decimales. Esto ayuda a
+representar con mayor claridad el fenómeno observado, evitando
+interpretaciones confusas derivadas de límites poco
+significativos.</p></li>
+<li><p>Permite identificar la <strong>forma de la distribución</strong>,
+mostrando características como:</p>
+<ul>
+<li><p><strong>Simetría</strong> o <strong>asimetría</strong>.</p></li>
+<li><p><strong>Moda(s)</strong>: Picos en la frecuencia que indican
+valores predominantes.</p></li>
+<li><p><strong>Dispersión</strong>: Anchura de los intervalos con mayor
+frecuencia.</p></li>
+</ul></li>
+<li><p>Es uno de los gráficos más comunes en análisis
+exploratorio.</p></li>
+</ul>
+<p></br><br />
+4. <strong>Poligonos de frecuencia</strong>:</p>
+<ul>
+<li><p>Similar al histograma, pero conecta los puntos medios de cada
+intervalo mediante líneas.</p></li>
+<li><p>Proporciona una visualización más suave y continua de la
+distribución de frecuencias.</p></li>
+<li><p>Es útil para comparar la distribución de diferentes conjuntos de
+datos en un mismo gráfico.</p></li>
+</ul>
+<p></br> 5. <strong>Curvas de densidad</strong>:</p>
+<ul>
+<li><p>Representan una estimación suave de la distribución de los datos,
+basada en técnicas de kernel.</p></li>
+<li><p>Muestran la forma general de la distribución sin segmentar los
+datos en intervalos como el histograma.</p></li>
+<li><p>Las curvas de densidad son útiles para establecer comparaciones
+con modelos teóricos de probabilidad, como: Distribución Normal,
+Distribución Uniforme, Distribución Ji-cuadrado.</p></li>
+<li><p>Permiten identificar:</p>
+<ul>
+<li><p><strong>Centro</strong>: Posición de los picos en la
+curva.</p></li>
+<li><p><strong>Dispersión</strong>: Anchura de la curva.</p></li>
+<li><p><strong>Forma</strong>: Simetría o asimetría de la
+distribución.</p></li>
+</ul></li>
+</ul>
+<p></br> 6. <strong>Series de tiempo:</strong></p>
+<ul>
+<li><p>Una <strong>serie de tiempo</strong> es un conjunto de
+observaciones de una variable cuantitativa registradas en intervalos de
+tiempo regulares o irregulares.</p></li>
+<li><p>Representa cómo evoluciona una variable a lo largo del
+tiempo.</p></li>
+<li><p>Es útil para:</p>
+<ul>
+<li><p><strong>Identificar tendencias</strong>: Cambios a largo plazo en
+la variable.</p></li>
+<li><p><strong>Detectar estacionalidad</strong>: Fluctuaciones regulares
+y repetitivas en períodos de tiempo.</p></li>
+<li><p><strong>Analizar patrones cíclicos</strong>: Oscilaciones
+irregulares a largo plazo.</p></li>
+</ul></li>
+</ul>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se construye un <strong>diagrama de tallos y
+hojas</strong> para visualizar los tiempos empleados por las atletas de
+la categoría <strong>Veteranas B</strong> en la carrera. Este tipo de
+gráfico es especialmente útil para observar la distribución de los datos
+en detalle.</p>
+<pre>
+# Selección de la base de datos
+dataFc4 <- subset(CarreraLuz22, CarreraLuz22$sex == "Mujer" & CarreraLuz22$categoria == "4. Veteranos B")
+
+# Variable de interés: tiempo en minutos
+x <- dataFc4$timerun / 60
+
+# Construcción del diagrama de tallos y hojas
+stem(x) # Diagrama de tallos y hojas
+</pre>
+<pre class="r"><code># Selección de la base de datos
+dataFc4 &lt;- subset(CarreraLuz22, CarreraLuz22$sex == &quot;Mujer&quot; &amp; CarreraLuz22$categoria == &quot;4. Veteranos B&quot;)
+
+# Variable de interés: tiempo en minutos
+x &lt;- dataFc4$timerun / 60
+
+# Construcción del diagrama de tallos y hojas
+stem(x) # Diagrama de tallos y hojas</code></pre>
+</p>
+<p>Este tipo de gráfico (ver <strong>Figura 1.34</strong>) es
+especialmente útil para observar la distribución de los datos en
+detalle. Los <strong>tallos</strong> representan la parte entera de los
+tiempos en minutos. Las <strong>hojas</strong> muestran las cifras
+decimales asociadas a cada intervalo de tallos. Por ejemplo, la
+salida</p>
+<pre>
+The decimal point is 1 digit(s) to the right of the |
+
+  4 | 68
+</pre>
+<p><strong>Tallo</strong>: El número 4 antes del símbolo | representa la
+parte entera del valor, es decir, 40 minutos.</br>
+<strong>Hojas</strong>: Los números 6 y 8 después del | representan las
+décimas de minuto, es decir, 0.6 y 0.8.</br> <strong>Números
+representados</strong>: 46.8 minutos y 48.0 minutos.</br></p>
+<p>Se observa que los valores están mayormente agrupados entre 60 y 70
+minutos, con algunos valores en los extremos inferiores y superiores. Se
+pueden identificar patrones que sugieren una distribución asimétrica
+hacia la derecha.</p>
+<pre>
+The decimal point is 1 digit(s) to the right of the |
+
+  4 | 68
+  5 | 2234
+  5 | 6888899
+  6 | 01233334
+  6 | 5555566666778899
+  7 | 00111334
+  7 | 5667788
+  8 | 0001112333334
+  8 | 57899
+  9 | 04
+</pre>
+<p><strong>Figura 1.34</strong> Gráfico de barras compuesto.</p>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se construye un <strong>histograma</strong> (ver
+<strong>Figura 1.35</strong>) para visualizar los tiempos empleados por
+las atletas de la categoría <strong>Veteranas B</strong> en la
+carrera.</p>
+<pre>
+library(paqueteMETODOS)
+library(ggplot2)
+
+# Cargar datos
+data("CarreraLuz22")
+
+# Selección de datos
+dataFc4 <- subset(CarreraLuz22, CarreraLuz22$sex == "Mujer" & CarreraLuz22$categoria == "4. Veteranos B") # Dataset de mujeres
+
+# Variable a graficar
+dataFc4$timerun_min <- dataFc4$timerun / 60
+
+# Creación del histograma con ggplot2
+ggplot(dataFc4, aes(x = timerun_min)) +
+  geom_histogram(
+    bins = 6,
+    fill = "#ee964b",
+    color = "black"
+  ) +
+  labs(
+    title = "Distribución de los tiempos mujeres Veteranas B",
+    x = "Tiempo (min)",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+
+# Calcular los intervalos y frecuencias del histograma
+hist_data <- hist(dataFc4$timerun_min, plot = FALSE) # bins = 6
+
+# Mostrar los cortes e intervalos
+cat("Cortes de los intervalos:\n", hist_data$breaks, "\n\n")
+cat("Frecuencias por intervalo:\n", hist_data$counts, "\n\n")
+
+# Mostrar los intervalos y sus frecuencias en formato tabular
+intervalos <- data.frame(
+  Intervalo = paste0("[", head(hist_data$breaks, -1), ", ", tail(hist_data$breaks, -1), ")"),
+  Frecuencia = hist_data$counts
+)
+
+print(intervalos)
+</pre>
+<pre class="r"><code>library(paqueteMETODOS)
+library(ggplot2)
+
+# Cargar datos
+data(&quot;CarreraLuz22&quot;)
+
+# Selección de datos
+dataFc4 &lt;- subset(CarreraLuz22, CarreraLuz22$sex == &quot;Mujer&quot; &amp; CarreraLuz22$categoria == &quot;4. Veteranos B&quot;) # Dataset de mujeres
+
+# Variable a graficar
+dataFc4$timerun_min &lt;- dataFc4$timerun / 60
+
+# Creación del histograma con ggplot2
+ggplot(dataFc4, aes(x = timerun_min)) +
+  geom_histogram(
+    bins = 6,
+    fill = &quot;#ee964b&quot;,
+    color = &quot;black&quot;
+  ) +
+  labs(
+    title = &quot;Distribución de los tiempos mujeres Veteranas B&quot;,
+    x = &quot;Tiempo (min)&quot;,
+    y = &quot;Frecuencia&quot;
+  ) +
+  theme_minimal()
+
+# Calcular los intervalos y frecuencias del histograma
+hist_data &lt;- hist(dataFc4$timerun_min, plot = FALSE) # bins = 6
+
+# Mostrar los cortes e intervalos
+cat(&quot;Cortes de los intervalos:\n&quot;, hist_data$breaks, &quot;\n\n&quot;)
+cat(&quot;Frecuencias por intervalo:\n&quot;, hist_data$counts, &quot;\n\n&quot;)
+
+# Mostrar los intervalos y sus frecuencias en formato tabular
+intervalos &lt;- data.frame(
+  Intervalo = paste0(&quot;[&quot;, head(hist_data$breaks, -1), &quot;, &quot;, tail(hist_data$breaks, -1), &quot;)&quot;),
+  Frecuencia = hist_data$counts
+)
+
+print(intervalos)</code></pre>
+<center>
+<img src="img/his_muj_vet.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.35</strong> Distribución de los tiempos empleados por
+las atletas mujeres de la categoría <strong>Veteranas B</strong>.
+</center>
+<p></br></p>
+<p>La información de las clases (intervalos) y frecuencias absolutas de
+la <strong>Figura 1.35</strong> se presentan a continuación.</p>
+<pre>
+   Intervalo Frecuencia
+1   [45, 50)          2
+2   [50, 55)          4
+3   [55, 60)          7
+4   [60, 65)         11
+5   [65, 70)         13
+6   [70, 75)          9
+7   [75, 80)          8
+8   [80, 85)         11
+9   [85, 90)          5
+10  [90, 95)          2
+</pre>
+<p>Respecto a la <strong>Figura 1.35</strong>, se pueden interpretar
+aspectos como los siguientes:</p>
+<ul>
+<li><p>La tabla de frecuencias del histograma y el coeficiente de
+asimetría obtenido <span class="math inline">\((-0.0001289)\)</span>
+indican que la distribución es prácticamente simétrica. Sin embargo, el
+análisis del histograma y las frecuencias revela un <strong>ligero sesgo
+positivo</strong>, con una cola derecha más extendida.</p>
+<ul>
+<li>La frecuencia disminuye rápidamente desde 7 en el intervalo <span
+class="math inline">\([55, 60)\)</span> hasta solo 2 en el intervalo
+<span class="math inline">\([45, 50)\)</span>, lo que indica que los
+valores más bajos son menos frecuentes y la cola izquierda es
+relativamente corta.</li>
+<li>La disminución hacia los valores altos es más gradual, con 11
+observaciones en <span class="math inline">\([80, 85)\)</span>, 5 en
+<span class="math inline">\([85, 90)\)</span> y 2 en <span
+class="math inline">\([90, 95)\)</span>. Esto sugiere que hay valores
+grandes que extienden la cola derecha.</li>
+<li>Estas observaciones son coherentes con un <strong>sesgo positivo
+leve</strong>, a pesar del balance general reflejado por el coeficiente
+de asimetría.</li>
+</ul></li>
+<li><p>Los tiempos registrados oscilan entre aproximadamente <span
+class="math inline">\(45\)</span> y <span
+class="math inline">\(95\)</span> minutos.</p></li>
+<li><p>Los intervalos con mayor frecuencia (<span
+class="math inline">\([60, 70)\)</span> y <span
+class="math inline">\([80, 85)\)</span>) sugieren indicios de
+<strong>bimodalidad</strong>, posiblemente debido a subgrupos con
+tiempos típicos diferentes.</p></li>
+<li><p>Existe una <strong>dispersión moderada</strong> en los tiempos,
+reflejada en la amplitud de la distribución. Esto podría cuantificarse
+con medidas como el rango intercuartílico (<span
+class="math inline">\(IQR\)</span>) o la desviación estándar.</p></li>
+<li><p>Una barra aislada cerca de los <span
+class="math inline">\(100\)</span> minutos podría indicar un valor
+extremo. Es necesario analizar su plausibilidad en el contexto del
+estudio.</p></li>
+<li><p>La mayoría (<span class="math inline">\(72 \%\)</span>) de las
+participantes completan su actividad en un rango de <span
+class="math inline">\(60\)</span> a <span
+class="math inline">\(80\)</span> minutos, lo que describe el
+comportamiento típico de la categoría.</p></li>
+</ul>
+<p>Un análisis más detallado con medidas de tendencia central,
+dispersión y una evaluación de valores extremos complementará esta
+interpretación.</p>
+</p>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se construye una <strong>curva de densidad</strong>
+(ver <strong>Figura 1.36</strong>) para visualizar los tiempos empleados
+por las atletas de la categoría <strong>Veteranas B</strong> en la
+carrera.</p>
+<pre>
+# Cargar paquetes necesarios
+library(paqueteMETODOS)
+library(ggplot2)
+
+# Cargar datos
+data("CarreraLuz22")
+
+# Selección de datos: Mujeres en la categoría "4. Veteranos B"
+dataFc4 <- subset(CarreraLuz22, sex == "Mujer" & categoria == "4. Veteranos B")
+
+# Crear una nueva variable en minutos
+dataFc4$timerun_min <- dataFc4$timerun / 60
+
+# Crear gráfico de densidad
+ggplot(dataFc4, aes(x = timerun_min)) +
+  geom_density(fill = "#0d3b66", alpha = 0.6, color = "#0d3b66") +
+  labs(
+    title = "Distribución del tiempo - Mujeres categoría Veteranas B",
+    x = "Tiempo (min)",
+    y = "Densidad"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12)
+  )
+</pre>
+<pre class="r"><code># Cargar paquetes necesarios
+library(paqueteMETODOS)
+library(ggplot2)
+
+# Cargar datos
+data(&quot;CarreraLuz22&quot;)
+
+# Selección de datos: Mujeres en la categoría &quot;4. Veteranos B&quot;
+dataFc4 &lt;- subset(CarreraLuz22, sex == &quot;Mujer&quot; &amp; categoria == &quot;4. Veteranos B&quot;)
+
+# Crear una nueva variable en minutos
+dataFc4$timerun_min &lt;- dataFc4$timerun / 60
+
+# Crear gráfico de densidad
+ggplot(dataFc4, aes(x = timerun_min)) +
+  geom_density(fill = &quot;#0d3b66&quot;, alpha = 0.6, color = &quot;#0d3b66&quot;) +
+  labs(
+    title = &quot;Distribución del tiempo - Mujeres categoría Veteranas B&quot;,
+    x = &quot;Tiempo (min)&quot;,
+    y = &quot;Densidad&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = &quot;bold&quot;),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12)
+  )</code></pre>
+<center>
+<img src="img/den_muj.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.36</strong> Distribución de los tiempos empleados por
+las atletas mujeres de la categoría <strong>Veteranas B</strong>.
+</center>
+<p></br></p>
+<p>La <strong>Figura 1.36</strong> muestra la curva de densidad estimada
+de los tiempos registrados para las participantes de la categoría
+“Veteranas B”. A partir de esta representación, se pueden interpretar
+los siguientes aspectos clave:</p>
+<ul>
+<li><p>Los tiempos registrados oscilan entre aproximadamente <span
+class="math inline">\(45\)</span> y <span
+class="math inline">\(95\)</span> minutos.</p></li>
+<li><p>La distribución muestra dos regiones principales de alta
+densidad, alrededor de los <span class="math inline">\(65\)</span> y
+<span class="math inline">\(85\)</span> minutos, lo que sugiere una
+posible <strong>bimodalidad</strong>. Esto podría indicar la presencia
+de dos subgrupos dentro de la categoría, con tiempos típicos
+diferentes.</p></li>
+<li><p>Existe una dispersión moderada en los tiempos, evidenciada por la
+amplitud de la distribución. Esto se podría cuantificar con medidas como
+el rango intercuartílico (<span class="math inline">\(IQR\)</span>) o la
+desviación estándar.</p></li>
+<li><p>El coeficiente de asimetría calculado (<span
+class="math inline">\(-0.0001289\)</span>) indica que la distribución es
+prácticamente simétrica. Sin embargo, al observar la curva de densidad,
+se nota un <strong>ligero sesgo positivo</strong> debido a que la cola
+derecha (hacia valores altos) es más extendida que la
+izquierda.</p></li>
+<li><p>La mayoría (<span class="math inline">\(72 \%\)</span>) de las
+participantes completan su actividad en un rango de <span
+class="math inline">\(60\)</span> a <span
+class="math inline">\(80\)</span> minutos, lo que refleja el
+comportamiento típico de la categoría.</p></li>
+</ul>
+</p>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se construye un <strong>diagrama de cajas</strong>
+(ver <strong>Figura 1.37</strong>) para visualizar los tiempos empleados
+por las atletas de la categoría <strong>Veteranas B</strong> en la
+carrera.</p>
+<pre>
+# Cargar paquetes necesarios
+library(paqueteMETODOS)
+library(ggplot2)
+library(dplyr)
+
+# Cargar datos
+data("CarreraLuz22")
+
+# Crear una nueva variable en minutos
+CarreraLuz22$timerun_min <- CarreraLuz22$timerun / 60
+
+# Calcular cuartiles y límites para identificar valores atípicos
+resumen_sexo <- CarreraLuz22 %>%
+  group_by(sex) %>%
+  summarise(
+    Mediana = median(timerun_min),
+    Q1 = quantile(timerun_min, 0.25),
+    Q3 = quantile(timerun_min, 0.75),
+    Rango_Intercuartilico = Q3 - Q1,
+    Limite_inferior = Q1 - 1.5 * (Q3 - Q1),
+    Limite_superior = Q3 + 1.5 * (Q3 - Q1)
+  )
+
+# Identificar valores atípicos
+atipicos <- CarreraLuz22 %>%
+  left_join(resumen_sexo, by = "sex") %>%
+  filter(timerun_min < Limite_inferior | timerun_min > Limite_superior) %>%
+  select(sex, timerun_min)
+
+# Contar valores atípicos por sexo
+conteo_atipicos <- atipicos %>%
+  group_by(sex) %>%
+  summarise(Numero_Atipicos = n())
+
+# Imprimir valores atípicos y su conteo
+print("Valores Atípicos:")
+print(atipicos)
+print("Conteo de Valores Atípicos:")
+print(conteo_atipicos)
+
+# Crear el gráfico de cajas con información de atípicos
+ggplot(CarreraLuz22, aes(x = sex, y = timerun_min, fill = sex)) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_manual(values = c("#f4d35e", "#ee964b")) +
+  labs(
+    title = "Distribución del tiempo - Carrera La Luz 2022",
+    subtitle = paste0(
+      "Hombres: ", conteo_atipicos$Numero_Atipicos[conteo_atipicos$sex == "Hombre"], 
+      " atípicos. Mujeres: ", conteo_atipicos$Numero_Atipicos[conteo_atipicos$sex == "Mujer"], " atípicos."
+    ),
+    x = "Sexo",
+    y = "Tiempo (min)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic"),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    legend.position = "none"
+  )
+</pre>
+<pre class="r"><code># Cargar paquetes necesarios
+library(paqueteMETODOS)
+library(ggplot2)
+library(dplyr)
+
+# Cargar datos
+data(&quot;CarreraLuz22&quot;)
+
+# Crear una nueva variable en minutos
+CarreraLuz22$timerun_min &lt;- CarreraLuz22$timerun / 60
+
+# Calcular cuartiles y límites para identificar valores atípicos
+resumen_sexo &lt;- CarreraLuz22 %&gt;%
+  group_by(sex) %&gt;%
+  summarise(
+    Mediana = median(timerun_min),
+    Q1 = quantile(timerun_min, 0.25),
+    Q3 = quantile(timerun_min, 0.75),
+    Rango_Intercuartilico = Q3 - Q1,
+    Limite_inferior = Q1 - 1.5 * (Q3 - Q1),
+    Limite_superior = Q3 + 1.5 * (Q3 - Q1)
+  )
+
+# Identificar valores atípicos
+atipicos &lt;- CarreraLuz22 %&gt;%
+  left_join(resumen_sexo, by = &quot;sex&quot;) %&gt;%
+  filter(timerun_min &lt; Limite_inferior | timerun_min &gt; Limite_superior) %&gt;%
+  select(sex, timerun_min)
+
+# Contar valores atípicos por sexo
+conteo_atipicos &lt;- atipicos %&gt;%
+  group_by(sex) %&gt;%
+  summarise(Numero_Atipicos = n())
+
+# Imprimir valores atípicos y su conteo
+print(&quot;Valores Atípicos:&quot;)
+print(atipicos)
+print(&quot;Conteo de Valores Atípicos:&quot;)
+print(conteo_atipicos)
+
+# Crear el gráfico de cajas con información de atípicos
+ggplot(CarreraLuz22, aes(x = sex, y = timerun_min, fill = sex)) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_manual(values = c(&quot;#f4d35e&quot;, &quot;#ee964b&quot;)) +
+  labs(
+    title = &quot;Distribución del tiempo - Carrera La Luz 2022&quot;,
+    subtitle = paste0(
+      &quot;Hombres: &quot;, conteo_atipicos$Numero_Atipicos[conteo_atipicos$sex == &quot;Hombre&quot;], 
+      &quot; atípicos. Mujeres: &quot;, conteo_atipicos$Numero_Atipicos[conteo_atipicos$sex == &quot;Mujer&quot;], &quot; atípicos.&quot;
+    ),
+    x = &quot;Sexo&quot;,
+    y = &quot;Tiempo (min)&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = &quot;bold&quot;),
+    plot.subtitle = element_text(hjust = 0.5, size = 12, face = &quot;italic&quot;),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    legend.position = &quot;none&quot;
+  )</code></pre>
+<center>
+<img src="img/caja_muj.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.37</strong> Distribución de los tiempos empleados por
+las atletas mujeres de la categoría <strong>Veteranas B</strong>.
+</center>
+<p></br></p>
+<p>A continuación se presentan lan salidas computacionales que
+complementan la información de la <strong>Figura 1.37</strong>.</p>
+<pre>
+# A tibble: 2 × 5
+  sex    Mediana    Q1    Q3 Rango_Intercuartilico
+  <chr>    <dbl> <dbl> <dbl>                 <dbl>
+1 Hombre    60.1  53.6  69.0                  15.4
+2 Mujer     69.0  61.6  78.6                  17.0
+</pre>
+<pre>
+  sex    Numero_Atipicos
+  <chr>            <int>
+1 Hombre              17
+2 Mujer                2
+</pre>
+<pre>
+# A tibble: 19 × 2
+   sex    timerun_min
+   <chr>        <dbl>
+ 1 Hombre        92.3
+ 2 Hombre        92.6
+ 3 Hombre        92.9
+ 4 Hombre        93.5
+ 5 Hombre        94.9
+ 6 Hombre        96.4
+ 7 Hombre        96.8
+ 8 Hombre        97.4
+ 9 Hombre        98.8
+10 Hombre        98.8
+11 Hombre        98.8
+12 Hombre       100. 
+13 Hombre       103. 
+14 Hombre       105. 
+15 Hombre       106. 
+16 Mujer        106. 
+17 Mujer        111. 
+18 Hombre       114. 
+19 Hombre       166. 
+</pre>
+<p>El análisis de la <strong>Figura 1.37</strong>, que muestra los
+tiempos registrados para hombres y mujeres en la carrera, se puede
+interpretar de la siguiente manera:</p>
+<p></br> <strong>Medianas y comparación central</strong></p>
+<ul>
+<li><p><strong>Hombres</strong>: La mediana del tiempo es <strong>60.1
+minutos</strong>, lo que indica que el <strong>50% de los
+hombres</strong> completaron la carrera en menos de 60.1
+minutos.</p></li>
+<li><p><strong>Mujeres</strong>: El cuartil 1 (<span
+class="math inline">\(Q1 = 61.6\)</span>) está por encima de la mediana
+de los hombres. Esto implica que el <strong>75% de las mujeres</strong>
+tardaron más en completar la carrera que el <strong>50% de los
+hombres</strong>, reforzando la conclusión de que, en general, los
+hombres tuvieron un desempeño más rápido.</p></li>
+</ul>
+<p></br> <strong>Dispersión central (<span
+class="math inline">\(IQR\)</span>)</strong></p>
+<ul>
+<li><p><strong>Mujeres</strong>: El rango intercuartílico (<span
+class="math inline">\(IQR\)</span>) es <strong>17.0 minutos</strong> (de
+<span class="math inline">\(61.6\)</span> a <span
+class="math inline">\(78.6\)</span>), mostrando mayor variabilidad en el
+<span class="math inline">\(50%\)</span> central de los tiempos en
+comparación con los hombres.</p></li>
+<li><p><strong>Hombres</strong>: El <span
+class="math inline">\(IQR\)</span> es <strong>15.4 minutos</strong> (de
+<span class="math inline">\(53.6\)</span> a <span
+class="math inline">\(69.0\)</span>), indicando que los tiempos típicos
+son más consistentes en el grupo masculino.</p></li>
+</ul>
+<p></br> <strong>Valores atípicos y extremos</strong></p>
+<ul>
+<li><strong>Hombres</strong>:
+<ul>
+<li>Se identificaron <strong>17 valores atípicos</strong>, con tiempos
+entre <strong>92.3 minutos</strong> y <strong>166 minutos</strong>.</li>
+<li>El valor más extremo (<span class="math inline">\(166\)</span>
+minutos) podría reflejar problemas específicos, como fatiga, errores en
+el registro o un desempeño significativamente inferior.</li>
+</ul></li>
+<li><strong>Mujeres</strong>:
+<ul>
+<li>Solo se identificaron <strong>2 valores atípicos</strong>,
+correspondientes a tiempos de <strong>106 minutos</strong> y <strong>111
+minutos</strong>. Aunque elevados, estos valores están menos alejados de
+los tiempos típicos del grupo en comparación con los hombres.</li>
+</ul></li>
+</ul>
+<p></br> <strong>Comparación entre hombres y mujeres</strong></p>
+<ul>
+<li><p>Los <strong>hombres</strong> presentan una mayor cantidad de
+valores atípicos, con una dispersión considerable hacia tiempos altos.
+Esto evidencia mayor <strong>variabilidad</strong> en su desempeño,
+especialmente en los extremos.</p></li>
+<li><p>Las <strong>mujeres</strong>, por otro lado, muestran tiempos más
+consistentes y con menos valores extremos, reforzando la idea de un
+desempeño más uniforme en este grupo.</p></li>
+</ul>
+<p></br> <strong>Simetría y sesgo</strong></p>
+<ul>
+<li><p><strong>Mujeres</strong>: La distribución de los tiempos es
+<strong>más simétrica</strong>, con los cuartiles (<span
+class="math inline">\(Q1\)</span> y <span
+class="math inline">\(Q3\)</span>) relativamente equidistantes de la
+mediana y pocos valores atípicos que alteren esta simetría.</p></li>
+<li><p><strong>Hombres</strong>: La distribución muestra una
+<strong>asimetría positiva (sesgo hacia la derecha)</strong>,
+influenciada por un subgrupo considerable con tiempos altos. Este sesgo
+positivo podría reflejar diferencias marcadas en habilidades,
+experiencia o condiciones externas, como fatiga.</p></li>
+<li><p>Para complementar el análisis del sesgo, es necesario trazar
+curvas de densidad de los tiempos para cada una de las categorías de
+sexo.</p></li>
+</ul>
+<p></br> <strong>Importancia de los valores atípicos</strong></p>
+<ul>
+<li><p>El análisis refuerza la importancia de interpretar los valores
+atípicos para comprender mejor la variabilidad y el sesgo en los
+datos.</p></li>
+<li><p>Estos valores extremos podrían estar asociados a situaciones
+particulares, como eventos atípicos, diferencias individuales o errores
+en la medición, y deberían investigarse más a fondo.</p></li>
+</ul>
+</p>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se construye una <strong>gráfica de series de
+tiempo</strong> de la inflación en Colombia en el periodo 1946 - 2023
+(ver <strong>Figura 1.38</strong>).</p>
+<pre class="r"><code># Para configurar al español (letra ñ)
+Sys.setlocale(&quot;LC_ALL&quot;, &quot;es_ES.UTF-8&quot;)
+
+# Cargar paquetes necesarios
+library(ggplot2)
+library(dplyr)
+
+# Crear el conjunto de datos como data.frame
+inflacion &lt;- c(99.31, 88.3, 66, 66.7, 20.5, 8.9, 2.3, 7.3, 8.8, 1.72, 8.47, 18.75, 9.21, 20.23, 6.74, 6.32, 
+               6.93, 32.41, 8.39, 14.84, 12.92, 7.46, 6.48, 8.26, 6.83, 13.91, 13.86, 23.48, 26.06, 17.69, 
+               25.79, 28.3, 18.73, 28.82, 25.96, 26.36, 24.04, 16.66, 18.26, 22.45, 20.95, 24, 28.1, 26.2, 
+               32.4, 26.8, 25.1, 22.6, 22.6, 19.5, 21.69, 17.7, 16.7, 13.2, 9.3, 8.5, 7.4, 7.8, 6.3, 5.4, 
+               4.7, 6.3, 7.9, 7.2, 3.17, 4, 3.6, 2.3, 3.7, 6.8, 9, 5.5, 3.7, 3.9, 3.90, 5.6, 13.12, 9.28)
+years &lt;- seq(1946, 2023) # Generar los años
+data_inflacion &lt;- data.frame(Year = years, Inflation = inflacion)
+
+# Crear el gráfico con ggplot2
+
+ggplot(data_inflacion, aes(x = Year, y = Inflation)) +
+  geom_line(color = &quot;#ee964b&quot;, linewidth = 1.2) + # Usar linewidth en lugar de size
+  geom_point(color = &quot;#0d3b66&quot;, size = 1.5) +
+  labs(
+    title = &quot;Inflación en Colombia (1946 - 2023)&quot;,
+    subtitle = &quot;Tasa de inflación acumulada anual&quot;,
+    x = &quot;Año&quot;, 
+    y = &quot;Inflación (%)&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = &quot;bold&quot;),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  ) +
+  scale_x_continuous(breaks = seq(1946, 2023, by = 10)) +
+  scale_y_continuous(labels = scales::comma_format())</code></pre>
+<center>
+<img src="img/serie-ejem.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.38</strong> Gráfica de serie de tiempo de la
+inflación.</br> <sub> Fuente : <a
+href="https://es.wikipedia.org/wiki/Anexo:Variaci%C3%B3n_de_la_inflaci%C3%B3n_de_Colombia_desde_1946">wikipedia</a>
+</sub>
+</center>
+<p></br></p>
+<p>El gráfico de la <strong>Figura 1.38</strong> presenta la evolución
+de la <strong>tasa de inflación acumulada anual en Colombia</strong>
+desde 1946 hasta 2023. A continuación, se describen los principales
+hallazgos:</p>
+<p></br> <strong>Comportamiento general de la inflación</strong></p>
+<ul>
+<li><p><strong>1946-1955</strong>:</p>
+<ul>
+<li><p>La inflación inicia en niveles muy altos, alcanzando cerca del
+<strong>100%</strong> en 1946.</p></li>
+<li><p>Durante esta década, se observa una tendencia descendente
+significativa, estabilizándose en niveles bajos hacia los años
+1950.</p></li>
+</ul></li>
+<li><p><strong>1955-1970</strong>:</p>
+<ul>
+<li><p>Este período está marcado por fluctuaciones importantes, con
+picos y valles recurrentes.</p></li>
+<li><p>La inflación oscila entre niveles moderados del <strong>10% al
+25%</strong>, con ocasionales repuntes.</p></li>
+</ul></li>
+<li><p><strong>1970-1990</strong>:</p>
+<ul>
+<li><p>Durante estas dos décadas, la inflación se mantiene alta y
+volátil, con picos frecuentes que superan el <strong>30%</strong>,
+especialmente en los años 1980.</p></li>
+<li><p>Este período refleja una elevada inestabilidad
+inflacionaria.</p></li>
+</ul></li>
+<li><p><strong>1990-2020</strong>:</p>
+<ul>
+<li><p>A partir de los años 1990, se observa una tendencia descendente
+sostenida en la inflación.</p></li>
+<li><p>Para el año 2020, la inflación se reduce a niveles bajos,
+cercanos al <strong>3%</strong>, en línea con los objetivos de política
+monetaria.</p></li>
+</ul></li>
+<li><p><strong>2020-2023</strong>:</p>
+<ul>
+<li>En los últimos años, hay un ligero repunte de la inflación,
+alcanzando valores cercanos al <strong>10%</strong>, posiblemente
+influenciado por factores recientes como la pandemia y choques
+globales.</li>
+</ul></li>
+</ul>
+<hr />
+<p></br> <strong>Ciclos y puntos críticos</strong></p>
+<ul>
+<li><p><strong>Punto más alto</strong>:</p>
+<ul>
+<li>La inflación más alta se registra en <strong>1946</strong>, con una
+tasa cercana al <strong>100%</strong>.</li>
+</ul></li>
+<li><p><strong>Décadas de alta inflación</strong>:</p>
+<ul>
+<li>Los años <strong>1980</strong> y <strong>1990</strong> presentan
+inflación persistentemente alta, posiblemente asociada a crisis
+económicas y políticas globales y locales.</li>
+</ul></li>
+<li><p><strong>Tendencia descendente</strong>:</p>
+<ul>
+<li>Desde los años 2000, la inflación ha mostrado una reducción
+constante, gracias a políticas económicas más efectivas, como la
+adopción de metas de inflación por parte del Banco de la República.</li>
+</ul></li>
+<li><p><strong>Repunte reciente</strong>:</p>
+<ul>
+<li>Entre 2020 y 2023, la inflación muestra un aumento moderado, reflejo
+de problemas globales como interrupciones en las cadenas de suministro,
+políticas expansivas y los efectos de la pandemia.</li>
+</ul></li>
+</ul>
+</p>
+</div>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>Esta actividad tiene como objetivo explorar y analizar los datos de
+la Carrera La Luz 2022 mediante la creación de gráficos boxplot
+utilizando las bibliotecas <code>ggplot2</code> y <code>plotly</code>.
+Los gráficos ayudarán a visualizar la distribución del tiempo de carrera
+por categorías y sexo, empleando colores personalizados para una mejor
+presentación visual.</p>
+<p></br> <strong>Código 1: Boxplot interactivo con plotly</strong></p>
+<p>En este primer ejemplo, se utiliza <code>ggplot2</code> para crear un
+gráfico de cajas que muestra la distribución del tiempo de carrera por
+sexo. El gráfico es convertido a un formato interactivo utilizando la
+biblioteca <code>plotly</code>.</p>
+<pre>
+# Para configurar al español (letra ñ)
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar paquetes necesarios
+library(paqueteMETODOS)  # Paquete con los datos
+library(ggplot2)        # Crear gráficos estáticos
+library(plotly)         # Convertir gráficos a interactivos
+
+# Cargar el conjunto de datos "CarreraLuz22"
+data("CarreraLuz22")
+
+# Crear el gráfico de cajas con ggplot2
+p <- ggplot(CarreraLuz22, aes(x = sex, y = timerun/60, fill = sex)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribución del tiempo de carrera La Luz 2022",
+    x = "Sexo",
+    y = "Tiempo (min)"
+  ) +
+  scale_fill_manual(values = c("#f4d35e", "#ee964b")) +  # Colores personalizados para cada sexo
+  theme_minimal()  # Tema limpio y profesional
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo con plotly
+ggplotly(p)
+</pre>
+<pre class="r"><code># Para configurar al español (letra ñ)
+Sys.setlocale(&quot;LC_ALL&quot;, &quot;es_ES.UTF-8&quot;)
+
+# Cargar paquetes necesarios
+library(paqueteMETODOS)  # Paquete con los datos
+library(ggplot2)        # Crear gráficos estáticos
+library(plotly)         # Convertir gráficos a interactivos
+
+# Cargar el conjunto de datos &quot;CarreraLuz22&quot;
+data(&quot;CarreraLuz22&quot;)
+
+# Crear el gráfico de cajas con ggplot2
+p &lt;- ggplot(CarreraLuz22, aes(x = sex, y = timerun/60, fill = sex)) +
+  geom_boxplot() +
+  labs(
+    title = &quot;Distribución del tiempo de carrera La Luz 2022&quot;,
+    x = &quot;Sexo&quot;,
+    y = &quot;Tiempo (min)&quot;
+  ) +
+  scale_fill_manual(values = c(&quot;#f4d35e&quot;, &quot;#ee964b&quot;)) +  # Colores personalizados para cada sexo
+  theme_minimal()  # Tema limpio y profesional
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo con plotly
+ggplotly(p)</code></pre>
+<p></br> <strong>Código 2: Boxplot por categorías con paleta
+personalizada</strong></p>
+<p>Este segundo ejemplo incluye una paleta de colores personalizada que
+utiliza un degradado entre dos colores. El gráfico muestra la
+distribución del tiempo de carrera por categorías dentro de cada
+sexo.</p>
+<pre>
+# Para configurar al español (letra ñ)
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar paquetes necesarios
+library(paqueteMETODOS)  # Paquete con los datos
+library(ggplot2)        # Crear gráficos estáticos
+
+# Cargar el conjunto de datos "CarreraLuz22"
+data("CarreraLuz22")
+
+# Definir una paleta de colores personalizada para 5 categorías
+paleta <- colorRampPalette(c("#001B48", "#97CADB"))(5)
+
+# Crear el gráfico de cajas con ggplot2
+p <- ggplot(CarreraLuz22, aes(x = sex, y = timerun/60, fill = categoria)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribución del tiempo de carrera La Luz 2022",
+    x = "Sexo",
+    y = "Tiempo (min)"
+  ) +
+  scale_fill_manual(values = paleta) +  # Aplicar la paleta personalizada
+  theme_minimal()  # Tema limpio y profesional
+
+# Mostrar el gráfico creado con ggplot2
+p
+</pre>
+<pre class="r"><code># Para configurar al español (letra ñ)
+Sys.setlocale(&quot;LC_ALL&quot;, &quot;es_ES.UTF-8&quot;)
+
+# Cargar paquetes necesarios
+library(paqueteMETODOS)  # Paquete con los datos
+library(ggplot2)        # Crear gráficos estáticos
+
+# Cargar el conjunto de datos &quot;CarreraLuz22&quot;
+data(&quot;CarreraLuz22&quot;)
+
+# Definir una paleta de colores personalizada para 5 categorías
+paleta &lt;- colorRampPalette(c(&quot;#001B48&quot;, &quot;#97CADB&quot;))(5)
+
+# Crear el gráfico de cajas con ggplot2
+p &lt;- ggplot(CarreraLuz22, aes(x = sex, y = timerun/60, fill = categoria)) +
+  geom_boxplot() +
+  labs(
+    title = &quot;Distribución del tiempo de carrera La Luz 2022&quot;,
+    x = &quot;Sexo&quot;,
+    y = &quot;Tiempo (min)&quot;
+  ) +
+  scale_fill_manual(values = paleta) +  # Aplicar la paleta personalizada
+  theme_minimal()  # Tema limpio y profesional
+
+# Mostrar el gráfico creado con ggplot2
+p</code></pre>
+</div>
+<br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>En esta actividad, se analiza y ejecuta un código que utiliza
+<strong>R</strong> para generar un histograma de los tiempos registrados
+para las mujeres de la categoría “Veteranas B” en la Carrera La Luz
+2022. A continuación, se describe y analiza cada paso del código.</p>
+<pre>
+library(paqueteMETODOS)  # Cargar el paquete con los datos de la carrera
+library(ggplot2)        # Generar gráficos estáticos
+
+# Cargar los datos de la carrera
+data("CarreraLuz22")
+
+# Filtrar los datos para mujeres de la categoría "Veteranos B"
+dataFc4 <- subset(CarreraLuz22, (CarreraLuz22$sex == "Mujer" & CarreraLuz22$categoria == "4. Veteranos B"))
+
+# Crear el histograma con ggplot2
+p <- ggplot(dataFc4, aes(x = timerun/60)) +
+  geom_histogram(bins = 6, fill = "#ee964b", color = "white", alpha = 0.7) +
+  labs(
+    title = "Distribución de los tiempos mujeres Veteranas B",
+    x = "Tiempo (min)",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()  # Aplicar un tema limpio y moderno
+
+# Convertir el gráfico en interactivo con ggplotly
+ggplotly(p)
+</pre>
+<pre class="r"><code>library(paqueteMETODOS)  # Cargar el paquete con los datos de la carrera
+library(ggplot2)        # Generar gráficos estáticos
+
+# Cargar los datos de la carrera
+data(&quot;CarreraLuz22&quot;)
+
+# Filtrar los datos para mujeres de la categoría &quot;Veteranos B&quot;
+dataFc4 &lt;- subset(CarreraLuz22, (CarreraLuz22$sex == &quot;Mujer&quot; &amp; CarreraLuz22$categoria == &quot;4. Veteranos B&quot;))
+
+# Crear el histograma con ggplot2
+p &lt;- ggplot(dataFc4, aes(x = timerun/60)) +
+  geom_histogram(bins = 6, fill = &quot;#ee964b&quot;, color = &quot;white&quot;, alpha = 0.7) +
+  labs(
+    title = &quot;Distribución de los tiempos mujeres Veteranas B&quot;,
+    x = &quot;Tiempo (min)&quot;,
+    y = &quot;Frecuencia&quot;
+  ) +
+  theme_minimal()  # Aplicar un tema limpio y moderno
+
+# Convertir el gráfico en interactivo con ggplotly
+ggplotly(p)</code></pre>
+</div>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>Esta actividad tiene como objetivo explorar un código que utiliza las
+bibliotecas <code>ggplot2</code> y <code>gganimate</code> para crear un
+gráfico animado que muestra la evolución de la inflación en Colombia
+desde 1946 hasta 2023. A continuación, se describe y analiza cada
+sección del código.</p>
+<pre>
+install.packages("gganimate")
+library(tidyverse)  # Incluye ggplot2 y herramientas para manipulación de datos
+library(gganimate)  # Permite generar animaciones con ggplot2
+
+# Datos de inflación
+inflacion <- c(99.31, 88.3, 66, 66.7, 20.5, 8.9, 2.3, 7.3, 8.8, 1.72, 8.47, 
+               18.75, 9.21, 20.23, 6.74, 6.32, 6.93, 32.41, 8.39, 14.84, 
+               12.92, 7.46, 6.48, 8.26, 6.83, 13.91, 13.86, 23.48, 26.06, 
+               17.69, 25.79, 28.3, 18.73, 28.82, 25.96, 26.36, 24.04, 16.66, 
+               18.26, 22.45, 20.95, 24, 28.1, 26.2, 32.4, 26.8, 25.1, 22.6, 
+               22.6, 19.5, 21.69, 17.7, 16.7, 13.2, 9.3, 8.5, 7.4, 7.8, 6.3, 
+               5.4, 4.7, 6.3, 7.9, 7.2, 3.17, 4, 3.6, 2.3, 3.7, 6.8, 9, 5.5, 
+               3.7, 3.9, 3.90, 5.6, 13.12, 9.28)
+
+# Rango de años correspondiente a los datos de inflación
+year <- seq(as.Date("1946-12-31"), as.Date("2023-12-31"), by = "1 year")
+
+# Crear un data frame con los datos
+df <- data.frame(year, inflacion)
+
+# Crear el gráfico animado con ggplot2 y gganimate
+ggplot(df, aes(x = year, y = inflacion)) +
+  geom_point() +  # Puntos que representan los datos de inflación por año
+  geom_line() +   # Línea que conecta los puntos
+  theme_minimal() +  # Aplicar un tema limpio y profesional
+  labs(
+    title = "Inflación en Colombia (1946-2023)",
+    x = "Año",
+    y = "Inflación (%)"
+  ) +
+  transition_reveal(year)  # Crear la animación que revela los datos a través del tiempo
+</pre>
+<pre class="r"><code>install.packages(&quot;gganimate&quot;)
+library(tidyverse)  # Incluye ggplot2 y herramientas para manipulación de datos
+library(gganimate)  # Permite generar animaciones con ggplot2
+
+# Datos de inflación
+inflacion &lt;- c(99.31, 88.3, 66, 66.7, 20.5, 8.9, 2.3, 7.3, 8.8, 1.72, 8.47, 
+               18.75, 9.21, 20.23, 6.74, 6.32, 6.93, 32.41, 8.39, 14.84, 
+               12.92, 7.46, 6.48, 8.26, 6.83, 13.91, 13.86, 23.48, 26.06, 
+               17.69, 25.79, 28.3, 18.73, 28.82, 25.96, 26.36, 24.04, 16.66, 
+               18.26, 22.45, 20.95, 24, 28.1, 26.2, 32.4, 26.8, 25.1, 22.6, 
+               22.6, 19.5, 21.69, 17.7, 16.7, 13.2, 9.3, 8.5, 7.4, 7.8, 6.3, 
+               5.4, 4.7, 6.3, 7.9, 7.2, 3.17, 4, 3.6, 2.3, 3.7, 6.8, 9, 5.5, 
+               3.7, 3.9, 3.90, 5.6, 13.12, 9.28)
+
+# Rango de años correspondiente a los datos de inflación
+year &lt;- seq(as.Date(&quot;1946-12-31&quot;), as.Date(&quot;2023-12-31&quot;), by = &quot;1 year&quot;)
+
+# Crear un data frame con los datos
+df &lt;- data.frame(year, inflacion)
+
+# Crear el gráfico animado con ggplot2 y gganimate
+ggplot(df, aes(x = year, y = inflacion)) +
+  geom_point() +  # Puntos que representan los datos de inflación por año
+  geom_line() +   # Línea que conecta los puntos
+  theme_minimal() +  # Aplicar un tema limpio y profesional
+  labs(
+    title = &quot;Inflación en Colombia (1946-2023)&quot;,
+    x = &quot;Año&quot;,
+    y = &quot;Inflación (%)&quot;
+  ) +
+  transition_reveal(year)  # Crear la animación que revela los datos a través del tiempo</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

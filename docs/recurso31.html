@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Representación de variables cualitativas</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos básicos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10.html">Conceptos básicos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso11.html">Conceptos</a>
+    </li>
+    <li>
+      <a href="recurso12.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso13.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso15.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20.html">Análisis de datos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso21.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Representación gráfica de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30.html">Representación gráfica</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso31.html">Representación de variables cualitativas</a>
+    </li>
+    <li>
+      <a href="recurso32.html">Representación de variables cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33.html">Representaciones multivariadas</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40.html">Introducción a R</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso41.html">Objetos en R</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso42.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Representación de variables cualitativas</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p></br><br/></p>
+<h3>
+Variable cualitativa-nominal
+</h3>
+<p>Para las <strong>variables cualitativas en escala nominal</strong>,
+se recomienda su visualización mediante una <strong>gráfica
+circular</strong> o <strong>de torta</strong>. Este tipo de gráfico
+permite identificar rápidamente la categoría con mayor participación,
+representada por el área más grande en la gráfica.</p>
+<p><br/> <strong>Gráfica circular o de torta</strong></p>
+<br/>
+<h4>
+Ventajas:
+</h4>
+<ul>
+<li><p><strong>Identificación visual</strong>: Facilita la comparación
+de las proporciones de cada categoría.</p></li>
+<li><p><strong>Porcentajes</strong>: Además de las etiquetas, se pueden
+incluir los porcentajes de participación, proporcionando una
+interpretación más clara.</p></li>
+</ul>
+<br/>
+<h4>
+Recomendaciones para variables con muchas categorías:
+</h4>
+<p>En caso de que la variable tenga muchas categorías, es posible
+reagrupar las categorías con <strong>bajas frecuencias</strong> en una
+sola llamada <strong>“Otras”</strong>. Esto mejora la presentación
+gráfica al reducir el número de segmentos y mantener la claridad de la
+información.</p>
+<br/>
+<h4>
+Importancia:
+</h4>
+<p>La representación con gráficas circulares es una herramienta valiosa
+para:</p>
+<ul>
+<li><p>Comunicar la proporción relativa de las categorías de forma
+visual y efectiva.</p></li>
+<li><p>Destacar la participación de cada categoría en el total.</p></li>
+<li><p>Mejorar la interpretación y presentación de datos
+cualitativos.</p></li>
+</ul>
+<p><br/><br/></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se presentan los códigos en <strong>R</strong> para
+generar un <strong>gráfico de pastel</strong> (ver <strong>Figura
+1.31</strong>) que representa las frecuencias de la variable
+<code>categoria</code> en el conjunto de datos
+<code>CarreraLuz22</code>.</p>
+<pre>
+# Cargar los datos
+data = CarreraLuz22
+
+# Crear una tabla de frecuencias para la variable 'categoria'
+t1 = table(data$categoria)
+
+# Generar el gráfico de pastel
+pie(t1, main = "Distribución por Categoría")
+</pre>
+<pre class="r"><code># Cargar los datos
+data = CarreraLuz22
+
+# Crear una tabla de frecuencias para la variable &#39;categoria&#39;
+t1 = table(data$categoria)
+
+# Generar el gráfico de pastel
+pie(t1, main = &quot;Distribución por Categoría&quot;)</code></pre>
+<img src="recurso31_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+<strong>Figura 1.31</strong> Gráfico de pastel.
+</p>
+</div>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>En esta actividad, se presenta un código para explorar cómo generar
+un <strong>gráfico de pastel</strong> utilizando la función
+<code>PieChart</code> del paquete <code>lessR</code>. Este gráfico
+incluye características personalizables como colores, etiquetas de
+porcentajes y estilos adicionales.<br/></p>
+<pre>
+# Cargar las librerías necesarias
+library(paqueteMETODOS)
+# install.packages("lessR")
+library(lessR)
+<br/>
+# Cargar los datos
+data = CarreraLuz22
+<br/>
+# Generar el gráfico de pastel
+PieChart(categoria, 
+hole = 0,              # Sin agujero en el centro
+values = "%",          # Mostrar porcentajes
+data = CarreraLuz22,   # Especificar el conjunto de datos
+fill = "blues",        # Paleta de colores en tonos azules
+main = "",             # Título del gráfico
+values_size = 0.8)     # Tamaño de los valores mostrados
+</pre>
+<p><br/></p>
+</blockquote>
+<pre class="r"><code># Cargar las librerías necesarias
+library(paqueteMETODOS)
+# install.packages(&quot;lessR&quot;)
+library(lessR)
+# Cargar los datos
+data = CarreraLuz22
+# Generar el gráfico de pastel
+PieChart(categoria, 
+         hole = 0,              # Sin agujero en el centro
+         values = &quot;%&quot;,          # Mostrar porcentajes
+         data = CarreraLuz22,   # Especificar el conjunto de datos
+         fill = &quot;blues&quot;,        # Paleta de colores en tonos azules
+         main = &quot;&quot;,             # Título del gráfico
+         values_size = 0.8)     # Tamaño de los valores mostrados</code></pre>
+</div>
+<p><br/><br/></p>
+<h3>
+Variable cualitativa-ordinal
+</h3>
+<p>Las <strong>variables ordinales</strong> son muy comunes en
+disciplinas como psicología, marketing, salud y procesos de evaluación.
+Estas variables representan categorías con un <strong>orden
+intrínseco</strong>, lo que facilita interpretaciones basadas en
+jerarquías o niveles.</p>
+<p>Para visualizar este tipo de variables, se suelen emplear
+<strong>diagramas de barras</strong>. Este formato destaca las
+diferencias en frecuencia o proporción de las categorías, manteniendo el
+orden jerárquico de las mismas.</p>
+<p><br/> <strong>Diagrama de barras simple</strong></p>
+<br/>
+<h4>
+Colores:
+</h4>
+<p>El uso de colores en los diagramas de barras puede reforzar el
+significado de las categorías. Una práctica común es utilizar
+<strong>paletas que representan el semáforo</strong>:</p>
+<ul>
+<li><p><strong>Rojo</strong>: Para categorías negativas o de menor
+puntuación.</p></li>
+<li><p><strong>Amarillo</strong>: Para categorías intermedias.</p></li>
+<li><p><strong>Verde</strong>: Para categorías positivas o de mayor
+puntuación.</p></li>
+</ul>
+<br/>
+<h4>
+Ventajas:
+</h4>
+<p>Los gráficos de barras para variables ordinales son útiles para:</p>
+<ul>
+<li><p>Analizar distribuciones jerárquicas de categorías.</p></li>
+<li><p>Facilitar la interpretación visual del comportamiento de los
+datos.</p></li>
+<li><p>Destacar patrones o tendencias dentro de las mediciones.</p></li>
+</ul>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se presenta un fragmento de código en
+<strong>R</strong> para construir un gráfico de barras simple (ver
+<strong>Figura 1.32</strong>) que representa una evaluación de un
+proceso de inducción, utilizando una paleta de colores que refuerza el
+significado de las categorías.</p>
+<pre>
+# Datos de evaluación
+ev = c(5, 13, 30, 52, 35)
+ev = as.table(ev)
+
+# Nombres de las categorías
+names(ev) = c("MR", "R", "B", "MB", "E")
+
+# Gráfico de barras con colores personalizados
+barplot(
+  ev, 
+  col = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66"), 
+  main = "Evaluación proceso de inducción",
+  las = 1
+)
+</pre>
+<pre class="r"><code># Datos de evaluación
+ev = c(5, 13, 30, 52, 35)
+ev = as.table(ev)
+
+# Nombres de las categorías
+names(ev) = c(&quot;MR&quot;, &quot;R&quot;, &quot;B&quot;, &quot;MB&quot;, &quot;E&quot;)
+
+# Gráfico de barras con colores personalizados
+barplot(
+  ev, 
+  col = c(&quot;#f95738&quot;, &quot;#ee964b&quot;, &quot;#f4d35e&quot;, &quot;#faf0ca&quot;, &quot;#0d3b66&quot;), 
+  main = &quot;Evaluación proceso de inducción&quot;,
+  las = 1
+)</code></pre>
+<img src="recurso31_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<strong>Figura 1.32</strong> Gráfico de barras.
+</p>
+</div>
+</pre>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>
+<blockquote>
+<p>En esta actividad, se presentan dos fragmentos de código que permiten
+explorar cómo generar gráficos de barras estáticos y gráficos
+interactivos para representar los datos de evaluación de un proceso de
+inducción.</p>
+<p><br/> <strong>Código 1: Gráfico Estático con
+<code>ggplot2</code></strong>: El primer código genera un
+<strong>gráfico de barras estático</strong> utilizando
+<code>ggplot2</code>, con colores personalizados para cada
+categoría.</p>
+<pre>
+library(ggplot2)
+
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+geom_bar(stat = "identity", width = 0.7) +
+scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+labs(
+title = "Evaluación proceso de inducción",
+x = "Categoría",
+y = "Frecuencia"
+) +
+theme_minimal() +
+theme(legend.position = "none")  # Esta línea quita la leyenda
+</pre>
+<p><br/></p>
+</blockquote>
+<pre class="r"><code>library(ggplot2)
+
+# Datos de evaluación
+ev &lt;- c(5, 13, 30, 52, 35)
+categories &lt;- c(&quot;Muy regular&quot;, &quot;Regular&quot;, &quot;Bueno&quot;, &quot;Muy bueno&quot;, &quot;Excelente&quot;)
+ev_data &lt;- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = &quot;identity&quot;, width = 0.7) +
+  scale_fill_manual(values = c(&quot;#f95738&quot;, &quot;#ee964b&quot;, &quot;#f4d35e&quot;, &quot;#faf0ca&quot;, &quot;#0d3b66&quot;)) +
+  labs(
+    title = &quot;Evaluación proceso de inducción&quot;,
+    x = &quot;Categoría&quot;,
+    y = &quot;Frecuencia&quot;
+  ) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)  # Esta línea quita la leyenda</code></pre>
+<blockquote>
+<p><br/> <strong>Código 2: Gráfico Interactivo con plotly</strong>: El
+segundo código convierte el gráfico de barras generado con
+<code>ggplot2</code> en un gráfico interactivo utilizando
+<code>plotly</code>.</p>
+<pre>
+library(ggplot2)
+library(plotly)
+
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+plot <- ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+geom_bar(stat = "identity", width = 0.7) +
+scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+labs(
+title = "Evaluación proceso de inducción",
+x = "Categoría",
+y = "Frecuencia"
+) +
+theme_minimal() +
+theme(legend.position = "none")  # Esta línea quita la leyenda
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo de plotly
+plotly_graph <- ggplotly(plot, tooltip = c("x", "y"))
+
+# Imprimir el gráfico interactivo
+print(plotly_graph)
+</pre>
+<p><br/></p>
+</blockquote>
+<pre class="r"><code>library(ggplot2)
+library(plotly)
+
+# Datos de evaluación
+ev &lt;- c(5, 13, 30, 52, 35)
+categories &lt;- c(&quot;Muy regular&quot;, &quot;Regular&quot;, &quot;Bueno&quot;, &quot;Muy bueno&quot;, &quot;Excelente&quot;)
+ev_data &lt;- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+plot &lt;- ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = &quot;identity&quot;, width = 0.7) +
+  scale_fill_manual(values = c(&quot;#f95738&quot;, &quot;#ee964b&quot;, &quot;#f4d35e&quot;, &quot;#faf0ca&quot;, &quot;#0d3b66&quot;)) +
+  labs(
+    title = &quot;Evaluación proceso de inducción&quot;,
+    x = &quot;Categoría&quot;,
+    y = &quot;Frecuencia&quot;
+  ) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)  # Esta línea quita la leyenda
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo de plotly
+plotly_graph &lt;- ggplotly(plot, tooltip = c(&quot;x&quot;, &quot;y&quot;))
+
+# Imprimir el gráfico interactivo
+print(plotly_graph)</code></pre>
+<blockquote>
+<p><br/> <strong>Explora los códigos</strong>:</p>
+<ul>
+<li><p>Ejecútalos para generar tanto el gráfico estático como el gráfico
+interactivo.</p></li>
+<li><p>Observa cómo el gráfico interactivo permite explorar más
+detalles, como los valores exactos de las barras.</p></li>
+</ul>
+<p><br/> <strong>Modifica el Código</strong>:</p>
+<ul>
+<li><p>Cambia los colores en <code>scale_fill_manual</code> para
+personalizar el diseño.</p></li>
+<li><p>Ajusta el ancho de las barras con el argumento width en
+<code>geom_bar</code>.</p></li>
+<li><p>En el gráfico interactivo, experimenta con las opciones de
+<code>tooltip</code> en <code>ggplotly</code>.</p></li>
+</ul>
+<p><br/> <strong>Reflexión</strong>:</p>
+<ul>
+<li><p>Compara los gráficos estático e interactivo.</p></li>
+<li><p>¿En qué situaciones usarías cada tipo de gráfico?</p></li>
+<li><p>¿Qué ventajas ofrece el gráfico interactivo frente al
+estático?</p></li>
+</ul>
+</blockquote>
+</p>
+</div>
+<p><br/><br/> <strong>Diagrama de barras compuesto</strong></p>
+<p>Cuando se requiere representar dos variables cualitativas al mismo
+tiempo, es necesario construir una <strong>tabla cruzada</strong> o
+<strong>tabla de doble entrada</strong>. A partir de esta tabla, se
+puede generar un <strong>diagrama de barras compuesto</strong>, que
+permite visualizar la relación entre las dos variables de manera clara y
+comparativa.</p>
+<p>Utiliza funciones como <code>table()</code> en <strong>R</strong>
+para crear la tabla de frecuencias cruzadas entre las dos variables.</p>
+<p>Usa un <strong>diagrama de barras compuesto</strong> para mostrar la
+distribución conjunta de las variables. Las barras se dividen en
+segmentos que representan las categorías de una de las variables.</p>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se presentan los códigos en <strong>R</strong> para
+construir un <strong>gráfico de barras compuesto</strong> (ver
+<strong>Figura 1.33</strong>). Este gráfico representa la distribución
+del número de atletas por categoría y sexo, utilizando colores
+diferenciados para cada sexo.</p>
+<br/>
+<pre>
+# Cargar las librerías necesarias
+library(ggplot2)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data("CarreraLuz22")
+
+# Crear un data frame a partir de la tabla cruzada
+conteo <- table(CarreraLuz22$sex, CarreraLuz22$categoria)
+conteo_df <- as.data.frame(conteo)
+colnames(conteo_df) <- c("Sexo", "Categoría", "Frecuencia")
+
+# Generar el gráfico de barras compuesto con ggplot2
+ggplot(conteo_df, aes(x = Categoría, y = Frecuencia, fill = Sexo)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    title = "Número de atletas por categoría y sexo",
+    x = "Categorías",
+    y = "Número de atletas"
+  ) +
+  scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    legend.title = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+</pre>
+<pre class="r"><code># Cargar las librerías necesarias
+library(ggplot2)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data(&quot;CarreraLuz22&quot;)
+
+# Crear un data frame a partir de la tabla cruzada
+conteo &lt;- table(CarreraLuz22$sex, CarreraLuz22$categoria)
+conteo_df &lt;- as.data.frame(conteo)
+colnames(conteo_df) &lt;- c(&quot;Sexo&quot;, &quot;Categoría&quot;, &quot;Frecuencia&quot;)
+
+# Generar el gráfico de barras compuesto con ggplot2
+ggplot(conteo_df, aes(x = Categoría, y = Frecuencia, fill = Sexo)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;stack&quot;) +
+  labs(
+    title = &quot;Número de atletas por categoría y sexo&quot;,
+    x = &quot;Categorías&quot;,
+    y = &quot;Número de atletas&quot;
+  ) +
+  scale_fill_manual(values = c(&quot;#0d3b66&quot;, &quot;#f4d35e&quot;)) +
+  theme_minimal() +
+  theme(
+    legend.position = &quot;top&quot;,
+    legend.title = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )</code></pre>
+<img src="recurso31_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<strong>Figura 1.33</strong> Gráfico de barras compuesto.
+</p>
+</div>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+En esta actividad, se presenta un código para explorar cómo generar un
+<strong>gráfico de barras apilado</strong> utilizando
+<code>ggplot2</code> y <code>plotly</code>. Este gráfico muestra la
+distribución de atletas por categoría y sexo. También se incluye una
+actividad para representar el gráfico invirtiendo las variables. <br/>
+<pre>
+# Cargar las librerías necesarias
+library(ggplot2)
+library(plotly)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data("CarreraLuz22")
+# Gráfico de barras por categoría y sexo
+p1 = ggplot(CarreraLuz22, aes(x = categoria, fill = sex)) +
+geom_bar(position = "stack", width = 0.7) +                    
+labs(
+title = "Número de atletas por categoría y sexo",            
+x = "Categorías",                                            
+y = "Número de atletas"                                      
+) +
+scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +          
+theme_minimal() +                                              
+theme(
+legend.position = "top",                                     
+legend.title = element_blank()                               
+)
+
+# Convertir el gráfico a interactivo
+ggplotly(p1)
+
+# Gráfico de barras por sexo y categoría
+p2 = ggplot(CarreraLuz22, aes(x = sex, fill = categoria)) +
+geom_bar(position = "stack", width = 0.7) +                    
+labs(
+title = "Número de atletas por sexo y categoría",            
+x = "Sexo",                                                  
+y = "Número de atletas"                                      
+) +
+scale_fill_brewer(palette = "Set3") +                          
+theme_minimal() +                                              
+theme(
+legend.position = "top",                                     
+legend.title = element_blank()                               
+)
+
+# Convertir el gráfico a interactivo
+ggplotly(p2)
+</pre>
+<p><br/></p>
+</blockquote>
+<pre class="r"><code># Cargar las librerías necesarias
+library(ggplot2)
+library(plotly)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data(&quot;CarreraLuz22&quot;)
+
+# Gráfico de barras por categoría y sexo
+p1 = ggplot(CarreraLuz22, aes(x = categoria, fill = sex)) +
+  geom_bar(position = &quot;stack&quot;, width = 0.7) +                    
+  labs(
+    title = &quot;Número de atletas por categoría y sexo&quot;,            
+    x = &quot;Categorías&quot;,                                            
+    y = &quot;Número de atletas&quot;                                      
+  ) +
+  scale_fill_manual(values = c(&quot;#0d3b66&quot;, &quot;#f4d35e&quot;)) +          
+  theme_minimal() +                                              
+  theme(
+    legend.position = &quot;top&quot;,                                     
+    legend.title = element_blank()                               
+  )
+
+# Convertir el gráfico a interactivo
+ggplotly(p1)
+
+# Gráfico de barras por sexo y categoría
+p2 = ggplot(CarreraLuz22, aes(x = sex, fill = categoria)) +
+  geom_bar(position = &quot;stack&quot;, width = 0.7) +                    
+  labs(
+    title = &quot;Número de atletas por sexo y categoría&quot;,            
+    x = &quot;Sexo&quot;,                                                  
+    y = &quot;Número de atletas&quot;                                      
+  ) +
+  scale_fill_brewer(palette = &quot;Set3&quot;) +                          
+  theme_minimal() +                                              
+  theme(
+    legend.position = &quot;top&quot;,                                     
+    legend.title = element_blank()                               
+  )
+
+# Convertir el gráfico a interactivo
+ggplotly(p2)</code></pre>
+<p>¿Cuál de los dos gráficos prefieres? ¿Porqué?</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

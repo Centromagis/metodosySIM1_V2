@@ -1,0 +1,117 @@
+---
+title: <span style="color:#034a94">**Experiencia**</span>
+subtitle: " "
+author: " "
+date: " "
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(summarytools)
+
+
+c1 ="#FF7F00"  # naranja - color primario 
+c2 ="#034A94"  # azul oscuro - color secundario
+c3 ="#0EB0C6"  # azul claro - color terciario
+c4 ="#686868"  # gris - color texto
+```
+
+
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/banner_presentacion.png")
+```
+
+
+</br>
+
+En esta unidad nos ocuparemos de construir conocimiento en torno a tres conceptos: conceptos básicos de estadística, análisis exploratorio de datos y manejo del software R. 
+
+Utilizaremos los pasos de la **Metodología Estadística** como estrategia para ubicar los métodos estadísticos empleados en este curso:
+
+<br/>
+
+
+<div class="content-box-blue">
+1. **Definición del problema**  
+2. **Definición de los objetivos**  
+3. **Definición de las variables de interés**  
+4. **Diseño del experimento**  
+5. **Recolección de la información**  
+6. **Procesamiento de los datos**  
+7. <span style="color:#034A94">**Análisis descriptivo o exploratorio de datos**</span>  
+8. <span style="color:#034A94">**Inferencia estadística**</span>  
+9. **Conclusiones y recomendaciones**  
+</div>
+
+
+La **Metodología Estadística** está basada en el método científico, el cual corresponde a un procedimiento iterativo de aprendizaje compuesto por las siguientes etapas:  
+
+1. **Formulación de una hipótesis**  
+2. **Observación**  
+3. **Análisis de información**  
+4. **Prueba de la hipótesis**  
+5. **Interpretación de resultados**  
+6. **Decisión**  
+
+
+<br/>
+
+Es necesario tener en cuenta, al realizar un análisis exploratorio de datos, los pasos previos, como la definición del problema objeto de estudio, la meta (objetivos) o finalidad del estudio. También es importante determinar qué variables debemos recoger para cumplir con el objetivo propuesto, además del diseño del experimento, es decir, cómo se requiere recolectar la información, cuánta información, las fuentes y los medios para su procesamiento.
+
+Después de tener claridad sobre los pasos anteriores (1 a 6 de la metodología estadística), se inicia el análisis exploratorio de datos. Este análisis permite realizar una primera aproximación a los objetivos planteados.
+
+
+
+<br/>
+
+## Contenido de la unidad
+
+1.  **Conceptos básicos**
+  * Conceptos
+  * Importar 
+  * Ordenar
+  * Transformar
+
+<br/>
+
+2.  **Análisis de datos**
+  * Tablas de de frecuencia
+  * Indicadores
+    * Indicadores de posición
+    * Indicadores de centro
+    * Indicadores de dispersión
+    * Indicadores de forma
+
+<br/>
+
+3.  **Gráficas**
+  * Representación de variables cualitativas
+  * Representación de variables cuantitativas
+  * Representaciones multivariadas
+
+<br/>
+
+4.  **Software R**
+  * Introducción
+  * Objetos en R
+
+<br/>
+
+5.  **Casos de estudio**
+  * Caso 1
+  * Caso 2
+  * Caso 3
+
+<br/>
+
+6.  **Referencias**  
+ 
+
+

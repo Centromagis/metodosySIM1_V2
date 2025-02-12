@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Indicadores de posición</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos básicos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10.html">Conceptos básicos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso11.html">Conceptos</a>
+    </li>
+    <li>
+      <a href="recurso12.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso13.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso15.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20.html">Análisis de datos</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso21.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Representación gráfica de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30.html">Representación gráfica</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso31.html">Representación de variables cualitativas</a>
+    </li>
+    <li>
+      <a href="recurso32.html">Representación de variables cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33.html">Representaciones multivariadas</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40.html">Introducción a R</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="recurso41.html">Objetos en R</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso42.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Indicadores de posición</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p></br></p>
+<h2>
+Indicadores
+</h2>
+<p>Al abordar un automóvil, podemos observar un tablero con múltiples
+indicadores que permiten al conductor monitorear el estado del vehículo.
+Entre ellos se encuentran el nivel de combustible, la temperatura del
+motor, el estado de la batería, la señalización de puertas abiertas, la
+velocidad a la que se viaja, y los indicadores de luces estacionarias o
+de giro, entre otros. Estos elementos proporcionan información esencial
+que permite tomar decisiones de manera oportuna.</p>
+<p>Todos estos indicadores son el resultado de datos sintetizados
+mediante diferentes métodos, con el objetivo de presentar información
+relevante de forma clara y comprensible para el conductor.</p>
+<p><img src="img/tablero_carro.gif" width="70%" style="display: block; margin: auto;" />
+</br></p>
+<p>De manera similar a la situación descrita anteriormente, cuando nos
+enfrentamos al análisis de datos, es necesario resumirlos utilizando
+indicadores, tablas y gráficos que permitan una interpretación más
+sencilla y clara. Por ejemplo, en el caso de los datos cuantitativos,
+las tablas de frecuencia son herramientas útiles para identificar el
+valor con mayor frecuencia (el valor más repetido), conocido como
+<strong>MODA</strong>.</p>
+<p>Para las variables cuantitativas, existe una variedad de indicadores
+que facilitan su caracterización y análisis. Estos se agrupan en las
+siguientes categorías principales:</p>
+<ul>
+<li><p><strong>Indicadores de posición</strong>: Ayudan a determinar la
+ubicación relativa de los valores dentro del conjunto de datos (como
+percentiles y cuartiles).</p></li>
+<li><p><strong>Indicadores de centro</strong>: Describen el valor
+central o representativo de los datos (como la media, mediana y
+moda).</p></li>
+<li><p><strong>Indicadores de dispersión o variabilidad</strong>:
+Evalúan la dispersión de los datos en torno a su centro (como la
+varianza, desviación estándar y rango intercuartílico).</p></li>
+<li><p><strong>Indicadores de forma</strong>: Analizan la distribución
+de los datos, considerando su asimetría y curtosis.</p></li>
+</ul>
+<p>Estos indicadores, en conjunto, proporcionan una base sólida para
+comprender las características fundamentales de los datos y tomar
+decisiones informadas a partir de ellos.</p>
+<p></br></br></p>
+<!-- ======================================================================= -->
+<h2>
+Indicadores de posición
+</h2>
+<p>Los <strong>indicadores de posición</strong> son medidas que dividen
+un conjunto de datos en partes iguales, permitiendo localizar un valor
+específico dentro de una distribución. Los indicadores más conocidos
+son:</p>
+<ul>
+<li><strong>Deciles</strong>: Dividen los datos en 10 partes
+iguales.</li>
+<li><strong>Cuartiles</strong>: Dividen los datos en 4 partes
+iguales.</li>
+<li><strong>Quintiles</strong>: Dividen los datos en 5 partes
+iguales.</li>
+<li><strong>Percentiles</strong>: Dividen los datos en 100 partes
+iguales.</li>
+</ul>
+<p>Cada indicador se utiliza para analizar y comprender cómo se
+distribuyen los datos, permitiendo identificar posiciones específicas
+dentro de la población o muestra. A continuación, se presenta una
+descripción detallada de cada uno de estos indicadores.</p>
+<h3>
+Percentiles
+</h3>
+<p>Los <strong>percentiles</strong> son 99 valores que dividen los datos
+en cien partes iguales, cada una de las cuales contiene el 1% de las
+observaciones. Estos valores están representados como <span
+class="math inline">\(P_1, P_2, P_3, P_4, \dots, P_{99}\)</span>, donde
+cada percentil indica el punto debajo del cual se encuentra un
+porcentaje específico de los datos.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><p>El percentil <span class="math inline">\(P_{25}\)</span>
+corresponde al primer cuartil, que contiene el 25% de los
+datos.</p></li>
+<li><p>El percentil <span class="math inline">\(P_{50}\)</span> coincide
+con la mediana, dividiendo los datos en dos mitades iguales.</p></li>
+</ul>
+<p></br></br></p>
+<h3>
+Deciles
+</h3>
+<p>Los <strong>deciles</strong> son 9 valores que dividen la muestra en
+10 partes iguales, cada una de las cuales contiene el 10% de las
+observaciones. Estos valores están representados como <span
+class="math inline">\(D_1, D_2, D_3, D_4, \cdots, D_9\)</span>, y
+permiten identificar puntos específicos en la distribución de los datos
+que facilitan su interpretación.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><p>El decil <span class="math inline">\(D_1\)</span> marca el punto
+por debajo del cual se encuentra el 10% de los datos.</p></li>
+<li><p>El decil <span class="math inline">\(D_5\)</span> coincide con la
+mediana, dividiendo la muestra en dos mitades iguales.</p></li>
+</ul>
+<p></br></br></p>
+<h3>
+Cuartiles
+</h3>
+<p>Los <strong>cuartiles</strong> son 3 valores que dividen la muestra
+en cuatro partes iguales, cada una de las cuales contiene el 25% de los
+datos. Estos valores se denotan como:</p>
+<ul>
+<li><p><span class="math inline">\(Q_1\)</span> (primer cuartil): El
+valor por debajo del cual se encuentra el 25% de los datos.</p></li>
+<li><p><span class="math inline">\(Q_2\)</span> (segundo cuartil):
+También conocido como la mediana, que divide los datos en dos mitades
+iguales.</p></li>
+<li><p><span class="math inline">\(Q_3\)</span> (tercer cuartil): El
+valor por debajo del cual se encuentra el 75% de los datos.</p></li>
+</ul>
+<p>Además de ser indicadores fundamentales para describir la
+distribución de los datos, los cuartiles son utilizados para construir
+el <strong>diagrama de cajas</strong> (boxplot). Este gráfico no solo
+permite comparar grupos de manera visual, sino que también facilita la
+identificación de datos atípicos, proporcionando una herramienta valiosa
+en el análisis exploratorio de datos. </br></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Los percentiles se utilizan ampliamente en ciencia de datos para
+comprender la distribución de los datos, identificar valores atípicos y
+realizar análisis comparativos. Estos indicadores son fundamentales para
+describir el comportamiento de una variable y para tomar decisiones
+basadas en datos. Como por ejemplo:</p>
+<p><strong>Identificación de valores atípicos</strong>: Los percentiles
+son herramientas efectivas para detectar valores extremos o atípicos en
+un conjunto de datos. Un método comúnmente utilizado para este propósito
+se basa en los <strong>cuartiles</strong> y los rangos intercuartílicos
+(IQR, por sus siglas en inglés). Los límites para identificar valores
+atípicos se calculan como:</p>
+<p><span class="math display">\[
+\text{Límite inferior} = Q_1 - 1.5 \times (\text{IQR})
+\]</span> <span class="math display">\[
+\text{Límite superior} = Q_3 + 1.5 \times (\text{IQR})
+\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><p><span class="math inline">\(Q_1\)</span>: Primer cuartil
+(percentil 25).</p></li>
+<li><p><span class="math inline">\(Q_3\)</span>: Tercer cuartil
+(percentil 75).</p></li>
+<li><p><span class="math inline">\(\text{IQR} = Q_3 - Q_1\)</span>:
+Rango intercuartílico.</p></li>
+</ul>
+<p>Los valores que caen fuera de estos límites se consideran atípicos.
+Este enfoque fue propuesto por John Tukey en 1977 y se utiliza
+ampliamente en análisis exploratorio de datos.</p>
+<p></br></br></p>
+<p><strong>Análisis de rendimiento en pruebas estandarizadas</strong>:
+En el sector educativo, los percentiles son ampliamente utilizados para
+informar sobre el rendimiento de los estudiantes en pruebas
+estandarizadas. Por ejemplo, un puntaje en el percentil 75 indica que el
+estudiante superó al 75% de los participantes en la prueba, lo que
+posiciona su desempeño en el cuarto superior del grupo.</p>
+<p></br></br></p>
+<p><strong>Evaluación de distribuciones de ingresos</strong>: En
+economía y sociología, los percentiles se utilizan para analizar la
+distribución de ingresos. Un enfoque común es el uso de
+<strong>quintiles</strong>, que dividen la población en cinco grupos
+iguales, cada uno representando el 20% de la distribución de ingresos.
+Estos quintiles corresponden a los percentiles <span
+class="math inline">\(P_{20}\)</span>, <span
+class="math inline">\(P_{40}\)</span>, <span
+class="math inline">\(P_{60}\)</span>, y <span
+class="math inline">\(P_{80}\)</span>.</p>
+<p></br></br></p>
+<p><strong>Segmentación de audiencia en marketing</strong>: En el ámbito
+del marketing, los percentiles se utilizan para segmentar audiencias
+según el comportamiento del cliente. Por ejemplo, se pueden calcular
+percentiles basados en variables como el gasto promedio, la frecuencia
+de compra o el tiempo de permanencia en una plataforma. Esto permite
+identificar grupos específicos como:</p>
+<ul>
+<li><strong>Clientes premium</strong>: Aquellos en los percentiles
+superiores (<span class="math inline">\(P_{80}\)</span> o más), que
+representan el segmento con mayor valor para la empresa.</li>
+<li><strong>Clientes frecuentes pero de bajo gasto</strong>: Aquellos en
+percentiles medios (<span class="math inline">\(P_{40}\)</span> a <span
+class="math inline">\(P_{60}\)</span>).</li>
+<li><strong>Clientes inactivos o de bajo valor</strong>: Aquellos en los
+percentiles inferiores (<span class="math inline">\(P_{20}\)</span> o
+menos). </br></br></li>
+</ul>
+<p><strong>Evaluación de rendimiento en deportes</strong>: En el
+análisis deportivo, los percentiles se utilizan para evaluar el
+rendimiento de los atletas en comparación con sus pares en diferentes
+aspectos, como velocidad, resistencia o fuerza. Por ejemplo:</p>
+<ul>
+<li>Un atleta que se encuentra en el percentil 90 en velocidad significa
+que supera al 90% de los demás atletas en esta categoría.</li>
+<li>Un atleta en el percentil 50 en resistencia tiene un rendimiento
+promedio, igualando a la mitad de los participantes.</li>
+</ul>
+<p></br></br></p>
+<p><strong>Establecimiento de límites para decisiones
+empresariales</strong>: En el ámbito empresarial, los percentiles son
+útiles para establecer límites o umbrales en la toma de decisiones
+estratégicas. Por ejemplo, una empresa podría utilizar percentiles para
+identificar y premiar a los empleados con los mejores desempeños
+basándose en un indicador de rendimiento específico:</p>
+<ul>
+<li>Aquellos empleados que se encuentren en el percentil 95 o superior
+serían reconocidos o recompensados por su alto rendimiento.</li>
+<li>Este enfoque ayuda a motivar a los empleados a alcanzar altos
+estándares y asegura que el reconocimiento esté basado en criterios
+objetivos.</li>
+</ul>
+<p></br></br></p>
+<p><strong>Comparación de rendimiento de modelos en aprendizaje
+automático</strong>: En el desarrollo de modelos de aprendizaje
+automático, los percentiles pueden ser útiles para comparar el
+rendimiento de diferentes modelos en distintas regiones de la
+distribución de datos. Por ejemplo:</p>
+<ul>
+<li>Evaluar cómo se desempeña cada modelo en los percentiles superiores
+(<span class="math inline">\(P_{90}\)</span> o más), donde pueden
+encontrarse valores extremos o casos atípicos.</li>
+<li>Analizar el rendimiento en los percentiles medios (<span
+class="math inline">\(P_{40}\)</span> a <span
+class="math inline">\(P_{60}\)</span>) para identificar si el modelo
+tiene un buen ajuste general en datos promedio.</li>
+<li>Comparar resultados en los percentiles inferiores (<span
+class="math inline">\(P_{10}\)</span> o menos) para determinar la
+capacidad del modelo de manejar datos con valores bajos o límites
+críticos.</li>
+</ul>
+<p></br></br></p>
+<p><strong>Determinación de valores críticos en salud</strong>: En
+estudios de salud, los percentiles se utilizan para establecer valores
+de referencia en medidas biológicas clave, como el índice de masa
+corporal (IMC), la presión arterial, y otros indicadores fisiológicos.
+Estos valores permiten clasificar a los pacientes en grupos de riesgo y
+establecer criterios clínicos.</p>
+<p>Por ejemplo: - Un IMC en el percentil 85 se considera un umbral para
+clasificar a un paciente en riesgo de sobrepeso. - La presión arterial
+en el percentil 95 puede ser un indicador de hipertensión, requiriendo
+intervenciones médicas específicas.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

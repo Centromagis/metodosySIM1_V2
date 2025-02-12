@@ -1,0 +1,553 @@
+---
+title: <span style="color:#686868"> **Representación de variables cualitativas**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readr)
+library(tidyverse)
+library(DT)
+library(paqueteMETODOS)
+
+data("CarreraLuz22")
+data("evaluacion")
+data("inflacionov22")
+```
+
+</br><br/>
+
+
+<h3>Variable cualitativa-nominal</h3>
+
+
+Para las **variables cualitativas en escala nominal**, se recomienda su visualización mediante una **gráfica circular** o **de torta**. Este tipo de gráfico permite identificar rápidamente la categoría con mayor participación, representada por el área más grande en la gráfica.
+
+<br/>
+**Gráfica circular o de torta**
+
+<br/>
+<h4>Ventajas:</h4>
+
+- **Identificación visual**: Facilita la comparación de las proporciones de cada categoría.
+
+- **Porcentajes**: Además de las etiquetas, se pueden incluir los porcentajes de participación, proporcionando una interpretación más clara.
+
+
+<br/>
+<h4>Recomendaciones para variables con muchas categorías: </h4>
+
+En caso de que la variable tenga muchas categorías, es posible reagrupar las categorías con **bajas frecuencias** en una sola llamada **"Otras"**. Esto mejora la presentación gráfica al reducir el número de segmentos y mantener la claridad de la información.
+
+
+<br/>
+<h4>Importancia: </h4>
+
+La representación con gráficas circulares es una herramienta valiosa para:
+
+- Comunicar la proporción relativa de las categorías de forma visual y efectiva.
+
+- Destacar la participación de cada categoría en el total.
+
+- Mejorar la interpretación y presentación de datos cualitativos.
+
+<br/><br/>
+
+
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+En este ejemplo, se presentan los códigos en **R** para generar un **gráfico de pastel** (ver **Figura 1.31**) que representa las frecuencias de la variable `categoria` en el conjunto de datos `CarreraLuz22`.
+
+<pre>
+# Cargar los datos
+data = CarreraLuz22
+
+# Crear una tabla de frecuencias para la variable 'categoria'
+t1 = table(data$categoria)
+
+# Generar el gráfico de pastel
+pie(t1, main = "Distribución por Categoría")
+</pre>
+
+```{r}
+# Cargar los datos
+data = CarreraLuz22
+
+# Crear una tabla de frecuencias para la variable 'categoria'
+t1 = table(data$categoria)
+
+# Generar el gráfico de pastel
+pie(t1, main = "Distribución por Categoría")
+```
+**Figura 1.31** Gráfico de pastel.
+</p>
+</div>
+
+
+
+<br/><br/>
+<div class="caja-actividad">
+<h3>Actividad:</h3>
+>
+En esta actividad, se presenta un código para explorar cómo generar un **gráfico de pastel** utilizando la función `PieChart` del paquete `lessR`. Este gráfico incluye características personalizables como colores, etiquetas de porcentajes y estilos adicionales.<br/>
+>
+<pre>
+# Cargar las librerías necesarias
+library(paqueteMETODOS)
+# install.packages("lessR")
+library(lessR)
+<br/>
+# Cargar los datos
+data = CarreraLuz22
+<br/>
+# Generar el gráfico de pastel
+PieChart(categoria, 
+         hole = 0,              # Sin agujero en el centro
+         values = "%",          # Mostrar porcentajes
+         data = CarreraLuz22,   # Especificar el conjunto de datos
+         fill = "blues",        # Paleta de colores en tonos azules
+         main = "",             # Título del gráfico
+         values_size = 0.8)     # Tamaño de los valores mostrados
+</pre>
+<br/>
+```{r, eval=FALSE}
+# Cargar las librerías necesarias
+library(paqueteMETODOS)
+# install.packages("lessR")
+library(lessR)
+# Cargar los datos
+data = CarreraLuz22
+# Generar el gráfico de pastel
+PieChart(categoria, 
+         hole = 0,              # Sin agujero en el centro
+         values = "%",          # Mostrar porcentajes
+         data = CarreraLuz22,   # Especificar el conjunto de datos
+         fill = "blues",        # Paleta de colores en tonos azules
+         main = "",             # Título del gráfico
+         values_size = 0.8)     # Tamaño de los valores mostrados
+```
+</div>
+<br/><br/>
+
+
+
+
+<h3>Variable cualitativa-ordinal</h3>
+
+Las **variables ordinales** son muy comunes en disciplinas como psicología, marketing, salud y procesos de evaluación. Estas variables representan categorías con un **orden intrínseco**, lo que facilita interpretaciones basadas en jerarquías o niveles.
+
+Para visualizar este tipo de variables, se suelen emplear **diagramas de barras**. Este formato destaca las diferencias en frecuencia o proporción de las categorías, manteniendo el orden jerárquico de las mismas.
+
+
+<br/>
+**Diagrama de barras simple**
+
+<br/>
+<h4>Colores: </h4>
+
+El uso de colores en los diagramas de barras puede reforzar el significado de las categorías. Una práctica común es utilizar **paletas que representan el semáforo**:
+
+- **Rojo**: Para categorías negativas o de menor puntuación.
+
+- **Amarillo**: Para categorías intermedias.
+
+- **Verde**: Para categorías positivas o de mayor puntuación.
+
+
+<br/>
+<h4>Ventajas:</h4>
+
+Los gráficos de barras para variables ordinales son útiles para:
+
+- Analizar distribuciones jerárquicas de categorías.
+
+- Facilitar la interpretación visual del comportamiento de los datos.
+
+- Destacar patrones o tendencias dentro de las mediciones.
+
+
+
+
+
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+A continuación, se presenta un fragmento de código en **R** para construir un gráfico de barras simple (ver **Figura 1.32**) que representa una evaluación de un proceso de inducción, utilizando una paleta de colores que refuerza el significado de las categorías. 
+
+<pre>
+# Datos de evaluación
+ev = c(5, 13, 30, 52, 35)
+ev = as.table(ev)
+
+# Nombres de las categorías
+names(ev) = c("MR", "R", "B", "MB", "E")
+
+# Gráfico de barras con colores personalizados
+barplot(
+  ev, 
+  col = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66"), 
+  main = "Evaluación proceso de inducción",
+  las = 1
+)
+</pre>
+
+```{r}
+# Datos de evaluación
+ev = c(5, 13, 30, 52, 35)
+ev = as.table(ev)
+
+# Nombres de las categorías
+names(ev) = c("MR", "R", "B", "MB", "E")
+
+# Gráfico de barras con colores personalizados
+barplot(
+  ev, 
+  col = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66"), 
+  main = "Evaluación proceso de inducción",
+  las = 1
+)
+```
+**Figura 1.32** Gráfico de barras.
+</p>
+</div>
+
+
+</pre>
+
+<br/><br/>
+<div class="caja-actividad">
+<h3>Actividad:</h3>
+<p>
+>
+En esta actividad, se presentan dos fragmentos de código que permiten explorar cómo generar gráficos de barras estáticos y gráficos interactivos para representar los datos de evaluación de un proceso de inducción.
+>
+<br/>
+**Código 1: Gráfico Estático con `ggplot2`**: El primer código genera un **gráfico de barras estático** utilizando `ggplot2`, con colores personalizados para cada categoría.
+>
+<pre>
+library(ggplot2)
+>
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+>
+# Crear el gráfico de barras con ggplot2
+ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+  labs(
+    title = "Evaluación proceso de inducción",
+    x = "Categoría",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")  # Esta línea quita la leyenda
+</pre>
+<br/>
+
+```{r, eval=FALSE}
+library(ggplot2)
+
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+  labs(
+    title = "Evaluación proceso de inducción",
+    x = "Categoría",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")  # Esta línea quita la leyenda
+```
+>
+<br/>
+**Código 2: Gráfico Interactivo con plotly**: El segundo código convierte el gráfico de barras generado con `ggplot2` en un gráfico interactivo utilizando `plotly`.
+>
+<pre>
+library(ggplot2)
+library(plotly)
+>
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+>
+# Crear el gráfico de barras con ggplot2
+plot <- ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+  labs(
+    title = "Evaluación proceso de inducción",
+    x = "Categoría",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")  # Esta línea quita la leyenda
+>
+# Convertir el gráfico de ggplot2 a un gráfico interactivo de plotly
+plotly_graph <- ggplotly(plot, tooltip = c("x", "y"))
+>
+# Imprimir el gráfico interactivo
+print(plotly_graph)
+</pre>
+<br/>
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(plotly)
+
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+plot <- ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+  labs(
+    title = "Evaluación proceso de inducción",
+    x = "Categoría",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")  # Esta línea quita la leyenda
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo de plotly
+plotly_graph <- ggplotly(plot, tooltip = c("x", "y"))
+
+# Imprimir el gráfico interactivo
+print(plotly_graph)
+```
+
+>
+<br/>
+**Explora los códigos**:
+>
+- Ejecútalos para generar tanto el gráfico estático como el gráfico interactivo.
+>
+- Observa cómo el gráfico interactivo permite explorar más detalles, como los valores exactos de las barras. 
+>
+<br/>
+**Modifica el Código**:
+>
+- Cambia los colores en `scale_fill_manual` para personalizar el diseño.
+>
+- Ajusta el ancho de las barras con el argumento width en `geom_bar`.
+>
+- En el gráfico interactivo, experimenta con las opciones de `tooltip` en `ggplotly`.
+>
+<br/>
+**Reflexión**: 
+>
+- Compara los gráficos estático e interactivo.
+>
+- ¿En qué situaciones usarías cada tipo de gráfico?
+>
+- ¿Qué ventajas ofrece el gráfico interactivo frente al estático?
+</p>
+</div>
+
+
+<br/><br/>
+**Diagrama de barras compuesto**
+
+Cuando se requiere representar dos variables cualitativas al mismo tiempo, es necesario construir una **tabla cruzada** o **tabla de doble entrada**. A partir de esta tabla, se puede generar un **diagrama de barras compuesto**, que permite visualizar la relación entre las dos variables de manera clara y comparativa. 
+
+Utiliza funciones como `table()` en **R** para crear la tabla de frecuencias cruzadas entre las dos variables.
+
+Usa un **diagrama de barras compuesto** para mostrar la distribución conjunta de las variables. Las barras se dividen en segmentos que representan las categorías de una de las variables.
+
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p>
+En este ejemplo, se presentan los códigos en **R** para construir un **gráfico de barras compuesto** (ver **Figura 1.33**). Este gráfico representa la distribución del número de atletas por categoría y sexo, utilizando colores diferenciados para cada sexo. 
+
+<br/>
+<pre>
+# Cargar las librerías necesarias
+library(ggplot2)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data("CarreraLuz22")
+
+# Crear un data frame a partir de la tabla cruzada
+conteo <- table(CarreraLuz22$sex, CarreraLuz22$categoria)
+conteo_df <- as.data.frame(conteo)
+colnames(conteo_df) <- c("Sexo", "Categoría", "Frecuencia")
+
+# Generar el gráfico de barras compuesto con ggplot2
+ggplot(conteo_df, aes(x = Categoría, y = Frecuencia, fill = Sexo)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    title = "Número de atletas por categoría y sexo",
+    x = "Categorías",
+    y = "Número de atletas"
+  ) +
+  scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    legend.title = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+</pre>
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data("CarreraLuz22")
+
+# Crear un data frame a partir de la tabla cruzada
+conteo <- table(CarreraLuz22$sex, CarreraLuz22$categoria)
+conteo_df <- as.data.frame(conteo)
+colnames(conteo_df) <- c("Sexo", "Categoría", "Frecuencia")
+
+# Generar el gráfico de barras compuesto con ggplot2
+ggplot(conteo_df, aes(x = Categoría, y = Frecuencia, fill = Sexo)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    title = "Número de atletas por categoría y sexo",
+    x = "Categorías",
+    y = "Número de atletas"
+  ) +
+  scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    legend.title = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+**Figura 1.33** Gráfico de barras compuesto.
+</p>
+</div>
+
+
+
+<br/><br/>
+<div class="caja-actividad">
+<h3>Actividad:</h3>
+>
+En esta actividad, se presenta un código para explorar cómo generar un **gráfico de barras apilado** utilizando `ggplot2` y `plotly`. Este gráfico muestra la distribución de atletas por categoría y sexo. También se incluye una actividad para representar el gráfico invirtiendo las variables.
+<br/>
+<pre>
+# Cargar las librerías necesarias
+library(ggplot2)
+library(plotly)
+library(paqueteMETODOS)
+>
+# Cargar los datos
+data("CarreraLuz22")
+# Gráfico de barras por categoría y sexo
+p1 = ggplot(CarreraLuz22, aes(x = categoria, fill = sex)) +
+  geom_bar(position = "stack", width = 0.7) +                    
+  labs(
+    title = "Número de atletas por categoría y sexo",            
+    x = "Categorías",                                            
+    y = "Número de atletas"                                      
+  ) +
+  scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +          
+  theme_minimal() +                                              
+  theme(
+    legend.position = "top",                                     
+    legend.title = element_blank()                               
+  )
+>
+# Convertir el gráfico a interactivo
+ggplotly(p1)
+>
+# Gráfico de barras por sexo y categoría
+p2 = ggplot(CarreraLuz22, aes(x = sex, fill = categoria)) +
+  geom_bar(position = "stack", width = 0.7) +                    
+  labs(
+    title = "Número de atletas por sexo y categoría",            
+    x = "Sexo",                                                  
+    y = "Número de atletas"                                      
+  ) +
+  scale_fill_brewer(palette = "Set3") +                          
+  theme_minimal() +                                              
+  theme(
+    legend.position = "top",                                     
+    legend.title = element_blank()                               
+  )
+>
+# Convertir el gráfico a interactivo
+ggplotly(p2)
+</pre>
+>
+<br/>
+
+```{r, eval=FALSE}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(plotly)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data("CarreraLuz22")
+
+# Gráfico de barras por categoría y sexo
+p1 = ggplot(CarreraLuz22, aes(x = categoria, fill = sex)) +
+  geom_bar(position = "stack", width = 0.7) +                    
+  labs(
+    title = "Número de atletas por categoría y sexo",            
+    x = "Categorías",                                            
+    y = "Número de atletas"                                      
+  ) +
+  scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +          
+  theme_minimal() +                                              
+  theme(
+    legend.position = "top",                                     
+    legend.title = element_blank()                               
+  )
+
+# Convertir el gráfico a interactivo
+ggplotly(p1)
+
+# Gráfico de barras por sexo y categoría
+p2 = ggplot(CarreraLuz22, aes(x = sex, fill = categoria)) +
+  geom_bar(position = "stack", width = 0.7) +                    
+  labs(
+    title = "Número de atletas por sexo y categoría",            
+    x = "Sexo",                                                  
+    y = "Número de atletas"                                      
+  ) +
+  scale_fill_brewer(palette = "Set3") +                          
+  theme_minimal() +                                              
+  theme(
+    legend.position = "top",                                     
+    legend.title = element_blank()                               
+  )
+
+# Convertir el gráfico a interactivo
+ggplotly(p2)
+```
+
+¿Cuál de los dos gráficos prefieres? ¿Porqué?
+</div>
+
+
+
