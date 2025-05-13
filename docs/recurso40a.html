@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Algunos conceptos</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/wordcloud2-0.0.1/wordcloud.css" rel="stylesheet" />
+<script src="site_libs/wordcloud2-0.0.1/wordcloud2-all.js"></script>
+<script src="site_libs/wordcloud2-0.0.1/hover.js"></script>
+<script src="site_libs/wordcloud2-binding-0.2.1/wordcloud2.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Algunos conceptos</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<pre class="r"><code>#library(&quot;tm&quot;)
+#library(&quot;SnowballC&quot;)
+library(&quot;wordcloud2&quot;)
+library(&quot;RColorBrewer&quot;)
+
+palabras= c(&quot;Estadística&quot;, 
+            &quot;Análisis descriptivo&quot;,&quot;Inferencia estadística&quot;,
+            &quot;Validez&quot;, &quot;Unidad de análisis&quot;, 
+            &quot;Variable aleatoria&quot;, 
+            &quot;Variable cualitativa&quot;, &quot;Variable cuantitativa&quot;,
+            &quot;Variable discreta&quot;, &quot;Variable continua&quot;, &quot;Escala nominal&quot;,
+            &quot;Escala ordinal&quot;, &quot;Escala de intervalo&quot;, &quot;Escala de razón&quot; ,
+            &quot;Población&quot;, &quot;Muestra&quot;, &quot;Parámetro&quot;, &quot;Estimador&quot;, 
+            &quot;Muestreo&quot;, &quot;Tipo de muestreo&quot;,
+            &quot;Muestreo probabilistico&quot;, &quot;Muestreo no probabilistico&quot;,
+            &quot;Muestreo por conveniencia&quot;,
+            &quot;Muestreo por juicio&quot;,
+            &quot;Muestreo por cuotas&quot;,
+            &quot;Muestreo bola de nieve&quot;,
+            &quot;Muestreo aleatorio simple&quot;,
+            &quot;Muestreo aleatorio estratificado&quot;,
+            &quot;Muestreo aleatorio sistemático&quot;,
+            &quot;Muestreo aleatorio por conglomerados&quot;)
+
+frecuencia = c(10, 8, 8, 
+              7, 7, 7, 7, 7, 7, 
+              5,5,  5, 5, 5, 5, 4, 4, 4, 4, 6, 
+              6, 6,  5, 5, 5, 4, 5, 6, 5,6) 
+
+nube1=rep(palabras, frecuencia)
+t=data.frame(table(nube1))
+
+dword=t[,1]
+dfreq=t[,2]
+set.seed(1234)
+# wordcloud(words = dword, freq = dfreq, min.freq = 1,
+#            max.words=200, random.order=FALSE, rot.per=0.35, 
+#            colors=brewer.pal(8, &quot;Dark2&quot;))
+
+#c(&quot;#F27F0C&quot;, &quot;#F7AD19&quot;, &quot;#053F5C&quot;, &quot;#429EBD&quot;, &quot;#034A94&quot;)
+library(wordcloud2)
+wordcloud2(data = t, 
+           size = 0.5, 
+           color=rep_len( c(&quot;#F27F0C&quot;, &quot;#F7AD19&quot;, &quot;#053F5C&quot;, &quot;#429EBD&quot;, &quot;#034A94&quot;), 
+                          nrow(demoFreq)),
+           rotateRatio = 0)</code></pre>
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-1b4ff99564eb6e8884a5" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-1b4ff99564eb6e8884a5">{"x":{"word":["Análisis descriptivo","Escala de intervalo","Escala de razón","Escala nominal","Escala ordinal","Estadística","Estimador","Inferencia estadística","Muestra","Muestreo","Muestreo aleatorio estratificado","Muestreo aleatorio por conglomerados","Muestreo aleatorio simple","Muestreo aleatorio sistemático","Muestreo bola de nieve","Muestreo no probabilistico","Muestreo por conveniencia","Muestreo por cuotas","Muestreo por juicio","Muestreo probabilistico","Parámetro","Población","Tipo de muestreo","Unidad de análisis","Validez","Variable aleatoria","Variable continua","Variable cualitativa","Variable cuantitativa","Variable discreta"],"freq":[8,5,5,5,5,10,4,8,4,4,6,6,5,5,4,6,5,5,5,6,4,5,6,7,7,7,5,7,7,7],"fontFamily":"Segoe UI","fontWeight":"bold","color":["#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C","#F7AD19","#053F5C","#429EBD","#034A94","#F27F0C"],"minSize":0,"weightFactor":9,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</br></br>
+<h2>
+Análisis descriptivo
+</h2>
+<p>La <strong>estadística descriptiva</strong> se especializa en la
+recopilación, organización, resumen y presentación de datos, con el
+propósito de facilitar su interpretación, análisis y modelamiento.
+Mediante herramientas y técnicas específicas, esta rama de la
+estadística se enfoca exclusivamente en describir y representar las
+características fundamentales de un conjunto de datos. Es importante
+destacar que la <strong>estadística descriptiva no permite realizar
+inferencias ni generalizar conclusiones hacia una población más
+amplia</strong>; su alcance se limita a analizar y comunicar de manera
+clara y efectiva los patrones y tendencias observados en los datos
+disponibles.</p>
+<p></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>En este ejemplo se supone que una empresa de distribución tiene como
+objetivo analizar sus gastos logísticos mensuales para obtener una
+visión integral de sus costos operativos. La base de datos disponible
+comprende los costos mensuales de los últimos tres años, clasificados en
+cuatro categorías principales: transporte, almacenamiento, mantenimiento
+de inventarios y gestión administrativa.</p>
+<hr />
+<p><strong>Etapa 1: Cálculo de estadísticas</strong></p>
+<p>El primer paso en el análisis consiste en calcular <strong>medidas
+descriptivas</strong> que permitan comprender las características
+fundamentales de los gastos e identificar posibles errores e
+inconsistencias:</p>
+<ul>
+<li><p><strong>Medidas de tendencia central</strong>: Se calculan
+valores como la media y la mediana para representar un resumen de los
+datos mediante un único valor representativo que refleja el centro de la
+distribución.</p></li>
+<li><p><strong>Medidas de dispersión</strong>: Se obtienen indicadores
+como la desviación estándar y el coeficiente de variación, los cuales
+proporcionan información sobre la variabilidad y consistencia de los
+costos.</p></li>
+<li><p><strong>Medidas de posición</strong>: Se calculan percentiles y
+cuartiles, que proporcionan información sobre cómo los datos se
+distribuyen a lo largo de su rango.</p></li>
+</ul>
+<p>Estas medidas proporcionan información para identitificar atípicos e
+inconsistencias.</p>
+<hr />
+<p><strong>Etapa 2: Visualización para identificación de errores y datos
+faltantes</strong></p>
+<p>En esta etapa se elaboran <strong>gráficos informativos</strong> para
+facilitar la identificación de errores, datos faltantes y valores
+atípicos en la base de datos. Algunas de las herramientas visuales
+utilizadas incluyen:</p>
+<ul>
+<li><p><strong>Gráficos de cajas (boxplots)</strong>: Permiten
+identificar rápidamente valores atípicos en cada categoría de gasto.
+Estos valores podrían ser indicativos de errores en el registro o
+reflejar eventos inusuales que deben analizarse.</p></li>
+<li><p><strong>Gráficos especializados para datos faltantes</strong>:
+Ayudan a comprender patrones de ausencia de información y detectar
+posibles sesgos en los datos faltantes. Esta etapa es crucial para
+entender las razones detrás de la falta de reportes de gastos y
+planificar su corrección.</p></li>
+</ul>
+<p>Un análisis riguroso de los <strong>valores atípicos</strong> es
+esencial, ya que estos pueden sesgar las medidas descriptivas y
+dificultar una interpretación precisa. Se evalúa si deben corregirse,
+eliminarse o transformarse según su origen y relevancia.</p>
+<hr />
+<p><strong>Etapa 3: Transformación e imputación de datos
+faltantes</strong></p>
+<p>En caso de que los datos presenten distribuciones que dificulten el
+análisis, puede ser necesario aplicar <strong>transformaciones</strong>
+(e.g., normaliozación o de estandarización) para garantizar que las
+técnicas estadísticas utilizadas sean apropiadas. También se deben tomar
+decisiones respecto a los datos atípicos identificados, en algunos casos
+se les pueden considerar como datos faltantes. Posteriormente, se
+procede a la <strong>imputación de datos faltantes</strong> mediante
+métodos adecuados, como la imputación basada en la media, modelos de
+regresión o técnicas más avanzadas, como la imputación múltiple.</p>
+<hr />
+<p><strong>Etapa 4: Resumen y visualización de los
+resultados</strong></p>
+<p>Tras realizar la limpieza de datos, la identificación y tratamiento
+de valores atípicos, las transformaciones y la imputación de datos
+faltantes, se calculan los indicadores más relevantes para resumir la
+información de los gastos. Además, se construyen gráficos comparativos y
+de resumen que permiten una visualización clara de los resultados
+obtenidos, lo que facilita la interpretación y continuar con la etapa de
+modelamiento de manera confiable..</p>
+<p>Las <strong>herramientas de estadística descriptiva</strong>, no solo
+facilitan una comprensión detallada y visual de los gastos logísticos de
+los tres años, sino que también constituyen la base para etapas
+posteriores de modelado e inferencia estadística. Estas etapas
+adicionales permitirían realizar predicciones y proyecciones más
+precisas, apoyando la toma de decisiones estratégicas para mejorar la
+eficiencia operativa de la empresa.</p>
+</div>
+</br></br>
+<h2>
+Inferencia estadística
+</h2>
+<p>La <strong>estadística inferencial</strong> se refiere a la
+aplicación de herramientas analíticas, como la <em>estimación
+puntual</em> y por <em>intervalos</em> de un parámetro poblacional, y
+las <em>pruebas de hipótesis</em>, que evalúan afirmaciones sobre dichos
+parámetros. Su propósito principal es permitir la generalización de
+conclusiones acerca de una población de estudio a partir de los datos
+obtenidos de una muestra aleatoria representativa de la población.</p>
+<p>Este proceso se fundamenta en conceptos de probabilidad, variable
+aleatoria, los cuales son esenciales para cuantificar la incertidumbre
+inherente a las estimaciones y conclusiones derivadas de la muestra,
+proporcionando niveles de confianza que respaldan la validez de los
+resultados.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Una empresa de manufactura desea analizar los costos y evaluar si la
+implementación de un <em>nuevo proceso</em> de producción automatizado
+reduce significativamente <strong>el costo promedio</strong> en
+comparación con el <em>proceso anterior</em>, que dependía mayormente de
+trabajo manual. Este nuevo proceso incluye la incorporación de
+maquinaria más eficiente y un rediseño en la disposición de las
+estaciones de trabajo para optimizar los tiempos de producción.</p>
+<p>Debido a limitaciones de tiempo y recursos, la empresa realiza un
+experimento aleatorio para seleccionar <em>30 lotes</em> producidos
+utilizando el nuevo proceso. Se recopilan los <em>costos de producción
+asociados a estos lotes (muestra aleatoria)</em> y se comparan con los
+costos históricos registrados bajo el proceso tradicional.</p>
+<p>La inferencia estadística se utiliza para evaluar si la reducción
+observada en el costo promedio de la muestra es estadísticamente
+significativa y puede generalizarse al resto de la producción. Para
+ello, se plantea una <strong>prueba de hipótesis</strong>, en la que la
+hipótesis nula establece que <em>no hay diferencia entre los costos
+promedio</em> entre ambos procesos, mientras que la hipótesis
+alternativa sostiene que <em>el nuevo proceso reduce el costo
+promedio</em>.</p>
+<p>Si los resultados de la prueba de hipótesis demuestran que la
+diferencia es significativa, la empresa podría tomar decisiones
+fundamentadas para implementar el nuevo proceso de producción a gran
+escala, lo que contribuiría a una reducción de costos sostenida y a un
+aumento en la competitividad.</p>
+</p>
+</div>
+<p>Es importante aclarar que esta etapa es posterior a la aplicación de
+herramientas de la estadística descriptiva, limpieza de datos, análisis
+de atípicos e imputación de datos faltantes.</p>
+</br></br>
+<h2>
+Validez
+</h2>
+<p>En el contexto estadístico, <em>validez</em> se refiere a la medida
+en que un instrumento, método o modelo mide lo que realmente pretende
+medir.</p>
+<p>La <em>validez interna</em> evalúa si los resultados de un estudio
+reflejan con precisión la relación entre las variables dentro del mismo.
+Por ejemplo, en un experimento controlado, garantiza que los cambios
+observados en la variable dependiente se deban exclusivamente a la
+manipulación de la variable independiente y no a factores externos.</p>
+<p>La <em>validez externa</em> se refiere a la capacidad de generalizar
+los resultados obtenidos a otras poblaciones, contextos o períodos. Por
+ejemplo, un modelo predictivo desarrollado para una región específica
+tiene validez externa si también es aplicable en otras regiones con
+características similares.</p>
+<p>La <em>validez de constructo</em> mide si el instrumento o método
+realmente captura lo que pretende evaluar. Por ejemplo, un cuestionario
+diseñado para medir “satisfacción del cliente” debe incluir preguntas
+relevantes que aborden diferentes aspectos de la satisfacción.</p>
+<p>Adicionalmente, la <em>validez estadística</em> evalúa si los métodos
+estadísticos utilizados son apropiados para el análisis de los datos y
+si las conclusiones derivadas de ellos son válidas. Por ejemplo, es
+necesario verificar si se cumplen los supuestos de un modelo de
+regresión lineal antes de interpretar los coeficientes.</p>
+<p>La <em>validez</em> es crucial para garantizar que los datos, las
+conclusiones y las decisiones tomadas a partir de análisis estadísticos
+sean fiables y útiles. Sin validez, los resultados pueden ser engañosos,
+lo que podría conducir a decisiones incorrectas o mal fundamentadas.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Un estudio tiene como objetivo estimar el <em>ingreso promedio por
+vivienda de las familias en la ciudad de Cali</em>. Sin embargo, si el
+estudio incluye únicamente a familias cuyos predios pertenecen al
+estrato 1, no se puede concluir que el ingreso promedio calculado para
+este grupo representa el ingreso promedio de todas las familias de la
+ciudad.</p>
+<p>Esto se debe a que la muestra seleccionada no es representativa de la
+población (ingreso de familias en Cali). Al considerar únicamente a un
+segmento socioeconómico específico, se excluyen de manera sistemática
+las familias de los estratos 2 al 6, lo que introduce un sesgo de
+selección. Este sesgo limita la capacidad de generalizar los resultados
+obtenidos en el estudio al conjunto completo de familias en la
+ciudad.</p>
+<p>Para obtener conclusiones válidas y generalizables, sería necesario
+diseñar un muestreo representativo que contemple a familias de todos los
+estratos socioeconómicos en proporciones adecuadas, reflejando la
+diversidad y composición de las familias de Cali.</p>
+</p>
+</div>
+</br></br>
+<h2>
+Asociación y causalidad
+</h2>
+<p>La <strong>causalidad</strong> implica que un cambio en la variable
+independiente (causa) produce un cambio en la variable dependiente
+(efecto). Es decir, existe una relación directa y verificable donde una
+variable influye sobre la otra. Se requiere una dirección clara de causa
+a efecto y se busca establecer que la relación observada no se debe al
+azar ni a factores externos.</p>
+<p>Austin Bradford Hill planteó nueve criterios en 1965 para evaluar la
+causalidad en estudios epidemiológicos. Aunque en ciertas aplicaciones o
+resúmenes estos se sintetizan, aquí se presentan los nueve criterios
+originales:</p>
+<ul>
+<li><p><strong>Temporalidad</strong>: La causa debe preceder al efecto.
+Este es el único criterio indispensable para establecer causalidad. Sin
+evidencia de que el supuesto factor causal ocurra antes del efecto, no
+se puede concluir que exista una relación causal.</p></li>
+<li><p><strong>Fuerza de la asociación</strong>: Una relación
+estadísticamente fuerte entre la causa y el efecto aumenta la
+probabilidad de que la relación sea causal. Una mayor fuerza de
+asociación reduce la probabilidad de que la relación observada sea
+debida al azar o a factores de confusión.</p></li>
+<li><p><strong>Consistencia</strong>: La relación debe ser consistente
+en diferentes estudios, poblaciones, lugares y momentos. Si el efecto se
+observa repetidamente bajo diversas condiciones, es más probable que sea
+causal.</p></li>
+<li><p><strong>Especificidad</strong>: Una causa específica debe
+producir un efecto específico. Aunque este criterio no siempre se cumple
+(por ejemplo, en enfermedades multifactoriales), su presencia refuerza
+la evidencia de causalidad.</p></li>
+<li><p><strong>Plausibilidad</strong>: Debe haber una explicación
+biológica o lógica que sustente la relación causal. Este criterio
+depende del conocimiento científico disponible en el momento.</p></li>
+<li><p><strong>Coherencia</strong>: La relación debe ser coherente con
+los conocimientos ya establecidos sobre la biología del fenómeno, la
+historia natural de la enfermedad o datos experimentales
+relacionados.</p></li>
+<li><p><strong>Relación dosis-respuesta</strong>: A mayor exposición a
+la causa, mayor debe ser el efecto observado. Este criterio refuerza la
+causalidad, aunque su ausencia no necesariamente la descarta.</p></li>
+<li><p><strong>Prueba experimental</strong>: La relación debe ser
+comprobable mediante experimentos controlados, cuando sea posible. Los
+experimentos proporcionan evidencia directa de causalidad.</p></li>
+<li><p><strong>Analogía</strong>: Si existen relaciones causales
+similares ya establecidas, esto refuerza la probabilidad de que la
+relación en estudio sea causal. Por ejemplo, si una sustancia química
+similar ya ha demostrado ser dañina, es plausible que otra de la misma
+clase también lo sea.</p></li>
+</ul>
+<p>La <strong>asociación</strong> describe una relación estadística
+entre dos variables, donde un cambio en una variable está relacionado
+con un cambio en la otra, pero <strong>no necesariamente implica
+causalidad</strong>. Puede existir una asociación estadística entre dos
+variables sin que una cause directamente el cambio en la otra. En
+algunos casos, la asociación puede deberse a factores de confusión o
+variables intervinientes. Se evalúa mediante medidas estadísticas, como
+el coeficiente de correlación de Pearson.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplos:
+</h3>
+<p>
+<strong>Consumo de helado y casos de insolación</strong>: En días
+calurosos, aumentan tanto el consumo de helado como los casos de
+insolación. Sin embargo, el calor e intensidad de rayos del sol
+(variable interviniente) es la causa subyacente, no el consumo de
+helado. Este ejemplo ilustra una <strong>asociación espuria</strong>,
+donde dos variables están correlacionadas debido a una tercera variable
+(el clima), sin que exista causalidad entre ellas. Este tipo de
+situaciones refuerza la importancia de identificar variables de
+confusión o intervinientes en los estudios estadísticos. A continuación,
+se analizan algunos criterios de causalidad que no se cumplen:
+</p>
+<p>
+<ul>
+<li><p><strong>Plausibilidad</strong>: No hay una explicación biológica
+o lógica que indique que consumir helado cause insolación. Por el
+contrario, el calor es una causa plausible para ambos eventos.</p></li>
+<li><p><strong>Coherencia</strong>: Los datos podrían ser coherentes con
+la asociación estadística, pero esto no respalda la causalidad directa,
+ya que el calor explica ambos fenómenos.</p></li>
+<li><p><strong>Relación dosis-respuesta</strong>: No hay evidencia de
+que consumir más helado incremente el riesgo de insolación. Por lo
+tanto, este criterio no se cumple.</p></li>
+<li><p><strong>Prueba experimental</strong>: No existen experimentos que
+demuestren que consumir helado cause insolación.</p></li>
+<li><p><strong>Analogía</strong>: No existen fenómenos similares que
+respalden que el consumo de un alimento como el helado cause
+insolación.<br />
+</p></li>
+</ul>
+</p>
+<p>
+<strong>Consumo de cigarrillos y el desarrollo de cáncer de
+pulmón</strong>: Existe una fuerte asociación estadística entre el
+consumo de cigarrillos y el desarrollo de cáncer de pulmón. La relación
+entre fumar y el cáncer de pulmón cumple con los criterios de causalidad
+de Bradford Hill, lo que permite argumentar que fumar <strong>causa
+cáncer de pulmón</strong>. A continuación, revisamos el cumplimiento de
+los criterios para evaluar causalidad:
+</p>
+<p>
+<ul>
+<li><p><strong>Temporalidad</strong>: Los estudios longitudinales han
+demostrado que el riesgo aumenta después de años de exposición al
+tabaco.</p></li>
+<li><p><strong>Fuerza de la asociación</strong>: La probabilidad de
+desarrollar cáncer de pulmón en fumadores es significativamente mayor
+que en no fumadores (riesgo relativo alto).</p></li>
+<li><p><strong>Consistencia</strong>: La relación se ha observado en
+múltiples estudios, poblaciones y contextos diferentes.</p></li>
+<li><p><strong>Especificidad</strong>: Aunque fumar también está
+asociado con otras enfermedades (como enfisema), el vínculo con el
+cáncer de pulmón es particularmente fuerte.</p></li>
+<li><p><strong>Plausibilidad</strong>: Existe un mecanismo biológico
+bien establecido, las sustancias químicas en el tabaco dañan las células
+pulmonares y provocan mutaciones.</p></li>
+<li><p><strong>Coherencia</strong>: Los hallazgos son consistentes con
+el conocimiento médico sobre los efectos del tabaco en los
+pulmones.</p></li>
+<li><p><strong>Relación dosis-respuesta</strong>: Cuanto más se fuma (en
+tiempo y cantidad), mayor es el riesgo de desarrollar cáncer de
+pulmón.</p></li>
+<li><p><strong>Prueba experimental</strong>: Estudios en animales han
+demostrado que la exposición a las sustancias químicas del tabaco puede
+inducir cáncer.</p></li>
+<li><p><strong>Analogía</strong>: Otras sustancias carcinógenas (como el
+asbesto) también están asociadas con el desarrollo de cáncer de pulmón,
+lo que refuerza la plausibilidad.</p></li>
+</ul>
+</p>
+</div>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>
+<blockquote>
+<p>En una ciudad, se observa que las ventas de sombrillas aumentan en
+los mismos períodos en los que también aumentan los accidentes de
+tráfico. ¿Es causal la relación entre las ventas de sombrillas y los
+accidentes de tráfico? ¿Qué otros factores podrían explicar esta
+asociación?</p>
+</p>
+</div>
+</blockquote>
+</br></br>
+<h2>
+Tipos de muestreo
+</h2>
+<p>Para seleccionar una muestra, podemos utilizar <strong>muestreos
+probabilísticos</strong> o <strong>no probabilísticos</strong>.</p>
+<p></br></p>
+<h3>
+Muestreo no probabilístico
+</h3>
+<p>Es un método de selección de muestras en el que <strong>no se utiliza
+un proceso aleatorio</strong> para elegir los elementos de la población.
+En este tipo de muestreo, no todos los elementos tienen la misma
+probabilidad conocida y no nula de ser seleccionados, lo que significa
+que la muestra puede <strong>no ser representativa</strong> de la
+población. Como consecuencia, <strong>no es posible realizar inferencias
+estadísticas válidas</strong> sobre la población, ya que el proceso de
+selección introduce sesgos. Los resultados no se pueden generalizar de
+manera probabilística más allá de los casos observados. Entre estos
+tipos de muestreo se encuentran el muestreo por cuotas y el muestreo
+bola de nieve.</p>
+<p></br></p>
+<h4>
+Muestreo por cuotas
+</h4>
+<p>El muestreo por cuotas es un método en el que se busca que la muestra
+reproduzca, de la manera más precisa posible, las características
+conocidas de las unidades muestrales que determinan una población. Estas
+características se distribuyen en fracciones denominadas cuotas, que
+representan proporciones específicas de las unidades totales.</p>
+<p>Este tipo de muestreo es especialmente útil cuando se dispone de
+información previa sobre ciertos atributos de las unidades muestrales,
+como el sexo, la edad u otros criterios relevantes para el estudio.</p>
+<p>En una investigación, se puede establecer una muestra que respete las
+proporciones de hombres y mujeres presentes en un grupo que es objetivo
+de estudio, así como la distribución de grupos etarios. En estudios
+políticos, es común incluir cuotas basadas en los resultados de
+elecciones anteriores para tener una representación adecuada.</p>
+<p></br></p>
+<h4>
+Muestreo bola de nieve
+</h4>
+<p>El muestreo por bola de nieve es una técnica utilizada para estudiar
+grupos difíciles de acceder o poco representadas, en las cuales no se
+dispone de un marco muestral formal. Es particularmente adecuado en
+investigaciones que involucran a grupos como consumidores de drogas
+ilegales, personas con enfermedades raras o inmigrantes en situación
+laboral activa.</p>
+<p></br></br></p>
+<h3>
+Muestreo probabilístico
+</h3>
+<p>Es un método en el que <strong>cada elemento de la población tiene
+una probabilidad conocida y no nula</strong> de ser seleccionado en la
+muestra. Esto garantiza que la muestra sea
+<strong>representativa</strong> de la población, permitiendo aplicar
+técnicas estadísticas para hacer <strong>inferencias válidas</strong>
+sobre los parámetros poblacionales. A continuación, presentamos algunos
+de los tipos puros de muestreo probabilístico.<br />
+</br></p>
+<h4>
+Muestreo aleatorio simple
+</h4>
+<p>El muestreo aleatorio simple es un método de selección en el que
+<strong>todas las unidades muestrales</strong> que componen la población
+tienen <strong>la misma probabilidad de ser elegidas</strong> para
+formar parte de la muestra.</p>
+<p>Para implementarlo, es necesario disponer de un <strong>listado
+completo de los elementos que determinan la población</strong>, conocido
+como <strong>marco muestral</strong>. Este marco debe cumplir dos
+condiciones fundamentales: La <strong>exhaustividad</strong>, que
+implica incluir todas las unidades muestrales que determinan la
+población y la ausencia de <strong>duplicaciones</strong>, es decir,
+cada unidad muestral debe aparecer solo una vez.</p>
+<p>El <em>procedimiento</em> consiste en asignar un <strong>número
+único</strong> a cada elemento del marco muestral y, posteriormente,
+seleccionar <strong>al azar</strong> una cantidad <span
+class="math inline">\(n\)</span> de elementos, que corresponde al
+<strong>tamaño de la muestra</strong>. La <strong>aleatoriedad</strong>
+de la selección se garantiza mediante tablas de números aleatorios o
+generadores electrónicos de números aleatorios.</p>
+<p>Una <strong>ventaja importante</strong> del muestreo aleatorio simple
+es que <strong>es que no requiere conocer de antemano ninguna
+característica de la población</strong>.</p>
+<p>Entre las <strong>limitaciones</strong> de este método se encuentra
+la <strong>dependencia del marco muestral</strong>, ya que es necesario
+contar con un listado completo y actualizado de las unidades que
+determinan la población, lo cual no siempre es viable en estudios
+grandes o complejos. Además, los <strong>costos de localización</strong>
+pueden ser elevados, ya que si las unidades seleccionadas están
+geográficamente dispersas, acceder a ellas puede resultar
+<strong>costoso y poco eficiente</strong>.</p>
+<p>Por estas razones, el muestreo aleatorio simple suele combinarse con
+<strong>otras técnicas de muestreo</strong> que permiten abordar estas
+dificultades de manera más eficiente.</p>
+<p></br></p>
+<h4>
+Muestreo aleatorio sistemático
+</h4>
+<p>El muestreo aleatorio sistemático es un procedimiento alternativo al
+muestreo aleatorio simple que <strong>simplifica la selección</strong>
+de la muestra. En este método, se elige de manera aleatoria un elemento
+inicial del marco muestral, y a partir de él se seleccionan los
+elementos siguientes a <strong>intervalos regulares
+predefinidos</strong>.</p>
+<p>El <em>procedimiento</em> consta de tres pasos, como describimos a
+continuación.</p>
+<ul>
+<li><p><strong>Cálculo del intervalo (<span
+class="math inline">\(r\)</span>)</strong>:<br />
+Se divide el <strong>tamaño de la población</strong> (<span
+class="math inline">\(N\)</span>) entre el <strong>tamaño de la
+muestra</strong> (<span class="math inline">\(n\)</span>):<br />
+<span class="math display">\[
+r = \frac{N}{n}.
+\]</span></p></li>
+<li><p><strong>Selección del elemento inicial</strong>:<br />
+Se elige <strong>aleatoriamente</strong> un número entre <span
+class="math inline">\(1\)</span> y <span
+class="math inline">\(r\)</span>, denominado <span
+class="math inline">\(a\)</span>. Este número corresponde al
+<strong>primer elemento</strong> de la muestra.</p></li>
+<li><p><strong>Selección de los elementos siguientes</strong>:<br />
+A partir del elemento inicial <span class="math inline">\(a\)</span>, se
+seleccionan los elementos ubicados a intervalos regulares <span
+class="math inline">\(r\)</span>:<br />
+<span class="math display">\[
+a, a + r, a + 2r, \dots, a + (n-1)r.
+\]</span></p></li>
+</ul>
+<p>Entre las <strong>ventajas</strong> del método se encuentran las
+siguientes:</p>
+<ul>
+<li><p><strong>Facilidad de implementación</strong>: Evita el uso
+repetido de números aleatorios, lo que simplifica el proceso de
+selección.</p></li>
+<li><p><strong>Representación equitativa</strong>: Siempre que el marco
+muestral no presente una tendencia específica (como un orden
+cronológico), el muestreo sistemático garantiza que todos los elementos
+estén <strong>equitativamente representados</strong>.</p></li>
+<li><p><strong>Eficiencia</strong>: Reduce la probabilidad de que los
+elementos seleccionados se concentren en una sola sección de la
+lista.</p></li>
+</ul>
+<p>Respecto a las <strong>limitaciones</strong>, este método no es
+adecuado cuando la población presenta <strong>comportamientos
+cíclicos</strong>, ya que podría introducir <strong>sesgos</strong>.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplos:
+</h3>
+<p>
+<ul>
+<li><p>Si se seleccionan intervalos de 7 días en un estudio semanal, los
+días elegidos siempre serán los mismos, lo que ignoraría las diferencias
+entre días laborales y fines de semana.</p></li>
+<li><p>En un hospital, seleccionar días específicos podría omitir
+variaciones importantes en los ingresos de pacientes que dependen del
+día de la semana.</p></li>
+</ul>
+<p>Aunque el muestreo sistemático generalmente requiere un marco
+muestral completo, puede adaptarse a situaciones donde este no esté
+disponible, como en poblaciones en movimiento. Ejemplos comunes
+incluyen:</p>
+<ul>
+<li><p>Encuestas en colas o filas, donde se selecciona a una persona
+cada <span class="math inline">\(r\)</span> posiciones, asegurando la
+inclusión equitativa de individuos a lo largo de la fila, tal como el
+hecho de encuestar a cada décima persona en una fila para ingresar al
+cine.</p></li>
+<li><p>Encuestas de boca de urna, donde se seleccionan votantes a
+intervalos regulares conforme salen de los centros de votación, logrando
+una muestra representativa de quienes votaron en diferentes horarios
+(mañana, tarde, cierre de jornada).</p></li>
+</ul>
+</p>
+</div>
+<p></br></p>
+<h4>
+Muestreo estratificado
+</h4>
+<p>El muestreo estratificado es un procedimiento en el que la población
+se divide en <strong>subconjuntos de unidades homogéneas</strong>,
+denominados <strong>estratos</strong>, en función de alguna
+característica conocida <strong>a priori</strong>. Esta característica,
+utilizada como base para la división, se conoce como <strong>criterio de
+estratificación</strong>.</p>
+<p>El <em>procedimiento</em> consta de los siguientes pasos:</p>
+<ul>
+<li><p><strong>Definición de los estratos</strong>:<br />
+Las unidades que determinan la población se dividen en <strong>estratos
+homogéneos internamente</strong>, es decir, subconjuntos en los cuales
+los individuos comparten características similares respecto a la
+variable de interés. Al mismo tiempo, se espera que los estratos sean
+<strong>heterogéneos entre sí</strong>, es decir, diferentes entre ellos
+en función del criterio de estratificación.</p></li>
+<li><p><strong>Selección de la muestra</strong>:<br />
+Se extraen muestras de <strong>cada estrato</strong> por separado,
+garantizando que todos los subconjuntos estén representados.</p></li>
+</ul>
+<p>El muestreo estratificado es especialmente útil cuando se busca
+<strong>obtener estimaciones más exactas</strong> de los parámetros de
+la <strong>población</strong> y <strong>mejorar la precisión</strong> de
+las estimaciones para <strong>cada estrato individual</strong>.</p>
+<p>La ganancia en la precisión es mayor si los estratos son
+<strong>homogéneos internamente</strong> (los elementos dentro de cada
+estrato son similares) y <strong>heterogéneos entre sí</strong> (los
+estratos son claramente diferentes entre ellos) respecto a la variable
+de interés.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Un ejemplo práctico, supongamos que se desea <strong>estimar el
+consumo de bebidas alcohólicas</strong> de personas jóvenes. Para ello,
+se utiliza el <strong>nivel socioeconómico</strong> como
+<strong>criterio de estratificación</strong>, ya que esta variable
+podría influir en los patrones de consumo.</p>
+<ul>
+<li><p>El total de unidades muestrales que determinan la población se
+divide en <strong>tres estratos homogéneos</strong>:</p>
+<ul>
+<li><p>Nivel socioeconómico <strong>alto</strong></p></li>
+<li><p>Nivel socioeconómico <strong>medio</strong></p></li>
+<li><p>Nivel socioeconómico <strong>bajo</strong></p></li>
+</ul></li>
+<li><p>En este caso, el número de estratos será <span
+class="math inline">\(k = 3\)</span>. Se selecciona una muestra de
+jóvenes de <strong>cada estrato</strong>, asegurando la
+representatividad de los diferentes niveles socioeconómicos.</p></li>
+</ul>
+</p>
+</div>
+<p>La <strong>precisión</strong> de la estratificación dependerá del
+grado de detalle con que pueda medirse el nivel socioeconómico. A medida
+que se busca una mayor precisión, será necesario contar con <strong>más
+información previa</strong> sobre la población.</p>
+<p>En algunas ocasiones, los estratos están <strong>predefinidos de
+manera inmediata</strong>, sin necesidad de aplicar criterios
+complejos.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Si se desea <strong>estimar el salario medio</strong> de los
+empleados de una universidad, una <strong>estratificación
+natural</strong> puede realizarse en función del <strong>tipo de
+cargo</strong>:</p>
+<ul>
+<li><p><strong>Personal de aseo</strong></p></li>
+<li><p><strong>Técnicos encargados de la infraestructura
+tecnológica</strong></p></li>
+<li><p><strong>Profesores</strong> (con distintos niveles
+salariales)</p></li>
+<li><p><strong>Administrativos</strong></p></li>
+</ul>
+En este caso, la estratificación por tipo de cargo garantiza que la
+muestra sea representativa de todos los grupos laborales de la
+universidad.
+</p>
+</div>
+<p>Otro tipo de método probabilístico es el muestreo por conglomerados.
+Algunos tipos adicionales de muestreo se presentan en la <strong>Figura
+1.30</strong>.</p>
+<center>
+<p><img src="img/muestreos.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.30</strong> Algunos tipos de muestreo.</p>
+</center>
+<p><br/><br/></p>
+<div class="caja-reto">
+<h3>
+Reto:
+</h3>
+<blockquote>
+<p>¿A qué tipo de muestreo corresponde el uso de <strong>redes
+sociales</strong> para la selección de muestras por internet?</p>
+</blockquote>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

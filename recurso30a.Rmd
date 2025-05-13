@@ -1,0 +1,103 @@
+---
+title: <span style="color:#686868"> **Gráficas**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+library(tidyverse)
+
+# Cargar paqueteMET
+# devtools::install_github("Centromagis/paqueteMETODOS") # Descarga de paqueteMETODOS
+library(paqueteMETODOS)     # Activar paqueteMETODOS
+data("CarreraLuz22")    # Cargar la dataset
+data("evaluacion")      # Cargar la dataset
+# Carga la dataset
+load("docs/data/inflacion2022.rda")
+inflacion2022[360,]=c(0,"2022-12",13.12, 2022,NA,12)
+
+#CarreraLuz22_c2M = subset(CarreraLuz22, CarreraLuz22M$categoria=="2. Abierta")
+```
+
+</br>
+
+<h2>Representación gráfica de datos</h2>
+
+
+La **representación gráfica de datos** es una de las partes más importantes del análisis de datos, ya que permite representar gráficamente la información con el fin de resumirla e interpretarla de manera efectiva.
+
+
+A continuación, se presenta la **Tabla 1.7** con los **tipos de gráficos** recomendados según el tipo de variable  junto con la sintaxis correspondiente en **R**.
+
+<br/>
+
+<center>
+**Tabla 1.7** Tipos de gráficos según el tipo de variable.
+</center>
+
+<br/>
+
+
+| **Tipo de variable** | **Tipos de escala**       | **Tipo de gráfico**           | **Sintaxis en R**         |
+|:---------------------|:--------------------------|:------------------------------|:---------------------------|
+| **Cualitativa**      | Nominal u ordinal         | Diagrama de torta             | `pie(table(x))`            |
+|                      |                           | Diagrama de barras            | `barplot(table(x))`        |
+|                      |                           | Diagrama de barras compuestas | `barplot(table(x, y))`     |
+
+
+
+
+<br/>
+
+| **Tipo de variable** | **Tipo de gráfico**           | **Sintaxis en R**          |
+|:---------------------|:------------------------------|:---------------------------|
+| **Cuantitativa**     | Diagrama de tallos y hojas    | `stem(x)`                  |
+|                      | Histograma                    | `hist(x)`                  |
+|                      | Diagrama de densidad          | `plot(density(x))`         |
+|                      | Diagrama de cajas             | `boxplot(x)`               |
+|                      | Diagrama de dispersión            | `plot(x, y)`               |
+|                      | Diagrama de línea (*series*)  | `plot(x, type = "l")`      |
+
+
+El uso adecuado de gráficos facilita:
+
+- La **comunicación visual** de patrones, tendencias y anomalías en los datos.
+
+- El análisis exploratorio inicial, proporcionando una comprensión rápida de la distribución y la relación entre variables.
+
+- La presentación de resultados en reportes y publicaciones, haciendo que la información sea más accesible para el público.
+
+---
+
+
+<br/>
+
+<div class="caja-nota">
+<h3>Nota:</h3>
+>
+Además de las formas tradicionales de representación gráfica, existen otras opciones que permiten combinar variables y explorar relaciones más complejas en los datos. Estas formas incluyen:<br/>
+>
+- **Mapas**: Representan datos geográficos o espaciales mediante colores, tamaños o símbolos en un mapa, permitiendo visualizar distribuciones geográficas y patrones espaciales.<br/>
+>
+- **Diagrama de mosaico**: Muestra la relación entre dos o más variables categóricas mediante rectángulos cuyas áreas son proporcionales a las frecuencias observadas.<br/>
+>
+- **Diagramas de radar**: Utilizan ejes radiales para representar varias variables simultáneamente, permitiendo comparar perfiles o patrones entre observaciones.<br/>
+>
+- **Diagrama Likert**: Se emplea para visualizar respuestas en escalas Likert, destacando la distribución de opiniones o actitudes sobre una serie de afirmaciones.<br/>
+>
+</div> 
+
+
+
+
+
+
+

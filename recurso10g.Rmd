@@ -1,0 +1,75 @@
+---
+title: <span style="color:#686868"> **Librerías de R**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+<br/><br/>
+<h2>Librerías de R</h2>
+
+
+En **R**, existen **librerías básicas** que se instalan y cargan automáticamente con la instalación del software **R**. Estas librerías forman parte del núcleo de **R**, por lo que **no es necesario instalarlas manualmente**.
+
+Algunos ejemplos de librerías básicas son:
+
+- `stats` (funciones estadísticas)
+
+- `graphics` (gráficos base)
+
+- `utils` (utilidades generales)
+
+- `datasets` (conjuntos de datos de ejemplo)
+
+- `methods` (programación orientada a objetos)
+
+Estas librerías están siempre disponibles en cualquier instalación estándar de **R**.
+
+Sin embargo, existen **otras librerías adicionales** (también llamadas paquetes) que **deben ser instaladas** antes de poder utilizarlas. Estos paquetes proporcionan funciones avanzadas, nuevos tipos de análisis, gráficos mejorados, acceso a bases de datos, machine learning, entre otros.
+
+Ejemplos de paquetes adicionales populares son:
+
+- `ggplot2` (gráficos avanzados)
+
+- `dplyr` (manipulación de datos)
+
+- `tidyr` (transformación de datos)
+
+- `shiny` (desarrollo de aplicaciones web interactivas)
+
+- `caret` (modelado predictivo)
+
+
+
+<br/><br/>
+<h3>¿Cómo instalar un paquete en R?</h3>
+
+
+Para instalar un paquete, se utiliza la función `install.packages()`.  Esta función descarga el paquete desde el repositorio oficial de **R** (CRAN) y lo instala en tu sistema.
+
+Por ejemplo, para instalar el paquete `ggplot2`, debes ejecutar:`install.packages(install.packages("ggplot2"))`
+
+La instalación de un paquete solo debe hacerse una vez, salvo que necesites actualizarlo o reinstalarlo.
+
+
+<br/><br/>
+<h3>¿Cómo cargar un paquete instalado?</h3>
+
+Una vez que el paquete está instalado, debes cargarlo en tu sesión de **R** para poder utilizar sus funciones.
+Esto se hace con la función `library()`.
+
+Por ejemplo, para cargar `ggplot2`: `library(ggplot2)`
+
+Cada vez que inicies una nueva sesión de **R** (o **RStudio**), necesitarás cargar los paquetes que vayas a utilizar, incluso si ya han sido instalados previamente.
+
+De vez en cuando conviene actualizar los paquetes instalados usando `library(update.packages())`.

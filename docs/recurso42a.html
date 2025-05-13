@@ -1,0 +1,2663 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Ordenar</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Ordenar</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+</br></br>
+<h2>
+Ordenar
+</h2>
+<p><img src="img/ordenar.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.32</strong> Etapa Ordenar en el desarrollo de un
+proyecto de ciencia de datos.</p>
+<p>Una de las tareas más importantes al llevar a cabo un proyecto de
+ciencia de datos es la <strong>preparación de los datos</strong>
+(también conocida como <strong>limpieza de datos</strong> o <em>data
+cleaning</em>), la cual resulta fundamental para garantizar un
+modelamiento adecuado. En esta sección, todas estas tareas forman parte
+de la etapa <strong>Ordenar</strong>, que comprende las siguientes
+actividades, las cuales inician después de importar una base de datos
+(ver <strong>Figura 1.32</strong>) conformada por una matriz con <span
+class="math inline">\(n\)</span> filas (registros) y <span
+class="math inline">\(m\)</span> columnas (variables):</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Cambio de formato de variables</strong>: Transformación
+entre formatos corto y largo para ajustarse a las necesidades
+específicas del análisis.</p>
+<ul>
+<li><p>En el <strong>formato corto</strong>, cada unidad de análisis
+(como un individuo, sujeto o entidad) se representa en una única fila, y
+las diferentes variables o mediciones asociadas a esa unidad se
+registran en columnas separadas.</p></li>
+<li><p>En el <strong>formato largo</strong>, cada medición o registro se
+representa como una fila única, con variables adicionales que indican
+las características de esa medición (como tiempo, condición o
+categoría).</p></li>
+</ul></li>
+<li><p><strong>Adición de registros</strong>: Incremento del número de
+filas mediante la combinación de registros provenientes de dos bases de
+datos.</p></li>
+<li><p><strong>Incorporación de nuevas variables</strong>: Adición de
+columnas provenientes de otras bases de datos.</p></li>
+<li><p><strong>Eliminación de registros duplicados</strong>:
+Identificación y eliminación de filas repetidas dentro de la base de
+datos.</p></li>
+<li><p><strong>Gestión de datos faltantes</strong>: En el software
+<strong>R</strong>, los datos faltantes se representan con
+<code>NA</code>, y su reemplazo se realiza mediante técnicas adecuadas
+dependiendo del tipo de dato faltante.</p></li>
+<li><p><strong>Detección de datos extraños o atípicos</strong>:
+Identificación de valores que no se ajustan a las tendencias generales
+de los datos.</p></li>
+</ol>
+<p></br></p>
+<p>A continuación, se presentan algunos de estos aspectos clave, los
+cuales son esenciales para preparar y acondicionar la base de datos de
+interés antes de iniciar el análisis de datos.</p>
+<hr />
+</br></br>
+<h3>
+Adición de registros
+</h3>
+<p>Esta etapa implica combinar datos provenientes de múltiples fuentes
+en una única estructura, lo que permite realizar un análisis más
+completo y holístico. La fusión de datos se utiliza comúnmente cuando se
+trabaja con conjuntos de datos que comparten una o más variables en
+común, como identificadores únicos, fechas o categorías. Este proceso es
+esencial para consolidar información fragmentada y obtener una visión
+integral del fenómeno estudiado.</p>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En <strong>R</strong>, uno de los paquetes más utilizados para
+realizar la fusión de datos es el paquete <code>dplyr</code>, que forma
+parte del grupo de paquetes agrupados en <code>tidyverse</code>. Este
+paquete ofrece una amplia variedad de funciones que facilitan la
+manipulación y combinación de conjuntos de datos de manera eficiente y
+legible.</p>
+<p><img src="img/mezcla12.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Para ilustrar la <strong>adición de registros</strong>, en este
+ejemplo se utilizan dos muestras, <code>data1</code> y
+<code>data2</code>, extraídas de la base <code>rotacion</code>, que
+forma parte del paquete <code>paqueteMETODOS</code>. Estas muestras
+serán combinadas para mostrar cómo se pueden agregar registros
+provenientes de distintas fuentes en una única estructura de datos.</p>
+<p><code>data1</code> contiene información de cuatro variables
+correspondientes a 6 personas. Por otro lado, <code>data2</code> incluye
+las mismas variables (columnas 2 a 5) pero correspondientes a otras 6
+personas. El objetivo es combinar ambos conjuntos de datos, logrando una
+única base con un total de 12 registros.</p>
+<pre>
+# Cargar la librería
+library(paqueteMETODOS)
+
+# Cargar la base de datos
+data("rotacion")
+
+# Creación de vector con números del 1 al 1470
+id = 1:1470
+
+# Agregando id a la base de datos
+data= data.frame(id, rotacion)
+
+# Selección de filas y columnas
+data1 = data[1:6,c(2,3,4,5)]
+
+# Selección de filas y columnas
+data2 = data[7:12,c(2,3,4,5)]
+</pre>
+<p></br></p>
+<p>Para combinar estas dos bases de datos, se emplea la función
+<code>rbind()</code> del paquete <code>dplyr</code>. Esta función
+permite apilar filas de conjuntos de datos con la misma estructura,
+asegurando que las columnas coincidan en nombre y tipo. Al aplicar
+<code>rbind()</code>, los registros de ambas bases (<code>data1</code> y
+<code>data2</code>) se agrupan en una única base consolidada que incluye
+los 12 registros originales.</p>
+<pre>
+library(dplyr)
+data20 = rbind(data1,data2)
+data20
+</pre>
+</p>
+</div>
+<hr />
+<br/><br/>
+<h3>
+Incorporación de nuevas variables
+</h3>
+<p>En la adición de variables, existen dos escenarios principales: El
+primero corresponde a la unión de columnas contenidas en diferentes
+bases de datos que están ordenadas de manera idéntica. En este caso, las
+nuevas columnas se añaden directamente, asegurando que los registros
+coincidan en la misma posición. Es crucial verificar que ambas bases
+compartan exactamente el mismo orden para evitar inconsistencias, ya que
+no se utiliza un identificador único.</p>
+<p>El segundo caso involucra bases de datos que contienen una llave o
+identificador común que permite indexar sus registros. Esta llave actúa
+como un vínculo entre las bases, asegurando que las columnas añadidas se
+alineen correctamente con el registro correspondiente en ambas bases.
+Este enfoque es más robusto y se adapta mejor a bases de datos de mayor
+tamaño o que carecen de un orden uniforme.</p>
+<p>Ambos métodos enriquecen las bases de datos al integrar información
+adicional, facilitando análisis más detallados y precisos, pero es
+fundamental seleccionar el método adecuado según las características de
+los datos y el contexto del análisis.</p>
+<p><br/></p>
+<p>Caso 1
+<img src="img/mezcla34.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Caso 2
+<img src="img/mezcla35.png" width="70%" style="display: block; margin: auto;" /></p>
+<br/><br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Para ilustrar la incorporación de nuevas variables, se utiliza una
+muestra de la base de datos <code>rotacion</code> contenida en el
+paquete <code>paqueteMET</code>. A partir de esta base, se conforman
+tres subconjuntos de datos denominados <code>data3</code>,
+<code>data4</code> y <code>data5</code>.</p>
+<p>El conjunto de datos <code>data3</code> está compuesto por 10
+registros y tres variables, incluyendo <code>id</code> (columna 1), que
+se utiliza en este caso para verificar que los registros están ordenados
+de manera coherente.</p>
+<p>El conjunto de datos <code>data4</code> también incluye el
+identificador <code>id</code> junto con otras dos variables adicionales
+que complementan la información proporcionada en <code>data3</code>.
+Esta base amplía la información disponible para el análisis.</p>
+<p>Finalmente, <code>data5</code> contiene las mismas variables que
+<code>data4</code> pero con algunos registros en común (específicamente,
+las filas 3 al 10). Este conjunto permite demostrar cómo combinar bases
+de datos que comparten tanto variables como registros.</p>
+<p>A continuación se presentan los códigos que generan las bases de
+datos.</p>
+<pre>
+library(paqueteMETODOS)
+data("rotacion")
+id = 1:1470
+data= data.frame(id, rotacion)
+data3 = data[1:10,c(1,2,3)]
+data4 = data[1:10,c(1,4,5)]
+data5 = data[3:12,c(1,4,5)]
+</pre>
+<p><code>cbind()</code> es una función utilizada para combinar dos o mas
+conjuntos por columnas, agregando un conjunto de columnas. En este
+ejemplo pega dos datas, en este caso <code>data3</code>,
+<code>data4</code> las que presentan el mismo orden de registros.</p>
+<p>La función <code>cbind()</code> se utiliza para combinar dos o más
+conjuntos de datos por columnas, agregando un conjunto de columnas a
+otro, siempre que ambos conjuntos compartan el mismo número y orden de
+registros. En este ejemplo, se utiliza <code>cbind()</code> para unir
+<code>data3</code> y <code>data4</code>, asegurando que los registros en
+ambas bases de datos estén alineados correctamente.</p>
+<p>El uso de <code>cbind()</code> es especialmente adecuado en
+situaciones donde las bases de datos comparten un identificador o una
+estructura de registros consistente, pero contienen variables
+complementarias. Esto permite enriquecer la base de datos original con
+nueva información sin perder la coherencia en la alineación de los
+datos.</p>
+<pre>
+cbind(data3, data4[,2:3])
+</pre>
+<p>La función <code>merge()</code> se utiliza para combinar conjuntos de
+datos utilizando columnas clave específicas, lo que permite unir bases
+de datos incluso cuando tienen un número diferente de registros. Este
+método es especialmente útil para incorporar nuevas variables a un
+conjunto de datos base, asegurando que los registros coincidan a través
+de una llave común.</p>
+<p>En este ejemplo, se emplea <code>merge()</code> para combinar
+<code>data3</code> con <code>data5</code>, utilizando la columna
+<code>id</code> como clave. Esto asegura que las nuevas variables de
+<code>data5</code> se añadan correctamente a los registros
+correspondientes en <code>data3</code>, respetando la relación definida
+por la llave compartida.</p>
+<pre>
+merge(data3, data5, by = "id", all = TRUE)
+</pre>
+</p>
+</div>
+<br/><br/>
+<div class="caja-nota">
+<h3>
+Nota:
+</h3>
+<p>
+<blockquote>
+<p>La función <code>cbind()</code> permite combinar dos o más bases de
+datos (en este caso, <code>data3</code> y <code>data4</code>) que tienen
+el mismo número de filas y corresponden a las mismas unidades muestrales
+(en este ejemplo, personas). Para evitar que la variable <code>id</code>
+aparezca duplicada en la nueva base de datos, se elimina la columna
+<code>id</code> de <code>data4</code>, dejando únicamente las columnas 2
+y 3, lo cual se realiza mediante el comando <code>data4[, 2:3]</code>.
+Esto garantiza que la base resultante no tenga variables repetidas.</p>
+</blockquote>
+<blockquote>
+<p>Por otro lado, la función <code>merge()</code> permite unir bases de
+datos utilizando un índice único que identifique cada registro (en este
+caso, <code>id</code>), sin necesidad de que los registros de las bases
+a combinar se encuentren ordenados previamente. En este ejemplo, se
+utilizan las bases <code>data3</code> y <code>data5</code>. La base
+<code>data3</code> contiene registros de personas con <code>id</code>
+del 1 al 12, mientras que <code>data5</code> incluye registros
+correspondientes a las personas con <code>id</code> del 3 al 14. Por
+este motivo, <code>data3</code> se toma como base, y a partir de ella se
+agregan los registros de <code>data5</code> que coinciden al comparar
+sus <code>id</code>. Como resultado, los registros de las personas con
+<code>id</code> 1 y 2 permanecen vacíos (<code>NA</code>) en las
+columnas correspondientes a <code>data5</code>.</p>
+</blockquote>
+</p>
+</div>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>
+Desde el paquete <code>paqueteMETODOS</code>, importe las siguientes
+bases de datos relacionadas con los participantes de una carrera:<br />
+<br/> <code>CarreraLu22_c1F</code> - Mujeres, categoría juvenil <br/>
+<code>CarreraLu22_c1M</code> - Hombres, categoría juvenil <br/>
+<code>CarreraLu22_c2F</code> - Mujeres, categoría abierta <br/>
+<code>CarreraLu22_c2M</code> - Hombres, categoría abierta <br/>
+<code>CarreraLu22_c3F</code> - Mujeres, categoría veteranos A <br/>
+<code>CarreraLu22_c3M</code> - Hombres, categoría veteranos A <br/>
+<code>CarreraLu22_c4F</code> - Mujeres, categoría veteranos B <br/>
+<code>CarreraLu22_c4M</code> - Hombres, categoría veteranos B <br/>
+<code>CarreraLu22_c5F</code> - Mujeres, categoría veteranos C <br/>
+<code>CarreraLu22_c5M</code> - Hombres, categoría veteranos C <br/>
+<code>CarreraLu22F</code> - Mujeres <br/> <code>CarreraLu22M</code> -
+Hombres <br/> A partir de esta información, reconstruya la base de datos
+original <code>CarreraLuz22</code> disponible en el paquete
+<code>paqueteMETODOS</code>. <br/>
+<pre>
+library(paqueteMETODOS)
+data("CarreraLuz22")  # contiene todos los datos
+</pre>
+</p>
+</blockquote>
+</div>
+<hr />
+</br></br>
+<h3>
+Gestión de datos faltantes
+</h3>
+<p>Un <strong>dato faltante</strong> se refiere a la ausencia de un
+valor en un conjunto de datos donde se esperaba que estuviera presente.
+Este fenómeno puede originarse por diversas razones, como errores
+durante la recopilación de información, datos no registrados o falta de
+respuesta en encuestas. Los datos faltantes representan un desafío
+significativo en el análisis, ya que pueden comprometer la
+<strong>validez</strong>, <strong>precisión</strong> y
+<strong>representatividad</strong> de los resultados obtenidos.</p>
+</br></br>
+<h4>
+Tipos de datos faltantes
+</h4>
+<p>Según Rubin (1976), los datos faltantes se clasifican en tres
+categorías: <strong>Datos Faltantes Completamente al Azar (MCAR -
+Missing Completely At Random)</strong>, <strong>Datos Faltantes al Azar
+(MAR - Missing At Random)</strong> y <strong>Datos Faltantes No al Azar
+(MNAR - Missing Not At Random)</strong>. En la <strong>Tabla
+1.14</strong> se comparan los distintos tipos de datos faltantes.</p>
+<p></br></br> 1. Datos Faltantes Completamente al Azar (MCAR - Missing
+Completely At Random)</p>
+<p>La ausencia de datos MCAR se refiere a situaciones en las que la
+falta de información no está relacionada ni con los valores observados
+ni con los valores faltantes. Este tipo de datos faltantes no introduce
+sesgos en los análisis estadísticos, lo que garantiza que las
+estimaciones obtenidas sean válidas y representativas de la población.
+Sin embargo, la eliminación de casos con datos faltantes puede reducir
+la potencia estadística, entendida como la capacidad de una prueba
+estadística para detectar un efecto o una diferencia cuando realmente
+existe en la población. Por lo tanto, aunque los datos MCAR sean ideales
+desde el punto de vista metodológico, el manejo de estos requiere un
+balance cuidadoso para preservar la representatividad y la capacidad de
+los análisis realizados.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<ul>
+<li><p>Una encuesta pierde algunas respuestas debido a un <strong>fallo
+técnico aleatorio</strong> en el sistema de registro.</p></li>
+<li><p>Un archivo de datos se corrompe parcialmente por un <strong>error
+de almacenamiento</strong>.</p></li>
+<li><p>En un estudio experimental, un animal se pierde debido a un
+<strong>accidente</strong> no relacionado con las características del
+experimento.</p></li>
+</ul>
+</p>
+</div>
+<p></br></br> 2. Datos Faltantes al Azar (MAR - Missing At Random)</p>
+<p>La ausencia de datos MAR ocurre cuando la probabilidad de que un dato
+esté ausente depende de los valores observados en otras variables del
+conjunto de datos, pero no está relacionada directamente con los valores
+faltantes en sí mismos. Este tipo de ausencia de datos puede manejarse
+de manera efectiva utilizando técnicas adecuadas de modelado, ya que no
+introduce sesgos significativos en los análisis si se aborda
+correctamente. La adecuada gestión de los datos MAR permite preservar la
+validez de las inferencias y conclusiones estadísticas, siempre que las
+estrategias de imputación o modelado consideren las dependencias
+existentes con las variables observadas.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<ul>
+<li><p>En un estudio sobre el uso de métodos anticonceptivos, es más
+probable que las mujeres <strong>afiliadas a una religión</strong> que
+desalienta su uso no respondan preguntas relacionadas. Sin embargo, esta
+ausencia de datos no está directamente vinculada al método
+anticonceptivo específico, sino a una característica observada: su
+afiliación religiosa.</p></li>
+<li><p>En un censo poblacional, las familias con un <strong>mayor número
+de integrantes</strong> tienden a omitir ciertas preguntas debido a la
+complejidad de completar múltiples formularios. No obstante, esta
+omisión no está directamente relacionada con las respuestas faltantes
+específicas.</p></li>
+<li><p>En un estudio sobre el peso de niños en edad escolar, los datos
+faltantes pueden deberse a la <strong>ausencia de los padres en las
+citas</strong> programadas para las mediciones. Esta falta de
+información no está vinculada directamente al peso de los niños, sino a
+factores como la disponibilidad de los padres.</p></li>
+</ul>
+</p>
+</div>
+<p></br></br> 3. Datos Faltantes No al Azar (MNAR - Missing Not At
+Random)</p>
+<p>La ausencia de datos MNAR ocurre cuando los valores faltantes están
+relacionados directamente con los mismos valores que faltan o con la
+variable que los contiene. Este tipo de datos faltantes puede introducir
+<strong>sesgos significativos</strong> en el análisis, ya que la
+probabilidad de que un valor esté ausente depende del valor que
+falta.</p>
+<p>El tratamiento de datos MNAR es especialmente desafiante y requiere
+supuestos adicionales o el uso de modelos especializados que consideren
+el mecanismo que genera los datos faltantes. Técnicas como modelos de
+selección, modelos de sesgo de no respuesta o enfoques bayesianos pueden
+ser necesarios para abordar este problema de manera adecuada.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<ul>
+<li><p>En una encuesta de ingresos, las personas con <strong>altos
+salarios</strong> suelen omitir las preguntas relacionadas con su
+ingreso, posiblemente por motivos de privacidad.</p></li>
+<li><p>En un estudio sobre consumo de alcohol, los individuos con un
+<strong>alto consumo</strong> evitan responder preguntas sobre la
+cantidad que consumen, probablemente debido al estigma
+asociado.</p></li>
+<li><p>En un cuestionario de salud mental, las personas que presentan
+<strong>altos niveles de estrés</strong> no completan la sección
+correspondiente debido a su estado emocional, lo que genera un sesgo en
+los datos recopilados.</p></li>
+</ul>
+</p>
+</div>
+<p><strong>Tabla 1.14</strong>: Resumen de los tipos de datos
+faltantes</p>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="28%" />
+<col width="16%" />
+<col width="49%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tipo</strong></th>
+<th><strong>Dependencia</strong></th>
+<th><strong>Impacto</strong></th>
+<th><span style="color:#C75000"><strong>Ejemplos</strong></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MCAR</strong></td>
+<td>No depende de valores observados ni faltantes</td>
+<td>No introduce sesgo</td>
+<td>- Fallo técnico aleatorio. <br> - Error de almacenamiento. <br> -
+Accidente con un sujeto experimental.</td>
+</tr>
+<tr class="even">
+<td><strong>MAR</strong></td>
+<td>Depende de valores observados en otras variables, no de los
+faltantes</td>
+<td>Sesgo bajo si se trata adecuadamente</td>
+<td>- Religión desalienta métodos anticonceptivos. <br> - Familias
+numerosas omiten preguntas en censos.</td>
+</tr>
+<tr class="odd">
+<td><strong>MNAR</strong></td>
+<td>Depende de los valores faltantes o de las variables en sí
+mismas</td>
+<td>Introduce sesgos significativos</td>
+<td>- Altos ingresos no reportados en encuestas. <br> - Alto consumo de
+alcohol no declarado. <br> - Estrés elevado evita respuestas.</td>
+</tr>
+</tbody>
+</table>
+<p>Identificar el <strong>tipo de datos faltantes</strong> es esencial
+para seleccionar la estrategia adecuada de tratamiento. Los datos
+<strong>MCAR</strong> son los más fáciles de manejar, mientras que los
+<strong>MNAR</strong> presentan desafíos significativos debido a los
+sesgos introducidos por su dependencia directa de los valores
+faltantes.</p>
+<p>A continuación, se presentan las principales técnicas organizadas en
+categorías.</p>
+</br></br>
+<h4>
+Técnicas de imputación de datos faltantes
+</h4>
+<p></br></br> 1. Eliminación de datos faltantes</p>
+<p>Estas técnicas consisten en excluir observaciones o variables con
+datos faltantes, y las estrategias más comunes son la
+<strong>eliminación completa</strong>y la <strong>eliminación
+parcial</strong>.</p>
+<p>En la <strong>eliminación completa</strong>, se eliminan todas las
+observaciones que contienen al menos un dato faltante en las variables
+de interés. Esta estrategia es fácil de implementar y no introduce
+sesgos si los datos faltantes son <strong>MCAR</strong>. Sin embargo,
+presenta limitaciones importantes, como la reducción significativa del
+tamaño de la muestra y el riesgo de sesgo en los resultados cuando los
+datos faltantes no cumplen la condición de <strong>MCAR</strong>.</p>
+<p>Por otro lado, la <strong>eliminación parcial</strong> permite
+utilizar todas las observaciones disponibles para cada análisis
+específico, ignorando los datos faltantes únicamente en ese análisis
+particular. Este enfoque tiene la ventaja de aprovechar más datos que la
+eliminación completa, lo que mantiene un tamaño de muestra más grande
+para cada análisis. No obstante, también presenta desventajas, como la
+dificultad para interpretar los resultados cuando se realizan múltiples
+análisis, y no es adecuada si existe un alto nivel de dependencia entre
+las variables con datos faltantes.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se analizan los datos faltantes de una muestra
+aleatoria de tamaño <span class="math inline">\(n = 1,000\)</span> de la
+base de datos <code>rotacionNA</code>. Esta base de datos pertenece al
+paquete <code>paqueteMETODOS</code>. La muestra se genera con la semilla
+123 (<code>set.seed(123)</code>) y se puede obtener utilizando el
+siguiente código:</p>
+<pre>
+library(paqueteMETODOS) # carga el paqueteMETODOS
+data("rotacionNA")      # carga el dataset rotacionNA
+set.seed(123)           # fija semilla para reproducibilidad
+rotacionNA <- sample_n(rotacionNA, 1000) # selecciona una muestra de tamaño 1000
+datosNA <- rotacionNA   # copia el contenido a datosNA
+</pre>
+<p>Con la función <code>str()</code> se obtiene una visualización
+general de la estructura de la base de datos (ver <strong>Figura
+1.33</strong>). Esto incluye información sobre el tamaño (número de
+filas y columnas: 1,000 x 25), las variables que la conforman, los tipos
+de datos asociados a cada variable (por ejemplo, numérico, carácter,
+factor), y una muestra de los primeros valores de cada variable.</p>
+<pre>
+str(datosNA) 
+</pre>
+<pre>
+spc_tbl_ [1,000 × 25] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ id                         : num [1:1000] 415 463 179 526 195 ...
+ $ Rotación                   : chr [1:1000] "Si" "No" "No" "Si" ...
+ $ Edad                       : num [1:1000] 24 34 46 24 45 39 30 46 34 34 ...
+ $ Viaje de Negocios          : chr [1:1000] "Raramente" "Raramente" "Raramente" "Raramente" ...
+ $ Departamento               : chr [1:1000] "Ventas" "Ventas" "Ventas" "Ventas" ...
+ $ Distancia_Casa             : num [1:1000] 1 21 1 3 2 13 7 2 2 10 ...
+ $ Educación                  : num [1:1000] 1 4 2 2 2 4 3 2 4 3 ...
+ $ Campo_Educación            : chr [1:1000] "Tecnicos" "Ciencias" "Mercadeo" "Ciencias" ...
+ $ Satisfacción_Ambiental     : num [1:1000] 1 4 2 1 1 3 2 4 4 4 ...
+ $ Genero                     : chr [1:1000] "F" "M" "F" "F" ...
+ $ Cargo                      : chr [1:1000] "Representante_Ventas" "Ejecutivo_Ventas" "Ejecutivo_Ventas" "Ejecutivo_Ventas" ...
+ $ Satisfación_Laboral        : num [1:1000] 2 4 1 3 4 2 2 4 4 3 ...
+ $ Estado_Civil               : chr [1:1000] "Soltero" "Soltero" "Divorciado" "Soltero" ...
+ $ Ingreso_Mensual            : num [1:1000] 3202 5337 10453 4577 16792 ...
+ $ Trabajos_Anteriores        : num [1:1000] 1 1 1 9 9 6 1 3 0 1 ...
+ $ Horas_Extra                : chr [1:1000] "Si" "No" "No" "No" ...
+ $ Porcentaje_aumento_salarial: num [1:1000] 16 12 25 14 23 13 12 14 14 14 ...
+ $ Rendimiento_Laboral        : num [1:1000] 3 3 4 3 4 3 3 3 3 3 ...
+ $ Años_Experiencia           : num [1:1000] 6 10 24 4 22 21 6 12 6 15 ...
+ $ Capacitaciones             : num [1:1000] 4 3 2 3 1 4 3 4 3 3 ...
+ $ Equilibrio_Trabajo_Vida    : num [1:1000] 3 3 3 3 3 3 2 2 3 3 ...
+ $ Antigüedad                 : num [1:1000] 5 10 24 2 20 19 6 9 5 15 ...
+ $ Antigüedad_Cargo           : num [1:1000] 3 7 13 2 8 9 4 8 0 14 ...
+ $ Años_ultima_promoción      : num [1:1000] 1 5 15 2 11 15 1 4 1 0 ...
+ $ Años_acargo_con_mismo_jefe : num [1:1000] 4 7 7 0 8 2 1 7 2 7 ...
+</pre>
+<p><strong>Figura 1.33</strong> Visualización general de la estructura
+de la base de datos.</p>
+<p>La función <code>colSums(is.na(datosNA))</code> permite totalizar el
+número de datos faltantes (<code>NA</code>) por variable en la muestra
+<code>datosNA</code> (ver <strong>Figura 1.34</strong>). Los resultados
+muestran que las variables <strong>Viaje de Negocio</strong>,
+<strong>Estado Civil</strong>, <strong>Rotación</strong>,
+<strong>Género</strong>, <strong>Edad</strong>,
+<strong>Departamento</strong>, <strong>Años de experiencia</strong> y
+<strong>Horas Extras</strong> tienen 22, 18, 17, 13, 11, 11, 11 y 5
+datos faltantes respectivamente. Para visualizar qué variables de la
+muestra contienen datos faltantes y con qué frecuencia se presentan, se
+puede utilizar el siguiente código:</p>
+<pre>
+library(dplyr)
+faltantes <- colSums(is.na(datosNA)) %>%
+as.data.frame()
+colnames(faltantes) <- c("Faltantes") # Renombra la columna con un nombre más descriptivo
+faltantes <- faltantes %>% arrange(desc(Faltantes)) # Ordena por la cantidad de faltantes
+</pre>
+<pre>
+                                 Faltantes
+Viaje de Negocios                  22
+Estado_Civil                       18
+Rotación                           17
+Genero                             13
+Edad                               11
+Departamento                       11
+Años_Experiencia                   11
+Horas_Extra                         5
+id                                  0
+Distancia_Casa                      0
+Educación                           0
+Campo_Educación                     0
+Satisfacción_Ambiental              0
+Cargo                               0
+Satisfación_Laboral                 0
+Ingreso_Mensual                     0
+Trabajos_Anteriores                 0
+Porcentaje_aumento_salarial         0
+Rendimiento_Laboral                 0
+Capacitaciones                      0
+Equilibrio_Trabajo_Vida             0
+Antigüedad                          0
+Antigüedad_Cargo                    0
+Años_ultima_promoción               0
+Años_acargo_con_mismo_jefe          0
+</pre>
+<p><strong>Figura 1.34</strong> Número de datos faltantes
+(<code>NA</code>) por variable en la muestra <code>datosNA</code>.</p>
+<p>La función <code>gg_miss_var(datosNA)</code> genera una gráfica que
+permite visualizar qué variables tienen datos faltantes (ver
+<strong>Figura 1.35</strong>). Al renderizar el siguiente código, se
+observa que las variables <strong>Viaje de Negocio</strong>,
+<strong>Estado Civil</strong>, <strong>Rotación</strong>,
+<strong>Género</strong>, <strong>Edad</strong>,
+<strong>Departamento</strong>, <strong>Años de experiencia</strong> y
+<strong>Horas Extras</strong> presentan datos faltantes.</p>
+<pre>
+# install.packages("naniar")
+library(naniar)
+naniar::gg_miss_var(datosNA) # gráfico de datos faltantes
+</pre>
+<p><img src="img/faltantes1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.35</strong> Variables que tienen datos
+faltantes.</p>
+<p>Otra forma de detectar y representar gráficamente los datos faltantes
+es utilizando la función
+<code>md.pattern(datosNA, rotate.names = TRUE)</code> del paquete
+<code>mice</code>.</p>
+<p>El comando <code>VIM::aggr</code>, del paquete <code>VIM</code>, se
+emplea para calcular y representar gráficamente el número de datos
+faltantes en cada variable, así como en combinaciones específicas de
+variables que tienden a presentar ausencias simultáneamente. Esta
+función proporciona un análisis exhaustivo y visualmente intuitivo de
+los patrones de datos faltantes en un conjunto de datos.</p>
+<p>En la <strong>Figura 1.36</strong>, se muestra la salida
+computacional generada por esta función. Cada fila del gráfico
+corresponde a una combinación de variables, mientras que cada columna
+representa una de las 25 variables del conjunto de datos. Los datos
+faltantes en una combinación se indican con un <code>1</code>, mientras
+que la presencia de datos se denota con un <code>0</code>.</p>
+<p>El análisis de los resultados evidencia que la combinación más
+frecuente es la número 1, en la cual todas las variables están completas
+(<strong>Count = 900</strong>), reflejado por la ausencia de valores
+<code>1</code> en esa fila. La segunda combinación más común corresponde
+a registros donde falta la variable <strong>Años de Experiencia</strong>
+(<strong>Count = 10</strong>). En este caso, la ausencia de datos en la
+variable “Años_Experiencia” (identificada como la columna 19) se
+visualiza mediante un <code>1</code> en esa posición. Asimismo, la
+combinación 14 muestra dos registros (<strong>Count = 2</strong>) con
+datos faltantes simultáneamente en las variables 2 y 3, que corresponden
+a “Rotación” y “Edad”, respectivamente.</p>
+<pre>
+# install.packages("VIM")
+library(VIM)
+VIM::aggr(datosNA, cex.axis = 0.5, cex.lab= 0.8)  # gráficos de datos faltantes
+res<-summary(aggr(datosNA, sortVar=TRUE))$combinations
+res
+head(res[rev(order(res[,2])),])
+</pre>
+<pre>
+                                        Combinations Count Percent
+1  0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0   900    90.0
+2  0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0    10     1.0
+3  0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0     5     0.5
+4  0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0    16     1.6
+5  0:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0    13     1.3
+6  0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0    10     1.0
+7  0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0    20     2.0
+8  0:0:0:1:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0     1     0.1
+9  0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0     7     0.7
+10 0:0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0     1     0.1
+11 0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0    12     1.2
+12 0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0     1     0.1
+13 0:1:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0     1     0.1
+14 0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0     2     0.2
+15 0:1:1:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0     1     0.1
+</pre>
+<p><strong>Figura 1.36</strong> Ciertas combinaciones de variables (que
+tienden a faltar simultáneamente).</p>
+<p>El gráfico generado por el panel derecho utiliza colores para
+representar el patrón: el azul indica las variables observadas, mientras
+que el rojo destaca los valores faltantes.</p>
+<pre>
+selected_columns <-colnames(datosNA[,c(4,13,2,10,3,5,19,16)])
+datos_selected <- datosNA[, selected_columns]
+colnames(datos_selected)<-c("V.Neg.", "E.Civ.", "Rotación", "Sexo", "Edad", "Depart.", "T.Exp.", "T.Ext.")
+matrixplot(datos_selected, sortby = 2)
+</pre>
+<p><img src="img/faltantes2.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.37</strong> Gráfico matricial que visualiza todas
+las celdas de una matriz de datos por variables.</p>
+<p>La función <code>matrixplot</code> del paquete <code>VIM</code>
+genera un gráfico matricial que visualiza todas las celdas de una matriz
+de datos mediante el uso de rectángulos (ver <strong>Figura
+1.37</strong>). En este gráfico, los datos disponibles se representan
+utilizando un esquema de color continuo, como una escala de grises,
+mientras que los datos faltantes o imputados se destacan con un color
+distintivo, como el rojo.</p>
+<p>Esta representación gráfica es especialmente útil para identificar
+patrones de ausencia de datos y explorar posibles relaciones entre
+variables. La visualización permite observar tendencias como grupos de
+datos faltantes que podrían estar relacionados con características
+específicas de las variables.</p>
+<p>Una vez detectada la proporción de datos faltantes, se procede con la
+primera estrategia de manejo: <strong>eliminarlos por
+completo</strong>.</p>
+<p>La función <code>na.omit()</code> permite <strong>eliminar todos los
+registros</strong> (filas) de una base de datos que contienen datos
+faltantes (<code>NA</code>). Este método es útil para garantizar que
+solo se analicen observaciones completas. En este caso, al aplicar
+<code>na.omit()</code> a la base de datos <code>datosNA</code>, se
+eliminan 100 registros, dejando una base final con dimensiones 900 x 25
+(ver <strong>Figura 1.38</strong>). A continuación, se muestra el código
+utilizado para este proceso:</p>
+<pre>
+library(naniar)
+naniar::gg_miss_var(datosSINA)
+</pre>
+<p><img src="img/faltantes3.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.38</strong> Gráfico que muestra que las variables no
+tienen datos faltantes.</p>
+</p>
+</div>
+<p></br></br> 2. Técnicas básicas</p>
+<p>Las técnicas básicas se emplean para reemplazar los datos faltantes
+en un conjunto de datos con un único valor estimado o plausible,
+calculado a partir de la información disponible en las observaciones
+completas. Aunque son básicas para manejar datos faltantes y resulta
+fácil de implementar, su uso debe realizarse con precaución debido a
+limitaciones que podrían afectar la validez de los análisis.</p>
+<p>Una de las estrategias más comunes consiste en <strong>reemplazar los
+valores faltantes utilizando medidas como el promedio, la mediana o la
+moda</strong> de la variable correspondiente. En este caso, la
+<strong>moda</strong> es adecuada para variables categóricas, mientras
+que el <strong>promedio</strong> y la <strong>mediana</strong> son
+empleados para variables cuantitativas. La mediana, al ser menos
+sensible a valores atípicos, es generalmente preferible al promedio en
+estos casos.</p>
+<p>En el análisis de series de tiempo o series temporales, se aplican
+las técnicas de <strong>Forward Fill</strong> y <strong>Backward
+Fill</strong>. <strong>Forward Fill</strong> rellena los valores
+faltantes con el dato más reciente disponible en la serie, mientras que
+<strong>Backward Fill</strong> utiliza el próximo valor conocido en la
+serie temporal.</p>
+<p>En términos prácticos, una serie de tiempo se define como un conjunto
+de observaciones numéricas correspondientes a una o más variables,
+registradas secuencialmente a intervalos de tiempo regulares o
+irregulares. Estas observaciones pueden abarcar diferentes escalas
+temporales, como segundos, minutos, días, meses o años. La
+característica distintiva de las series de tiempo es que el
+<strong>orden cronológico</strong> de los datos resulta fundamental para
+su análisis y tratamiento, ya que las relaciones temporales entre las
+observaciones determinan los patrones y tendencias que pueden ser
+modelados.</p>
+<p>Entre las principales ventajas de estas técnicas se encuentran su
+<strong>simplicidad</strong>, <strong>facilidad de
+implementación</strong> y <strong>eficiencia computacional</strong>,
+incluso en grandes conjuntos de datos. Sin embargo, presentan
+limitaciones significativas, como la <strong>subestimación de la
+variabilidad de los datos</strong> y la posible <strong>distorsión de
+las relaciones entre variables</strong>, lo cual podría comprometer la
+validez de los análisis posteriores.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se aplican técnicas de imputación básicas para
+manejar los datos faltantes presentes en la muestra aleatoria generada
+en el ejemplo anterior. Estas técnicas incluyen el reemplazo de los
+valores faltantes utilizando medidas como la media, la mediana y la
+moda, dependiendo del tipo de variable y del contexto del análisis.</p>
+<p>La <strong>Figura 1.39</strong> presenta la distribución de la
+variable <strong>Edad</strong>, la cual exhibe aproximadamente una
+simetría unimodal. Esta característica respalda el uso del promedio como
+una técnica adecuada para la imputación de los datos faltantes. Sin
+embargo, también resulta pertinente considerar la mediana, aunque esta
+se usa especialmente si se desea minimizar el impacto de posibles
+valores atípicos y sesgo de la distribución.</p>
+<p><img src="img/edad.png" width="50%" style="display: block; margin: auto;" />
+<strong>Figura 1.39</strong> Distribución de la variable “Edad”.</p>
+<pre>
+library(ggplot2)
+library(gridExtra)  # Para organizar gráficos
+
+# Extraer y limpiar los datos
+Edad <- unlist(datosNA[, 3])    # Convertir a vector si es una lista
+Edad <- as.numeric(Edad)        # Asegurarse de que sea numérico
+Edad <- Edad[is.finite(Edad)]   # Remover valores no válidos
+
+# Crear un dataframe 
+datos <- data.frame(Edad)
+
+# Crear el gráfico de boxplot 
+boxplot_grafico <- ggplot(datos, aes(x = "", y = Edad)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue", outlier.color = "red") +
+  theme_minimal(base_size = 14) +
+  labs(x = "", y = "Edad (años)") +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line.x = element_line(color = "black"),  
+    axis.line.y = element_line(color = "black")   
+  )
+
+# Crear el gráfico de densidad 
+densidad_grafico <- ggplot(datos, aes(x = Edad)) +
+  geom_density(alpha = 0.5, fill = "lightgreen", color = "darkgreen") +
+  theme_minimal(base_size = 14) +
+  labs(x = "Edad (años)", y = "Densidad") +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line.x = element_line(color = "black"),  # Línea del eje X
+    axis.line.y = element_line(color = "black")   # Línea del eje Y
+  )
+
+# Combinar los gráficos lado a lado
+grid.arrange(boxplot_grafico, densidad_grafico, ncol = 2)
+</pre>
+<p>Inicialmente, se imputan los datos faltantes de la variable “Edad”
+utilizando el <strong>promedio</strong> de esta, que es 36.88 años. Este
+valor se calcula promediando la edad, omitiendo los datos faltantes
+mediante <code>round(mean(datosNA$Edad, na.rm = TRUE), 2)</code>.
+Posteriormente, los valores faltantes (<code>NA</code>) se reemplazan
+con este promedio. La <strong>Figura 1.40</strong> muestra cómo después
+de la imputación de los datos faltantes, la variable “Edad” ya no tiene
+valores faltantes.</p>
+<p>A continuación, se presentan los códigos para realizar la imputación
+de los datos faltantes de la variable “Edad”.</p>
+<pre>
+library(paqueteMETODOS) # carga el paqueteMETODOS
+data("rotacionNA")      # carga el dataset rotacionNA
+set.seed(123)           # fija semilla para reproducibilidad
+rotacionNA <- sample_n(rotacionNA, 1000) # selecciona una muestra de tamaño 1000
+datosNA <- rotacionNA   # copia el contenido a datosNA
+
+# Calcula la media de la variable "Edad"
+media_Edad <- round(mean(datosNA$Edad, na.rm = TRUE), 2)
+
+# Reemplaza los valores faltantes con la media
+datosNA$Edad[is.na(datosNA$Edad)] <- media_Edad
+VIM::aggr(datosNA, cex.axis = 0.4, cex.lab = 0.8)
+cat("Media de Edad:", media_Edad)
+naniar::gg_miss_var(datosNA) # gráfico de datos faltantes
+</pre>
+<p><img src="img/faltantes_edad.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.40</strong> Gráfico que muestra que la variable
+“Edad” ahora no tiene datos faltantes.</p>
+<p>En la <strong>Figura 1.41</strong> se observa que la variable “Tiempo
+de Experiencia” presenta asimetría y valores atípicos. En este contexto,
+resulta necesario considerar la imputación de los datos faltantes
+utilizando la <strong>mediana</strong> en lugar del promedio, dado que
+la mediana es menos sensible a los valores extremos y proporciona una
+estimación más robusta para este tipo de distribución.</p>
+<p><img src="img/experiencia.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.41</strong> Distribución de la variable “Tiempo de
+experiencia (años)”.</p>
+<pre>
+library(ggplot2)
+library(gridExtra)  # Para organizar gráficos
+
+# Extraer y limpiar los datos
+Tiempo_experiencia <- unlist(datosNA[, 19])  # Convertir a vector si es una lista
+Tiempo_experiencia <- as.numeric(Tiempo_experiencia)  # Asegurarse de que sea numérico
+Tiempo_experiencia <- Tiempo_experiencia[is.finite(Tiempo_experiencia)]  # Remover valores no válidos
+
+# Crear un dataframe válido
+datos <- data.frame(Tiempo = Tiempo_experiencia)
+
+# Crear el gráfico de boxplot con líneas en los ejes
+boxplot_grafico <- ggplot(datos, aes(x = "", y = Tiempo)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue", outlier.color = "red") +
+  geom_hline(yintercept = 0, linetype = "solid", color = "black") +  
+  geom_vline(xintercept = 0.5, linetype = "solid", color = "black") +  
+  theme_minimal(base_size = 14) +
+  labs(x = "", y = "Tiempo (años)") +
+  theme(
+    axis.text.x = element_blank(),  
+    panel.grid = element_blank()
+  )
+
+# Crear el gráfico de densidad con líneas en los ejes
+densidad_grafico <- ggplot(datos, aes(x = Tiempo)) +
+  geom_density(alpha = 0.5, fill = "lightgreen", color = "darkgreen") +
+  geom_hline(yintercept = 0, linetype = "solid", color = "black") +  # Línea horizontal en Y
+  geom_vline(xintercept = 0, linetype = "solid", color = "black") +  # Línea vertical en X
+  theme_minimal(base_size = 14) +
+  labs(x = "Tiempo (años)", y = "Densidad") +
+  theme(
+    panel.grid = element_blank()
+  )
+
+# Combinar los gráficos lado a lado
+grid.arrange(boxplot_grafico, densidad_grafico, ncol = 2)
+</pre>
+<p>A continuación, se presentan los códigos necesarios para imputar los
+valores faltantes en la variable “Tiempo de Experiencia” utilizando la
+mediana. Al ejecutar el comando
+<code>VIM::aggr(datosNA, cex.axis = 0.5, cex.lab = 0.8)</code>, se puede
+observar que, tras la imputación, no existen valores faltantes
+(<code>NA</code>) en dicha variable.</p>
+<pre>
+datosNA <- rotacionNA
+# Calcula la mediana de la variable "Años_Experiencia"
+mediana_Años_Experiencia <- round(median(datosNA$Años_Experiencia, na.rm = TRUE),0)
+datosNA$Años_Experiencia[is.na(datosNA$Años_Experiencia)] <- mediana_Años_Experiencia
+VIM::aggr(datosNA, cex.axis = 0.4, cex.lab= 0.8)
+cat("mediana Años_Experiencia : ", mediana_Años_Experiencia)
+</pre>
+<p>En el caso de la variable “Estado Civil”, dado que se trata de una
+variable cualitativa, la imputación se realiza utilizando la
+<strong>moda</strong>, que en este caso corresponde a la categoría
+“Casado”. A continuación, se presenta el gráfico de barras de la
+variable (ver <strong>Figura 1.42</strong>) y los códigos necesarios
+para llevar a cabo la imputación.</p>
+<p><img src="img/estadocivil.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.42</strong> Distribución de la variable “Estado
+civil”.</p>
+<pre>
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear el dataframe con la variable Estado_Civil
+estado_civil <- as.factor(datosNA$Estado_Civil)  # Asegúrate de que sea un factor
+datos <- data.frame(Estado_Civil = estado_civil)
+
+# Graficar con tema minimalista
+plot_estadoc<-ggplot(datos, aes(x = Estado_Civil)) +
+  geom_bar(fill = "lightblue", color = "darkblue") +  
+  theme_minimal(base_size = 14) +  
+  labs(
+    x = "Estado Civil",  
+    y = "Número de personas"     
+  ) +
+  theme(
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 14),   
+    panel.grid.major = element_blank(),    
+    panel.grid.minor = element_blank()    
+  )
+print(plot_estadoc)
+</pre>
+<pre>
+# install.packages("DescTools")
+library(DescTools)
+moda_Estado_Civil <- Mode(datosNA$Estado_Civil, na.rm = TRUE)
+datosNA$Estado_Civil[is.na(datosNA$Estado_Civil)] <- moda_Estado_Civil
+# VIM::aggr(datosNA, cex.axis = 0.5, cex.lab= 0.8)
+cat("moda Estado_Civil : ", moda_Estado_Civil)
+</pre>
+</p>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se utiliza el conjunto de datos
+<strong>AirPassengers</strong>, una serie de tiempo clásica en
+<strong>R</strong> que registra datos mensuales sobre el número de
+pasajeros en vuelos internacionales. Este conjunto de datos es
+ampliamente reconocido y utilizado como referencia para ilustrar
+técnicas de análisis de series temporales o series de tiempo.</p>
+<p>Para este caso, se seleccionan aleatoriamente 10 valores dentro de la
+base de datos, los cuales se reemplazan con datos faltantes
+(<code>NA</code>) para simular escenarios de datos incompletos.
+Posteriormente, se aplican técnicas de imputación utilizando la función
+<code>zoo::na.locf</code>. Las imputaciones se realizan mediante los
+métodos <strong>Forward Fill</strong> (rellenar los valores faltantes
+con el último valor conocido) y <strong>Backward Fill</strong> (rellenar
+los valores faltantes con el próximo valor conocido).</p>
+<p>Los códigos proporcionados permiten cargar la base de datos
+AirPassengers, generar los valores faltantes y aplicar las imputaciones
+mencionadas. Los resultados se reflejan en las columnas ForwardFill y
+BackwardFill del marco de datos <code>ap_data</code>, donde se pueden
+observar los valores imputados para los datos faltantes.</p>
+<pre>
+# Cargar librerías
+
+library(zoo)
+library(ggplot2)
+library(reshape2)
+
+
+# Configuración de codificación
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Datos base
+data("AirPassengers")
+ap_data <- data.frame(
+    Fecha = as.Date(time(AirPassengers), origin = "1970-01-01"),
+    Pasajeros = as.numeric(AirPassengers)
+)
+
+# Introducir valores faltantes
+set.seed(123)
+faltantes <- sample(1:nrow(ap_data), 10)
+ap_data$Pasajeros[faltantes] <- NA
+
+# Imputaciones
+ap_data$ForwardFill <- zoo::na.locf(ap_data$Pasajeros, na.rm = FALSE)
+ap_data$BackwardFill <- zoo::na.locf(ap_data$Pasajeros, na.rm = FALSE, fromLast = TRUE)
+
+# Transformar datos
+ap_data_long <- melt(ap_data, id.vars = "Fecha", variable.name = "Metodo", value.name = "Valor")
+ap_data_long <- ap_data_long[!is.na(ap_data_long$Valor), ]  # Filtrar valores faltantes
+
+# Crear gráfico
+plot <- ggplot(ap_data_long, aes(x = Fecha, y = Valor, color = Metodo)) +
+    geom_line(linewidth = 1) +
+    geom_point(size = 2) +
+    labs(
+        title = "",
+        x = "Fecha", y = "Pasajeros", color = "Método"
+    ) +
+    theme_minimal(base_size = 14) +
+    theme(
+        plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.title = element_text(size = 14),
+        legend.text = element_text(size = 14)
+    )
+
+print(plot)
+</pre>
+<p>En el marco de datos <code>ap_data</code>, se pueden observar los
+valores originales y los imputados para los datos faltantes.</p>
+<pre>
+> ap_data
+         Fecha Pasajeros ForwardFill BackwardFill
+1   1949-01-01       112         112          112
+2   1949-02-01       118         118          118
+3   1949-03-01       132         132          132
+4   1949-04-01       129         129          129
+5   1949-05-01       121         121          121
+6   1949-06-01       135         135          135
+7   1949-07-01       148         148          148
+8   1949-08-01       148         148          148
+9   1949-09-01       136         136          136
+10  1949-10-01       119         119          119
+11  1949-11-01       104         104          104
+12  1949-12-01       118         118          118
+13  1950-01-01       115         115          115
+14  1950-02-01        NA         115          141
+15  1950-03-01       141         141          141
+16  1950-04-01       135         135          135
+17  1950-05-01       125         125          125
+18  1950-06-01       149         149          149
+19  1950-07-01       170         170          170
+20  1950-08-01       170         170          170
+21  1950-09-01       158         158          158
+22  1950-10-01       133         133          133
+23  1950-11-01       114         114          114
+24  1950-12-01       140         140          140
+25  1951-01-01       145         145          145
+26  1951-02-01       150         150          150
+27  1951-03-01       178         178          178
+28  1951-04-01       163         163          163
+29  1951-05-01       172         172          172
+30  1951-06-01       178         178          178
+31  1951-07-01       199         199          199
+32  1951-08-01       199         199          199
+33  1951-09-01       184         184          184
+34  1951-10-01       162         162          162
+35  1951-11-01       146         146          146
+36  1951-12-01       166         166          166
+37  1952-01-01       171         171          171
+38  1952-02-01       180         180          180
+39  1952-03-01       193         193          193
+40  1952-04-01       181         181          181
+41  1952-05-01       183         183          183
+42  1952-06-01       218         218          218
+43  1952-07-01        NA         218          242
+44  1952-08-01       242         242          242
+45  1952-09-01       209         209          209
+46  1952-10-01       191         191          191
+47  1952-11-01       172         172          172
+48  1952-12-01       194         194          194
+49  1953-01-01       196         196          196
+50  1953-02-01        NA         196          236
+51  1953-03-01       236         236          236
+52  1953-04-01       235         235          235
+53  1953-05-01       229         229          229
+54  1953-06-01       243         243          243
+55  1953-07-01       264         264          264
+56  1953-08-01       272         272          272
+57  1953-09-01       237         237          237
+58  1953-10-01       211         211          211
+59  1953-11-01       180         180          180
+60  1953-12-01       201         201          201
+61  1954-01-01       204         204          204
+62  1954-02-01       188         188          188
+63  1954-03-01       235         235          235
+64  1954-04-01       227         227          227
+65  1954-05-01       234         234          234
+66  1954-06-01       264         264          264
+67  1954-07-01       302         302          302
+68  1954-08-01       293         293          293
+69  1954-09-01       259         259          259
+70  1954-10-01       229         229          229
+71  1954-11-01       203         203          203
+72  1954-12-01       229         229          229
+73  1955-01-01       242         242          242
+74  1955-02-01       233         233          233
+75  1955-03-01       267         267          267
+76  1955-04-01       269         269          269
+77  1955-05-01       270         270          270
+78  1955-06-01       315         315          315
+79  1955-07-01       364         364          364
+80  1955-08-01       347         347          347
+81  1955-09-01       312         312          312
+82  1955-10-01       274         274          274
+83  1955-11-01       237         237          237
+84  1955-12-01       278         278          278
+85  1956-01-01       284         284          284
+86  1956-02-01       277         277          277
+87  1956-03-01       317         317          317
+88  1956-04-01       313         313          313
+89  1956-05-01       318         318          318
+90  1956-06-01        NA         318          355
+91  1956-07-01        NA         318          355
+92  1956-08-01        NA         318          355
+93  1956-09-01       355         355          355
+94  1956-10-01       306         306          306
+95  1956-11-01       271         271          271
+96  1956-12-01       306         306          306
+97  1957-01-01       315         315          315
+98  1957-02-01       301         301          301
+99  1957-03-01       356         356          356
+100 1957-04-01       348         348          348
+101 1957-05-01       355         355          355
+102 1957-06-01       422         422          422
+103 1957-07-01       465         465          465
+104 1957-08-01       467         467          467
+105 1957-09-01       404         404          404
+106 1957-10-01       347         347          347
+107 1957-11-01       305         305          305
+108 1957-12-01       336         336          336
+109 1958-01-01       340         340          340
+110 1958-02-01       318         318          318
+111 1958-03-01       362         362          362
+112 1958-04-01       348         348          348
+113 1958-05-01       363         363          363
+114 1958-06-01       435         435          435
+115 1958-07-01       491         491          491
+116 1958-08-01       505         505          505
+117 1958-09-01       404         404          404
+118 1958-10-01        NA         404          310
+119 1958-11-01       310         310          310
+120 1958-12-01       337         337          337
+121 1959-01-01       360         360          360
+122 1959-02-01       342         342          342
+123 1959-03-01       406         406          406
+124 1959-04-01       396         396          396
+125 1959-05-01       420         420          420
+126 1959-06-01       472         472          472
+127 1959-07-01       548         548          548
+128 1959-08-01       559         559          559
+129 1959-09-01       463         463          463
+130 1959-10-01       407         407          407
+131 1959-11-01       362         362          362
+132 1959-12-01       405         405          405
+133 1960-01-01       417         417          417
+134 1960-02-01       391         391          391
+135 1960-03-01       419         419          419
+136 1960-04-01       461         461          461
+137 1960-05-01        NA         461          535
+138 1960-06-01       535         535          535
+139 1960-07-01       622         622          622
+140 1960-08-01       606         606          606
+141 1960-09-01       508         508          508
+142 1960-10-01        NA         508          390
+143 1960-11-01       390         390          390
+144 1960-12-01        NA         390           NA
+</pre>
+<p>En la <strong>Figura 1.43</strong> se compara la serie de tiempo
+original (pasajeros) con las series resultantes de la imputación con
+ambos métodos mencioandos.</p>
+<p><img src="img/serie1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.43</strong> Representación de la serie de tiempo
+<strong>AirPassengers</strong>: visualización de los datos originales
+(Pasajeros) junto con las imputaciones realizadas mediante los métodos
+Forward Fill y Backward Fill para los valores faltantes.</p>
+</p>
+</div>
+<p></br></br> 3. Otras técnicas</p>
+<p>Otra técnica ampliamente utilizada en el manejo de datos faltantes es
+la imputación basada en <strong>modelos de regresión</strong>, la cual
+estima los valores ausentes utilizando las relaciones observadas entre
+las variables disponibles en el conjunto de datos. Este enfoque se
+destaca por su capacidad de aprovechar la información proporcionada por
+múltiples variables, lo que contribuye a una mayor precisión en las
+estimaciones imputadas.</p>
+<p>Sin embargo, su principal limitación radica en el supuesto de
+linealidad entre las variables, lo que implica que las relaciones deben
+ajustarse a un modelo lineal. Esta restricción puede no ser adecuada en
+todos los contextos, especialmente cuando las relaciones subyacentes
+entre las variables son complejas o no lineales.</p>
+<p>La técnica conocida como <strong>Hot Deck Imputation</strong>
+consiste en reemplazar los valores faltantes utilizando valores
+provenientes de observaciones similares o vecinas dentro del mismo
+conjunto de datos. Este enfoque es particularmente valioso porque
+permite preservar la variabilidad original de los datos, lo que resulta
+en estimaciones más representativas y acordes a la estructura del
+conjunto de datos.</p>
+<p>No obstante, su efectividad depende en gran medida de la definición
+de similitud utilizada para identificar las observaciones vecinas. La
+selección de criterios adecuados para determinar esta similitud es
+crucial, ya que un mal diseño puede introducir sesgos y afectar la
+calidad de las imputaciones.</p>
+<p>El método <strong>K-Nearest Neighbors (KNN)</strong> es una técnica
+de imputación que estima los valores faltantes utilizando un conjunto de
+<span class="math inline">\(k\)</span> observaciones más cercanas en el
+espacio de datos. La proximidad entre las observaciones se determina
+mediante una métrica de similitud, como la distancia euclidiana,
+Manhattan u otra métrica relevante para el contexto.</p>
+<p>El método de <strong>K-Nearest Neighbors (KNN)</strong> puede
+considerarse una extensión avanzada y específica de la técnica
+<strong>Hot Deck Imputation</strong>. Ambos enfoques comparten la idea
+de utilizar observaciones similares o vecinas dentro del conjunto de
+datos para imputar valores faltantes, pero el KNN introduce formalmente
+un marco basado en la distancia y un parámetro <span
+class="math inline">\(k\)</span>, lo que lo diferencia y lo hace más
+estructurado.</p>
+<p>Cuando los datos faltantes no son al azar (<strong>MNAR</strong>), es
+necesario emplear enfoques avanzados que consideren el mecanismo
+subyacente que genera la ausencia de datos. Entre estos métodos destacan
+los <strong>modelos de selección de Heckman</strong> y la
+<strong>imputación condicional iterativa</strong>, los cuales permiten
+realizar imputaciones más precisas considerando las características
+específicas de los datos faltantes.</p>
+<p>Adicionalmente, en el caso de datos faltantes en <strong>series de
+tiempo</strong> (o series temporales), se aplican técnicas
+especializadas diseñadas específicamente para abordar las
+características de este tipo de datos.</p>
+<p>Es crucial evaluar cuidadosamente el patrón y la naturaleza de los
+datos faltantes antes de seleccionar una estrategia específica para su
+tratamiento. Además, es fundamental reconocer que cualquier método de
+imputación introduce un grado de incertidumbre que puede influir en los
+resultados del análisis o modelo. Por lo tanto, es esencial documentar
+claramente el proceso de imputación y considerar su impacto en la
+interpretación de los resultados.</p>
+<p>El tratamiento de datos faltantes constituye un paso crítico en
+cualquier análisis estadístico. La elección de las técnicas apropiadas
+debe estar basada en el tipo de datos faltantes, el contexto del estudio
+y las herramientas disponibles. En muchos casos, una combinación de
+enfoques, como la imputación múltiple o el uso de modelos robustos,
+puede ofrecer una solución más precisa y confiable para abordar este
+desafío.</p>
+<p>Se recomienda a los estudiantes que, después de cursar asignaturas
+relacionadas con <strong>modelación estadística</strong> y
+<strong>machine learning</strong>, profundicen en el estudio de técnicas
+avanzadas de imputación. Este conocimiento es fundamental para abordar
+los distintos mecanismos de datos faltantes, como <strong>MAR</strong>
+(Missing at Random), <strong>MNAR</strong> (Missing Not at Random) y
+<strong>MCAR</strong> (Missing Completely at Random), y para garantizar
+la validez y precisión de los análisis en situaciones con datos
+incompletos.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Un ejemplo interesante para aplicar imputación de datos faltantes
+utilizando <strong>regresión lineal simple</strong> puede construirse a
+partir de los datos del conjunto <code>mtcars</code>, incluido en
+<strong>R</strong>. Aquí, se simulan datos faltantes en una
+<strong>variable dependiente</strong> (<code>mpg</code>, <em>consumo de
+combustible</em>) y utilizaremos otra variable (<code>hp</code>,
+<em>caballos de fuerza</em>) como predictor en un modelo de regresión
+lineal para imputar los valores faltantes. A continuación, la base de
+datos con 5 datos faltantes en la variable dependiente:</p>
+<pre>
+                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb mpg_imputed
+Mazda RX4             NA   6 160.0 110 3.90 2.620 16.46  0  1    4    4    22.72126
+Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4    21.00000
+Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1    22.80000
+Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1    21.40000
+Hornet Sportabout     NA   8 360.0 175 3.15 3.440 17.02  0  0    3    2    18.19951
+Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1    18.10000
+Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4    14.30000
+Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2    24.40000
+Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2    22.80000
+Merc 280              NA   6 167.6 123 3.92 3.440 18.30  1  0    4    4    21.81691
+Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4    17.80000
+Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3    16.40000
+Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3    17.30000
+Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3    15.20000
+Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4    10.40000
+Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4    10.40000
+Chrysler Imperial     NA   8 440.0 230 3.23 5.345 17.42  0  0    3    4    14.37342
+Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1    32.40000
+Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2    30.40000
+Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1    33.90000
+Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1    21.50000
+Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2    15.50000
+AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2    15.20000
+Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4    13.30000
+Pontiac Firebird      NA   8 400.0 175 3.08 3.845 17.05  0  0    3    2    18.19951
+Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1    27.30000
+Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2    26.00000
+Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2    30.40000
+Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4    15.80000
+Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6    19.70000
+Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8    15.00000
+Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2    21.40000
+</pre>
+<p>Con la función
+<code>lm(mpg ~ hp, data = mtcars_na, na.action = na.exclude)</code>, se
+ajusta un modelo de regresión lineal en el que <code>mpg</code> (consumo
+de combustible) se emplea como la variable dependiente, y
+<code>hp</code> (caballos de fuerza) como la variable independiente.
+Este procedimiento requiere la revisión de las pruebas de hipótesis de
+los parámetros del modelo, así como de los supuestos distribucionales de
+los errores. Estos aspectos serán abordados en detalle en el capítulo
+dedicado a la regresión lineal simple.</p>
+<p>Una vez ajustado el modelo, se predicen los valores correspondientes
+a las observaciones con datos faltantes mediante la función
+<code>predict(modelo, mtcars_na)[is.na(mtcars_na$mpg)]</code>. Los
+valores estimados obtenidos se utilizan para imputar los datos
+faltantes, completando así la base de datos de manera consistente con el
+modelo ajustado.</p>
+<p>Los códigos proporcionados a continuación permiten cargar la base de
+datos <code>mtcars</code>, generar los valores faltantes y aplicar el
+método de imputación. La <strong>Figura 1.44</strong> muestra los datos
+imputados en color azul.</p>
+<pre>
+
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Carga del conjunto de datos
+data("mtcars")
+
+# Crear una copia de los datos originales para manipulación
+mtcars_na <- mtcars
+
+# Introducir datos faltantes de manera aleatoria en la variable "mpg"
+set.seed(42)                                       # Fijar semilla para reproducibilidad
+indices_na <- sample(1:nrow(mtcars_na), size = 5)  # Selección aleatoria de índices
+mtcars_na$mpg[indices_na] <- NA
+
+# Visualización inicial de los datos con valores faltantes
+print(mtcars_na)
+
+# Construir un modelo de regresión lineal simple para imputación
+modelo <- lm(mpg ~ hp, data = mtcars_na, na.action = na.exclude)
+
+# Realizar la imputación utilizando los valores predichos por el modelo
+mtcars_na$mpg_imputed <- NA  
+mtcars_na$mpg_imputed[is.na(mtcars_na$mpg)] <- predict(modelo, mtcars_na)[is.na(mtcars_na$mpg)]
+
+# Comparación de los datos imputados
+print(mtcars_na[, c("mpg", "mpg_imputed", "hp")])
+
+# Visualización gráfica
+mtcars_na_long <- mtcars_na %>%
+  dplyr::select(hp, mpg, mpg_imputed) %>%
+  tidyr::pivot_longer(cols = c("mpg", "mpg_imputed"), names_to = "Variable", values_to = "Valor")
+
+dat<-na.omit(mtcars_na_long)
+
+plot_imp<-ggplot(dat, aes(x = hp, y = Valor, color = Variable)) +
+  geom_point(aes(group = Variable), size = 2) +
+  labs(
+    title = "",
+    x = "hp",
+    y = "mpg",
+    color = "Tipo de dato"
+  ) +
+  scale_color_manual(values = c("mpg" = "red", "mpg_imputed" = "blue")) +  
+  theme_minimal(base_size = 14)
+print(plot_imp)
+</pre>
+<p><img src="img/plot_imp-reg.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.44</strong> Representación de los datos faltantes
+imputados usando un modelo de regresión lineal.</p>
+<p>A continuación, se presenta la variable dependiente <code>mpg</code>
+(consumo de combustible) antes y después de imputar los datos faltantes.
+Esta comparación permite observar cómo los valores imputados completan
+los datos faltantes de manera coherente con el modelo ajustado.</p>
+<pre>
+                     mpg mpg_imputed  hp
+Mazda RX4             NA    22.72126 110
+Mazda RX4 Wag       21.0    21.00000 110
+Datsun 710          22.8    22.80000  93
+Hornet 4 Drive      21.4    21.40000 110
+Hornet Sportabout     NA    18.19951 175
+Valiant             18.1    18.10000 105
+Duster 360          14.3    14.30000 245
+Merc 240D           24.4    24.40000  62
+Merc 230            22.8    22.80000  95
+Merc 280              NA    21.81691 123
+Merc 280C           17.8    17.80000 123
+Merc 450SE          16.4    16.40000 180
+Merc 450SL          17.3    17.30000 180
+Merc 450SLC         15.2    15.20000 180
+Cadillac Fleetwood  10.4    10.40000 205
+Lincoln Continental 10.4    10.40000 215
+Chrysler Imperial     NA    14.37342 230
+Fiat 128            32.4    32.40000  66
+Honda Civic         30.4    30.40000  52
+Toyota Corolla      33.9    33.90000  65
+Toyota Corona       21.5    21.50000  97
+Dodge Challenger    15.5    15.50000 150
+AMC Javelin         15.2    15.20000 150
+Camaro Z28          13.3    13.30000 245
+Pontiac Firebird      NA    18.19951 175
+Fiat X1-9           27.3    27.30000  66
+Porsche 914-2       26.0    26.00000  91
+Lotus Europa        30.4    30.40000 113
+Ford Pantera L      15.8    15.80000 264
+Ferrari Dino        19.7    19.70000 175
+Maserati Bora       15.0    15.00000 335
+Volvo 142E          21.4    21.40000 109
+</pre>
+</p>
+</div>
+<p>En este ejemplo, el mecanismo de generación de datos faltantes
+corresponde a <strong>MCAR</strong> (Missing Completely At Random), ya
+que los valores faltantes se generaron de manera completamente aleatoria
+y se asignaron como <code>NA</code>. Sin embargo, si los datos faltantes
+obedecen a un mecanismo <strong>MAR</strong> (<em>Missing At
+Random</em>), la imputación mediante <strong>regresión lineal</strong>
+puede ser una alternativa adecuada, siempre que se realice una
+validación rigurosa del modelo para evitar sesgos.</p>
+<p>Por otro lado, si los datos faltantes son <strong>MNAR</strong>
+(<em>Missing Not At Random</em>), se recomienda el uso de métodos
+avanzados que incorporen explícitamente el mecanismo que genera los
+datos faltantes. Una posible solución es la aplicación de <em>modelos
+mixtos</em> (también conocidos como modelos lineales de efectos mixtos),
+aunque su implementación requiere consideraciones adicionales y ajustes
+específicos. Estos modelos son especialmente útiles en contextos donde
+los datos faltantes presentan una estructura jerárquica o longitudinal.
+No obstante, su efectividad en casos MNAR depende de la adecuada
+integración de las relaciones entre los valores faltantes y las
+variables observadas en el modelo.</p>
+<p>Cabe destacar que para aplicar estas soluciones avanzadas es
+necesario contar con conocimientos sólidos sobre <strong>modelos
+lineales generalizados</strong> (GLM) y su extensión a modelos mixtos,
+así como comprender las particularidades del mecanismo de datos
+faltantes presente en el conjunto de datos.</p>
+<hr />
+</br></br>
+<h3>
+Little’s MCAR Test
+</h3>
+<p>La <strong>prueba de Little</strong> para <strong>MCAR</strong> es
+una herramienta estadística que permite evaluar si los datos faltantes
+en un conjunto se generan de manera completamente aleatoria, es decir,
+si satisfacen el supuesto de Missing Completely At Random (MCAR). Bajo
+este supuesto, la probabilidad de que una observación esté ausente no
+depende ni de los valores observados ni de los no observados.</p>
+<p>El procedimiento se fundamenta en la hipótesis nula de que los datos
+faltantes son MCAR. Para contrastarla, se calcula un estadístico de
+prueba que compara las medias y covarianzas entre los distintos patrones
+de datos faltantes, y se obtiene el correspondiente <span
+class="math inline">\(valor-p\)</span>. Si este valor es pequeño (por
+ejemplo, menor o igual a 0.05), se rechaza la hipótesis nula, lo cual
+sugiere que la ausencia de datos está asociada con alguna variable del
+conjunto (observada o no observada). En tal caso, los datos no pueden
+considerarse completamente aleatorios y no cumplen con el supuesto
+MCAR.</p>
+<p>Aunque no es un requisito estricto, la prueba asume una distribución
+normal conjunta de las variables, dado que el test se basa en el
+análisis de medias y varianzas multivariadas. Por este motivo, está
+indicado exclusivamente para <strong>variables numéricas</strong> (ya
+sean continuas o discretas). Las variables categóricas no deben
+incluirse directamente en el análisis, ya que no poseen propiedades
+métricas compatibles con el cálculo de medias y covarianzas requeridas
+por el test.</p>
+<div class="caja-nota">
+<h3>
+Observación:
+</h3>
+<blockquote>
+<ul>
+<li>En la <strong>Unidad 2</strong> de este curso se abordarán en
+detalle los conceptos necesarios para comprender a fondo esta prueba,
+incluyendo la probabilidad conjunta, la normalidad univariada y
+multivariada, así como los fundamentos de los test de hipótesis, el
+<span class="math inline">\(valor-p\)</span> y el nivel de significancia
+convencional de 0.05.</li>
+</ul>
+</blockquote>
+</div>
+<p>Determinar si los datos son MNAR requiere un enfoque más complejo, ya
+que implica evaluar si los valores faltantes dependen directamente de
+los valores ausentes en sí mismos. A diferencia de los casos MCAR, para
+los cuales existen pruebas específicas como la de Little, no existen
+pruebas directas para identificar MNAR. Sin embargo, es posible emplear
+aproximaciones para detectar patrones que sugieran esta condición, como
+el análisis visual de los datos, la evaluación de correlaciones entre
+las variables observadas y las ausentes, o la aplicación de modelos
+estadísticos que incluyan supuestos explícitos sobre los mecanismos de
+ausencia.</p>
+<p>Entre los métodos comunes para identificar datos faltantes no al azar
+(MNAR) se encuentra el análisis de patrones de datos faltantes, que
+consiste en inspeccionar si los valores ausentes de una variable están
+relacionados con los valores observados de la misma variable o con otras
+características conocidas del conjunto de datos. Este análisis se puede
+realizar mediante herramientas gráficas.</p>
+<p>Otro enfoque utilizado es el modelo de sensibilidad, el cual
+introduce supuestos específicos sobre el mecanismo que genera los datos
+faltantes y evalúa su plausibilidad mediante simulaciones o análisis
+comparativos. Por ejemplo, se pueden probar diferentes escenarios para
+observar cómo varían los resultados bajo distintos mecanismos de
+ausencia.</p>
+<p>Además, existen técnicas avanzadas como los modelos de selección o
+los modelos de mezcla, que están diseñados para incorporar directamente
+el mecanismo MNAR en su estructura. Estos modelos permiten ajustar y
+evaluar cómo los datos faltantes están influenciados por los valores
+ausentes o por otras variables observadas en el conjunto de datos. La
+elección del método más adecuado depende de la naturaleza de los datos,
+el contexto del análisis y las herramientas disponibles.</p>
+<div class="caja-nota">
+<h3>
+Observación:
+</h3>
+<blockquote>
+<ul>
+<li>La inclusión de esta prueba en la presente unidad tiene un propósito
+introductorio, incentivar al estudiante a profundizar, en etapas
+posteriores de su formación, en el estudio de los mecanismos de datos
+faltantes y en las técnicas apropiadas para su tratamiento, como la
+imputación estadística.</li>
+</ul>
+</blockquote>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Este ejemplo ilustra la construcción de un conjunto de datos, la
+incorporación de valores faltantes generados de forma aleatoria y la
+evaluación de si estos datos faltantes satisfacen el supuesto de
+ausencia completamente al azar (MCAR). Para ello, se desarrolla una base
+de datos con tres variables principales: edad, ingresos y satisfacción,
+en la que se introducen valores faltantes siguiendo un patrón
+completamente aleatorio.</p>
+<p>A continuación, se aplica la prueba de Little’s MCAR Test para
+determinar si los datos faltantes cumplen con el supuesto de ausencia
+completamente al azar (MCAR). Esta prueba, diseñada específicamente para
+evaluar si los datos faltantes son MCAR, considera todas las variables
+del conjunto de datos y analiza la relación entre los patrones de datos
+faltantes y los valores observados mediante una combinación de pruebas
+de ajuste.</p>
+<p>En <strong>R</strong>, se puede utilizar la función
+<code>mcar_test()</code> del paquete <code>naniar</code> para
+implementar esta evaluación. Esta función permite verificar la hipótesis
+nula de que los datos son MCAR. Un p-valor alto (comúnmente con un
+umbral inicial de 0.05, aunque este valor será discutido en la próxima
+unidad) implica que no se rechaza la hipótesis nula, lo que sugiere que
+los datos faltantes cumplen con el supuesto de MCAR.</p>
+<p>A continuación, se presentan los fragmentos de código
+correspondientes para la generación del conjunto de datos y la
+aplicación de la prueba de Little’s MCAR. La conclusión resultante es
+que no se rechaza la hipótesis nula, pues el <span
+class="math inline">\(valor-p=0.7563\)</span> es mayor a 0.05. Los datos
+faltantes son MCAR.</p>
+<pre>
+# Cargar librerías
+install.packages("naniar")
+library(naniar)
+
+# Crear un conjunto de datos de ejemplo
+set.seed(123)
+datos <- data.frame(
+  Edad = sample(18:60, 100, replace = TRUE),
+  Ingresos = round(rnorm(100, mean = 3000, sd = 500), 2)
+)
+
+# Introducir valores faltantes de manera aleatoria
+datos$Edad[sample(1:100, 10)] <- NA
+datos$Ingresos[sample(1:100, 15)] <- NA
+
+# Aplicar el test de Little para MCAR
+resultado <- mcar_test(datos)
+
+# Mostrar los resultados
+print(resultado)
+
+# Interpretación
+if (resultado$p.value > 0.05) {
+  cat("No se rechaza la hipótesis nula: los datos faltantes son MCAR.\n")
+} else {
+  cat("Se rechaza la hipótesis nula: los datos faltantes no son MCAR.\n")
+}
+</pre>
+</p>
+</div>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se desarrolla un ejemplo práctico para evaluar la
+posibilidad de que los datos faltantes sean MNAR mediante un análisis
+visual y el uso de una <strong>regresión logística</strong>. Aunque el
+modelo de regresión logística será estudiado en profundidad en los
+cursos del segundo semestre de la Maestría en Ciencia de Datos, aquí se
+introduce de manera básica como una herramienta para explorar patrones
+asociados con los datos faltantes.</p>
+<p>Seguidamente se presentan los fragmentos de código necesarios para la
+generación del conjunto de datos y el ajuste del modelo logístico. En
+este ejemplo, se introducen valores faltantes en la variable Ingresos,
+condicionados a que sus valores sean menores a 2,500. Esto simula un
+mecanismo MNAR, en el cual los datos faltantes dependen de la misma
+variable. Para analizar este mecanismo, se ajusta un modelo de regresión
+logística en el que la variable dependiente indica si el valor de
+Ingresos es faltante (1 si es faltante, 0 si no lo es).</p>
+<pre>
+# Cargar librerías necesarias
+if (!require("naniar")) install.packages("naniar")
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("dplyr")) install.packages("dplyr")
+
+library(naniar)
+library(ggplot2)
+library(dplyr)
+
+# Crear un conjunto de datos ficticio
+set.seed(123)
+datos <- data.frame(
+  Edad = sample(18:60, 100, replace = TRUE),
+  Ingresos = round(rnorm(100, mean = 3000, sd = 500), 2),
+  Satisfaccion = sample(1:5, 100, replace = TRUE)
+)
+
+# Introducir valores faltantes relacionados con sus propios valores (MNAR)
+datos$Ingresos[datos$Ingresos < 2500 & sample(c(TRUE, FALSE), 100, replace = TRUE)] <- NA
+
+# Visualizar patrones de datos faltantes
+vis_miss(datos)
+
+# Paso 1: Inspección Visual
+ggplot(data = datos, aes(x = Edad, y = Ingresos)) +
+  geom_point(aes(color = is.na(Ingresos))) +
+  labs(title = "Relación entre Edad y valores faltantes en Ingresos",
+       x = "Edad",
+       y = "Ingresos") +
+  scale_color_manual(values = c("black", "red"), labels = c("Disponible", "Faltante")) +
+  theme_minimal()
+
+# Paso 2: Análisis mediante Regresión Logística
+# Crear una variable que indique si "Ingresos" es NA
+datos <- datos %>%
+  mutate(Faltante_Ingresos = ifelse(is.na(Ingresos), 1, 0))
+
+# Ajustar modelo de regresión logística
+modelo <- glm(Faltante_Ingresos ~ Edad + Satisfaccion, data = datos, family = "binomial")
+
+# Resumen del modelo
+summary(modelo)
+
+# Paso 3: Interpretación
+# Si las variables explicativas (como Edad o Satisfacción) no son significativas, los datos podrían no depender directamente de estas variables, lo que sugiere MNAR.
+</pre>
+<p>En este análisis, las variables explicativas (Edad y Satisfacción) se
+utilizan para evaluar si los datos faltantes en la variable Ingresos
+dependen de variables observadas. Los resultados del modelo de regresión
+logística muestran que ambos <span
+class="math inline">\(valores-p\)</span> son mayores a 0.05 (<span
+class="math inline">\(valor-p = 0.650\)</span> y <span
+class="math inline">\(valor-p = 0.320\)</span>, respectivamente). Esto
+indica que ninguna de las dos variables explicativas predice de manera
+significativa la probabilidad de que los datos en Ingresos sean
+faltantes, lo que sugiere que el mecanismo que genera los valores
+faltantes no está relacionado con estas variables observadas.</p>
+<pre>
+Call:
+glm(formula = Faltante_Ingresos ~ Edad + Satisfaccion, family = "binomial", 
+    data = datos)
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept)  -2.77286    1.81602  -1.527    0.127
+Edad          0.01893    0.04167   0.454    0.650
+Satisfaccion -0.34975    0.35193  -0.994    0.320
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 39.703  on 99  degrees of freedom
+Residual deviance: 38.569  on 97  degrees of freedom
+AIC: 44.569
+
+Number of Fisher Scoring iterations: 6
+</pre>
+<p>Este tipo de análisis permite identificar patrones o comportamientos
+en los datos que pueden sugerir la presencia de un mecanismo MNAR.
+Aunque estos métodos proporcionan indicios valiosos, no ofrecen una
+confirmación definitiva, lo que resalta la importancia de realizar un
+análisis cuidadoso y de considerar supuestos claros sobre los mecanismos
+de ausencia al interpretar los resultados.</p>
+</p>
+</div>
+</br></br>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>
+<blockquote>
+<p>Identifica las variables con valores faltantes en el conjunto de
+datos <code>airquality</code> y determinar si los datos faltantes
+cumplen con la condición de MCAR utilizando herramientas de
+visualización y la prueba de Little’s MCAR Test. Para este proposito:
+</br></p>
+<ul>
+<li><p>Carga el conjunto de datos airquality en <strong>R</strong>
+utilizando la función <code>data("airquality")</code>.</br></p></li>
+<li><p>Explora la estructura y las características del conjunto de datos
+con <code>summary()</code> y <code>str()</code> para identificar las
+variables disponibles. </br></p></li>
+<li><p>Utiliza herramientas gráficas para visualizar los patrones de
+datos faltantes. Reporta qué variables tienen valores faltantes y el
+porcentaje de datos ausentes para cada una. </br></p></li>
+<li><p>Aplica la prueba de Little’s MCAR Test utilizando la función
+<code>mcar_test()</code>. ¿Cumplen los datos con el supuesto MCAR?
+</br></p></li>
+<li><p>Sugiere estrategias para tratar los valores faltantes en caso de
+que los datos no sean MCAR.</p></li>
+</ul>
+</p>
+</div>
+</blockquote>
+<hr />
+</br></br>
+<h2>
+Detección de datos extraños o atípicos
+</h2>
+<p><strong>Datos atípicos (outliers)</strong>: Se refiere a
+observaciones que se alejan significativamente del patrón general del
+conjunto de datos. Estos valores pueden corresponder a errores de
+medición, fenómenos excepcionales o casos particulares con
+características distintivas.</p>
+<p><strong>Datos inconsistentes</strong>: Son valores que violan reglas
+lógicas, restricciones estructurales o definiciones del dominio del
+problema. Ejemplos comunes incluyen edades negativas, fechas fuera de
+rango o ingresos incongruentes con un cargo determinado.</p>
+<p>La identificación de datos atípicos o inconsistentes constituye una
+etapa crítica en el análisis estadístico y en los procesos de limpieza y
+preparación de datos. La presencia de estos valores puede afectar de
+manera considerable la validez de los resultados, introducir sesgos o
+influir negativamente en el ajuste de modelos. Por tanto, es
+recomendable adoptar un enfoque sistemático que combine herramientas de
+análisis descriptivo, visualización gráfica y métodos estadísticos
+formales. A continuación, se describen algunas pautas clave para su
+detección y tratamiento.</p>
+<p>Esta etapa se recomienda previa a la imputación de datos
+faltantes.</p>
+</br></br>
+<h3>
+Métodos de detección
+</h3>
+<p>A continuación, se describen los pasos clave para llevar a cabo este
+proceso:</p>
+<p><strong>Definir criterios de atipicidad</strong>: Es necesario
+establecer umbrales claros para identificar datos que se desvíen
+significativamente de los patrones generales. Por ejemplo, un valor
+podría considerarse atípico si está fuera de un rango de tres
+desviaciones estándar respecto a la media (es decir, por debajo de <span
+class="math inline">\(Q1 - 3 \times \text{RIQ}\)</span> o por encima de
+<span class="math inline">\(Q3 + 3 \times \text{RIQ}\)</span>), o si se
+encuentra fuera de los límites de un gráfico de cajas (es decir, por
+debajo de <span class="math inline">\(Q1 - 1.5 \times
+\text{RIQ}\)</span> o por encima de <span class="math inline">\(Q3 + 1.5
+\times \text{RIQ}\)</span>), donde <span
+class="math inline">\(Q1\)</span> y <span
+class="math inline">\(Q3\)</span> son el primer y tercer cuartil,
+respectivamente, y <span class="math inline">\(\text{RIQ}\)</span> es el
+rango intercuartílico que se calcula como <span
+class="math inline">\(Q3-Q1\)</span>.</p>
+<p><strong>Visualización de los datos</strong>: El uso de gráficos, como
+<em>gráficos de cajas</em> y <em>gráficos de densidad</em>, facilita la
+identificación visual de valores atípicos. Estas herramientas también
+son útiles para identificar patrones sospechosos o distribuciones
+inesperadas que podrían indicar errores en los datos.</p>
+<p><strong>Detección de inconsistencias</strong>: Una vez identificados
+los valores atípicos, es fundamental validar su plausibilidad basándose
+en el conocimiento del contexto. Por ejemplo, un valor de temperatura
+corporal de 60 °C sería inconsistente con la realidad humana y
+probablemente se deba a un error de registro.</p>
+<p>Las inconsistencias se detectan comparando los datos con reglas
+definidas previamente, como rangos válidos, relaciones lógicas entre
+variables o restricciones específicas del dominio. Por ejemplo, en un
+estudio demográfico, la edad de un individuo no debería ser mayor que
+120 años.</p>
+<p>Una vez identificados los datos atípicos e inconsistentes, se deben
+tomar decisiones sobre ellos. Según su naturaleza, los datos pueden
+eliminarse, considerarse como datos faltantes, ajustarse o conservarse.
+La decisión depende del objetivo del análisis y de si el dato atípico
+representa un error o un fenómeno legítimo.</p>
+</br></br>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>La base de datos <code>mtcars</code> es un conjunto de datos incluido
+en <strong>R</strong> que proporciona información sobre las
+características de 32 modelos de automóviles. Fue extraída del libro
+<em>Motor Trend US magazine (1974)</em> y es ampliamente utilizada para
+realizar análisis exploratorios y ejemplos de modelado estadístico. Las
+observaciones representan diferentes modelos de automóviles y las
+variables describen sus características mecánicas y de rendimiento.</p>
+<p><strong>Variables</strong></p>
+<ol style="list-style-type: decimal">
+<li><p><strong>mpg</strong>: Millas por galón (<em>Miles per
+gallon</em>). Una medida de la eficiencia de combustible del
+vehículo.</p></li>
+<li><p><strong>cyl</strong>: Número de cilindros del motor.</p></li>
+<li><p><strong>disp</strong>: Desplazamiento del motor
+(<em>displacement</em>), en pulgadas cúbicas.</p></li>
+<li><p><strong>hp</strong>: Potencia del motor (<em>gross
+horsepower</em>), en caballos de fuerza.</p></li>
+<li><p><strong>drat</strong>: Relación del eje trasero (<em>rear axle
+ratio</em>).</p></li>
+<li><p><strong>wt</strong>: Peso del automóvil (<em>weight</em>), en
+miles de libras.</p></li>
+<li><p><strong>qsec</strong>: Tiempo en segundos para recorrer un cuarto
+de milla, una medida de aceleración.</p></li>
+<li><p><strong>vs</strong>: Configuración del motor (0 = motor en V, 1 =
+motor en línea).</p></li>
+<li><p><strong>am</strong>: Tipo de transmisión (0 = automática, 1 =
+manual).</p></li>
+<li><p><strong>gear</strong>: Número de marchas.</p></li>
+<li><p><strong>carb</strong>: Número de carburadores.</p></li>
+</ol>
+<p>En este ejemplo se presenta los códigos de <strong>R</strong> para
+analizar los atípicos de las variables cuantitativas en la base de datos
+<code>mtcars</code>. Se excluyen las variables cualitativas
+<strong>vs</strong> y <strong>am</strong>, cuyos valores son unos y
+ceros.</p>
+<p><img src="img/barras.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.45</strong> Gráficos de barra para variables
+categóricas.</p>
+<p>En la <strong>Figura 1.45</strong> se presenta la distribución de las
+variables cualitatitas y cuantitativas discretas. Los códigos para
+replicar los resultados son los siguientes:</p>
+<pre>
+# Cargar librerías
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+
+# Cargar datos
+data("mtcars")
+
+# Seleccionar las variables categóricas o discretas
+datos1 <- dplyr::select(mtcars, vs, am, cyl, gear, carb)
+
+# Análisis de frecuencias para cada variable categórica
+frecuencias <- lapply(datos1, table)
+
+# Mostrar frecuencias en la consola
+cat("Frecuencias para cada variable categórica:\n")
+for (var in names(frecuencias)) {
+  cat(paste0("Variable: ", var, "\n"))
+  print(frecuencias[[var]])
+  cat("\n")
+}
+
+
+# Crear gráficos de barras para cada variable categórica
+graficos_barras <- lapply(names(datos1), function(var) {
+  ggplot(datos1, aes(x = as.factor(.data[[var]]))) +
+    geom_bar(fill = "skyblue") +
+    labs(title = paste(var), x = var, y = "Frecuencia") +
+    theme_minimal() +
+    theme(plot.title = element_text(hjust = 0.5))
+})
+
+# Combinar los gráficos en una matriz
+grid_graficos <- wrap_plots(graficos_barras, ncol = 2) +
+  plot_annotation(
+    title = "",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 16))
+  )
+
+# Mostrar los gráficos
+grid_graficos
+</pre>
+<p>Las frecuencias absolutas por variable de la <strong>Figura
+1.45</strong> son las que se muestran seguidamente. Los resultados para
+las variables numéricas <strong>cyl</strong>, <strong>gear</strong> y
+<strong>carb</strong> son resultados plausibles en el contexto de los
+datos.</p>
+<pre>
+Variable: vs
+
+ 0  1 
+18 14 
+
+Variable: am
+
+ 0  1 
+19 13 
+
+Variable: cyl
+
+ 4  6  8 
+11  7 14 
+
+Variable: gear
+
+ 3  4  5 
+15 12  5 
+
+Variable: carb
+
+ 1  2  3  4  6  8 
+ 7 10  3 10  1  1 
+</pre>
+<p>A continuación, se identifican los valores atípicos dentro de cada
+variable cuantitativa individualmente, utilizando el criterio basado en
+<span class="math inline">\(1.5 \times \text{IQR}\)</span>. Seguidamente
+se presentan una lista de códigos para realizar este análisis.</p>
+<pre>
+# Para usar español
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar los paquetes necesarios
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(purrr)
+
+# Filtrar variables numéricas continuas excluyendo vs, am
+datos2 <- dplyr::select(mtcars, -vs, -am)
+
+# Función para identificar valores atípicos univariados
+atipicos_iqr <- function(x) {
+  Q1 <- quantile(x, 0.25, na.rm = TRUE)
+  Q3 <- quantile(x, 0.75, na.rm = TRUE)
+  IQR <- Q3 - Q1
+  limites <- c(Q1 - 1.5 * IQR, Q3 + 1.5 * IQR)
+  atipicos <- x[x < limites[1] | x > limites[2]]
+  return(list(Limites = limites, Atipicos = atipicos))
+}
+
+# Análisis univariado para todas las variables numéricas
+resultados_univariado <- lapply(datos2, atipicos_iqr)
+
+# Mostrar resultados de valores atípicos por variable
+cat("Resultados del análisis univariado:\n")
+for (var in names(resultados_univariado)) {
+  cat(paste0("Variable: ", var, "\n"))
+  cat("  Límites: ", resultados_univariado[[var]]$Limites, "\n")
+  cat("  Atípicos: ", resultados_univariado[[var]]$Atipicos, "\n\n")
+}
+
+
+# Crear gráficos de caja individuales para cada variable utilizando tidy evaluation
+graficos_caja <- lapply(names(datos2), function(var) {
+  ggplot(datos2, aes(y = .data[[var]])) +
+    geom_boxplot(outlier.colour = "red", outlier.shape = 16, outlier.size = 2, fill = "skyblue") +
+    labs(title = var, y = var, x = "") +
+    theme_minimal() +
+    theme(plot.title = element_text(hjust = 0.5))
+})
+
+# Combinar los gráficos en una matriz 3x3 con un título general
+grid_graficos <- wrap_plots(graficos_caja, ncol = 3) +
+  plot_annotation(
+    title = "",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 16))
+  )
+
+# Mostrar los gráficos
+grid_graficos
+</pre>
+<p>Posteriormente se presentan los límites que determinan los datos
+atípicos y los datos atípicos en cada una de las variables cuantitativas
+del conjunto de datos.</p>
+<pre>
+Variable: mpg
+  Límites:  4.3625 33.8625 
+  Atípicos:  33.9 
+
+Variable: cyl
+  Límites:  -2 14 
+  Atípicos:   
+
+Variable: disp
+  Límites:  -186.9375 633.7625 
+  Atípicos:   
+
+Variable: hp
+  Límites:  -28.75 305.25 
+  Atípicos:  335 
+
+Variable: drat
+  Límites:  1.82 5.18 
+  Atípicos:   
+
+Variable: wt
+  Límites:  1.038125 5.153125 
+  Atípicos:  5.25 5.424 5.345 
+
+Variable: qsec
+  Límites:  13.88125 21.91125 
+  Atípicos:  22.9 
+
+Variable: gear
+  Límites:  1.5 5.5 
+  Atípicos:   
+
+Variable: carb
+  Límites:  -1 7 
+  Atípicos:  8 
+</pre>
+<p>En el caso del límite superior <span class="math inline">\(Q1 + 1.5
+\times \text{IQR}\)</span>, los valores que lo exceden son clasificados
+como atípicos superiores. Por ejemplo, en la variable <code>mpg</code>,
+el valor 33.9 es considerado atípico porque supera este límite superior,
+calculado en 33.8625.</p>
+<p>Por otro lado, en el caso del límite inferior <span
+class="math inline">\(Q1 - 1.5 \times \text{IQR}\)</span>, los valores
+que son menores que este límite son clasificados como atípicos
+inferiores. Así, cualquier valor de <code>mpg</code> que sea menor que
+el límite inferior estaría fuera del rango esperado y se identificaría
+como un dato atípico inferior. En esta variable no hay atípicos
+inferiores.</p>
+<pre>
+Variable: mpg
+  Límites:  4.3625 33.8625 
+  Atípicos:  33.9 
+
+Variable: disp
+  Límites:  -186.9375 633.7625 
+  Atípicos:   
+
+Variable: hp
+  Límites:  -28.75 305.25 
+  Atípicos:  335 
+
+Variable: drat
+  Límites:  1.82 5.18 
+  Atípicos:   
+
+Variable: wt
+  Límites:  1.038125 5.153125 
+  Atípicos:  5.25 5.424 5.345 
+
+Variable: qsec
+  Límites:  13.88125 21.91125 
+  Atípicos:  22.9 
+</pre>
+<p>En los gráficos de cajas presentados en la <strong>Figura
+1.46</strong>, se destacan en color rojo los datos atípicos
+identificados en cada variable. Es importante señalar que, debido al
+solapamiento de algunos puntos en el gráfico, únicamente se logran
+visualizar 5 puntos como datos atípicos. Sin embargo, de acuerdo con los
+límites previamente calculados, el número total de datos atípicos
+reportados en la lista asciende a 6. Esto resalta la importancia de
+complementar la visualización gráfica con un análisis numérico detallado
+para obtener un conteo completo y preciso de los valores atípicos
+presentes en el conjunto de datos.</p>
+<p><img src="img/boxplot_atipicos.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.46</strong> Gráfico de cajas para identificar
+atípicos.</p>
+<p>En el análisis de atípicos resulta necesario estudiar los resultados
+globalmente y por cada categoría de la variable <strong>configuración
+del motor</strong> (0 = motor en V, 1 = motor en línea) y del
+<strong>tipo de transmisión</strong> (0 = automática, 1 = manual). A
+continuación se presentan los códigos por la categoría 1 de la variable
+<strong>vs</strong>.</p>
+<pre>
+# Filtrar los datos para vs = 1
+datos_vs1 <- mtcars %>% filter(vs == 1)
+
+# Seleccionar variables numéricas 
+datos_univariado_vs1 <- datos_vs1 %>% dplyr::select(-vs, -am)
+
+# Análisis univariado para las variables numéricas filtradas
+resultados_univariado_vs1 <- lapply(datos_univariado_vs1, atipicos_iqr)
+
+# Mostrar resultados de valores atípicos por variable
+cat("Resultados del análisis univariado para vs = 1:\n")
+for (var in names(resultados_univariado_vs1)) {
+  cat(paste0("Variable: ", var, "\n"))
+  cat("  Límites: ", resultados_univariado_vs1[[var]]$Limites, "\n")
+  cat("  Atípicos: ", resultados_univariado_vs1[[var]]$Atipicos, "\n\n")
+}
+
+# Crear gráficos de caja individuales para cada variable utilizando tidy evaluation
+graficos_caja_vs1 <- lapply(names(datos_univariado_vs1), function(var) {
+  ggplot(datos_univariado_vs1, aes(y = .data[[var]])) +
+    geom_boxplot(outlier.colour = "red", outlier.shape = 16, outlier.size = 2, fill = "skyblue") +
+    labs(title = var, y = var, x = "") +
+    theme_minimal() +
+    theme(plot.title = element_text(hjust = 0.5))
+})
+
+# Combinar los gráficos en una matriz 3x3 con un título general
+grid_graficos_vs1 <- wrap_plots(graficos_caja_vs1, ncol = 3) +
+  plot_annotation(
+    title = "Análisis Univariado para vs = 1: Gráficos de Caja",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 16))
+  )
+
+# Mostrar los gráficos
+grid_graficos_vs1
+</pre>
+<p>Los datos atípicos por variable cuando <strong>vs</strong> es 1 son
+los siguientes:</p>
+<pre>
+Variable: mpg
+  Límites:  9.0625 41.9625 
+  Atípicos:   
+
+Variable: cyl
+  Límites:  1.75 7.75 
+  Atípicos:   
+
+Variable: disp
+  Límites:  -36 281.4 
+  Atípicos:   
+
+Variable: hp
+  Límites:  0.375 175.375 
+  Atípicos:   
+
+Variable: drat
+  Límites:  3.17375 4.62375 
+  Atípicos:  3.08 2.76 4.93 
+
+Variable: wt
+  Límites:  0.19 5.02 
+  Atípicos:   
+
+Variable: qsec
+  Límites:  16.54375 22.03375 
+  Atípicos:  22.9 
+
+Variable: gear
+  Límites:  4 4 
+  Atípicos:  3 3 3 5 
+
+Variable: carb
+  Límites:  -0.5 3.5 
+  Atípicos:  4 4 
+</pre>
+<p>Respecto a la relación del eje trasero (<strong>drat</strong>) y los
+valores atípicos identificados (3.08, 2.76, 4.93), es importante
+contextualizar su relevancia según las características del motor y el
+propósito del vehículo. Estas relaciones tienen sentido para motores en
+línea (<strong>vs</strong>=1), pero su idoneidad depende del objetivo
+del diseño del vehículo.</p>
+<p>Si el propósito es maximizar la eficiencia del consumo de
+combustible, valores como 3.08 o 2.76 son más comunes. Por otro lado, si
+el vehículo está diseñado para carga o tracción, un valor como 4.93
+puede ser adecuado. Por lo tanto, estos valores atípicos no
+necesariamente representan errores o datos incorrectos, sino fenómenos
+legítimos dentro del contexto.</p>
+<p>El tratamiento de estos valores dependerá del tipo de análisis o
+modelado que se desee realizar. Dado que algunos modelos estadísticos o
+métodos de machine learning son sensibles a los valores atípicos, se
+debe decidir si incluirlos, transformarlos o excluirlos, dependiendo del
+impacto que puedan tener en los resultados y la naturaleza del problema
+que se esté abordando.</p>
+</p>
+</div>
+<div class="caja-nota">
+<h3>
+Observaciones:
+</h3>
+<blockquote>
+<ul>
+<li>En el ejemplo con la base de datos <code>mtcars</code>, se destacó
+la importancia de analizar los datos atípicos tanto de manera global
+como desagregada por categorías de variables cualitativas, como la
+<strong>configuración del motor</strong> (0 = motor en V, 1 = motor en
+línea) y el <strong>tipo de transmisión</strong> (0 = automática, 1 =
+manual). Este tipo de análisis permite identificar patrones específicos
+que podrían pasar desapercibidos en un análisis agregado.</li>
+<li>La selección de las variables categóricas para realizar estos cruces
+no obedece únicamente a criterios estadísticos, sino que depende
+fundamentalmente del <strong>conocimiento del contexto y de la
+disciplina en la que se aplican los métodos estadísticos</strong>. Es
+decir, la utilidad de segmentar el análisis por categorías debe ser
+evaluada a la luz de la lógica del fenómeno que se estudia. Por esta
+razón, el análisis de datos atípicos debe combinar herramientas
+estadísticas con criterios propios del área de aplicación, ya sea
+ingeniería, economía, biología, entre otras.</li>
+</ul>
+</blockquote>
+</div>
+</br></br>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>
+<p>Utilizando la base de datos <code>mtcars</code>, realiza la
+identificación de datos atípicos o inconsistentes correspondientes a los
+vehículos con configuración de motor en V. Para ello, considera
+únicamente los registros donde la variable <strong>vs</strong> sea igual
+a 0, indicando esta configuración específica del motor.</p>
+</p>
+</blockquote>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> R projet</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868"> <strong>R
+projet</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p><br/><br/></p>
+<p><img src="img/logoR.png" width="10%" style="display: block; margin: auto auto auto 0;" /></p>
+<div class="caja-nota">
+<h3>
+Observaciones:
+</h3>
+<blockquote>
+<ul>
+<li>En esta sección se presentarán algunos conceptos fundamentales para
+trabajar con objetos en <strong>R</strong>, crear un proyecto y elaborar
+un archivo RMarkdown que genere una salida en formato HTML.<br />
+</li>
+<li>A lo largo de las siguientes secciones, se irán incorporando
+gradualmente los elementos necesarios conforme se avance en la
+temática.<br />
+</li>
+<li>En el apartado de Referencias de esta unidad se incluye bibliografía
+complementaria que servirá de apoyo para la elaboración de los informes
+requeridos en el desarrollo de esta unidad.</li>
+</ul>
+</blockquote>
+</div>
+<br/><br/>
+<h2>
+¿Qué es R?
+</h2>
+<p><strong>R</strong> es un lenguaje de programación diseñado
+específicamente para la computación estadística, ampliamente utilizado
+en el procesamiento de información y la creación de modelos
+estadísticos.</p>
+<h3>
+Principales características
+</h3>
+<ul>
+<li><p><strong>Licencia abierta</strong>: Distribuido bajo la licencia
+GNU General Public License (GPL), lo que lo convierte en un software
+libre y gratuito.</p></li>
+<li><p><strong>Popularidad creciente</strong>: Se ha consolidado como
+una herramienta fundamental en el ámbito de la ciencia de datos e
+investigación científica.</p></li>
+<li><p><strong>Compatibilidad multiplataforma</strong>: Disponible para
+sistemas operativos como Linux, Windows y MacOS.</p></li>
+<li><p><strong>Orígenes académicos</strong>: Desarrollado en 1993 por
+los estadísticos Ross Ihaka y Robert Gentleman en la Universidad de
+Auckland, Nueva Zelanda, como un lenguaje orientado al análisis de datos
+y la creación de gráficos (<a
+href="https://www.stat.auckland.ac.nz/~ihaka/downloads/R-paper.pdf">referencia</a>).</p></li>
+<li><p><strong>Lenguaje multiparadigma</strong>: Admite diferentes
+paradigmas de programación, incluyendo programación funcional,
+imperativa y orientada a objetos.</p></li>
+<li><p><strong>Código base sólido</strong>: Implementado principalmente
+en los lenguajes C y Fortran.</p></li>
+<li><p><strong>Comunidad activa</strong>: Cuenta con una comunidad
+global altamente activa que contribuye constantemente a su desarrollo y
+expansión.</p></li>
+<li><p><strong>Extensa biblioteca de paquetes</strong>: Dispone de más
+de 18,000 librerías o paquetes, la mayoría de los cuales están
+disponibles en repositorios como <a
+href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN</a>
+y <a
+href="https://bioconductor.org/packages/release/BiocViews.html#___Software">Bioconductor</a>.
+Además, muchos paquetes en desarrollo o fase de ajuste se encuentran
+alojados en plataformas como GitHub.</p></li>
+</ul>
+<p><br/><br/></p>
+<p><img src="img/Rt.png" width="70%" style="display: block; margin: auto;" /></p>
+<br/><br/>
+<h2>
+¿Qué es RStudio?
+</h2>
+<p><img src="img/logoRStudio.png" width="20%" style="display: block; margin: auto auto auto 0;" /></p>
+<p><strong>RStudio</strong> es una interfaz o entorno de desarrollo
+integrado (IDE) que integra un conjunto de herramientas y ventanas
+diseñadas para facilitar el trabajo con <strong>R</strong>.</p>
+<h3>
+Componentes principales
+</h3>
+<p>RStudio está conformado por varias ventanas que organizan las
+herramientas de manera eficiente. Un esquema típico incluye:</p>
+<ul>
+<li><p><strong>Editor de código</strong>: Permite escribir y editar
+scripts de <strong>R</strong> de manera estructurada.</p></li>
+<li><p><strong>Consola de R</strong>: Ejecuta comandos directamente y
+muestra los resultados.</p></li>
+<li><p><strong>Ventana de entorno</strong>: Muestra las variables y
+datos en el entorno de trabajo.</p></li>
+<li><p><strong>Ventana de gráficos y archivos</strong>: Permite
+visualizar gráficos, gestionar archivos y acceder a
+documentación.</p></li>
+</ul>
+<p>A continuación, se presenta una representación de su
+distribución:</p>
+<p><br/><br/></p>
+<p><img src="img/VRStudio.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><br/><br/> Los números indicados en la imagen se corresponden con las
+siguientes secciones:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Fuente (Source):</strong> Ventana destinada al desarrollo
+y edición de scripts de código, los cuales pueden guardarse para su
+posterior utilización.</p></li>
+<li><p><strong>Consola (Console):</strong> Espacio interactivo donde es
+posible escribir y ejecutar comandos de forma directa.</p></li>
+<li><p><strong>Ambiente (Environment):</strong> Ventana que permite
+visualizar las variables y objetos creados durante la sesión de
+trabajo.</p></li>
+<li><p><strong>Archivos (Files):</strong> Sección que muestra el
+directorio activo y los archivos disponibles en el entorno de
+trabajo.</p></li>
+<li><p><strong>Gráficos (Plots):</strong> Ventana dedicada a la
+presentación de gráficos generados durante el análisis.</p></li>
+<li><p><strong>Paquetes (Packages):</strong> Herramienta que facilita la
+instalación y gestión de los paquetes necesarios para el desarrollo de
+proyectos.</p></li>
+<li><p><strong>Ayuda (Help):</strong> Espacio diseñado para consultar
+información y documentación sobre la sintaxis y el uso de funciones
+específicas.</p></li>
+</ol>
+<br/><br/>
+<h3>
+Recomendaciones previas a la instalación de <strong>RStudio</strong>
+</h3>
+<p>Antes de instalar <strong>RStudio</strong>, se recomienda instalar
+los siguientes programas, ya que serán útiles para configurar el entorno
+de trabajo y procesar informes mediante archivos de RMarkDown
+<code>.Rmd</code>:</p>
+<ul>
+<li><p><strong>Git:</strong> Herramienta para control de versiones y
+colaboración en proyectos.</p></li>
+<li><p><strong>MikTeX (para Windows)</strong> o <strong>TeX Live (para
+Linux):</strong> Distribuciones de LaTeX necesarias para compilar
+documentos en formato PDF.</p></li>
+<li><p><strong>Visor de PDF:</strong> En caso de no contar con uno
+instalado en el sistema operativo.</p></li>
+<li><p><strong>Python:</strong> Lenguaje de programación versátil que
+puede integrarse con <strong>RStudio</strong> para ampliar sus
+funcionalidades.</p></li>
+</ul>
+<br/><br/>
+<h3>
+Enlaces de descarga
+</h3>
+<p>A continuación, se presentan los enlaces para descargar los programas
+necesarios:</p>
+<ul>
+<li><p><a href="https://cran.r-project.org/">R download</a></p></li>
+<li><p><a href="https://rstudio.com/products/rstudio/download/">RStudio
+download</a></p></li>
+</ul>
+<br/><br/>
+<div class="caja-nota">
+<h3>
+¿Cómo pedir ayuda?
+</h3>
+<blockquote>
+Existen dos maneras principales de acceder a las ayudas: <br/><br/> 1.
+Consultando directamente desde la ventana <strong>Help</strong> en el
+entorno de <strong>RStudio</strong>. <br/><br/> 2. Usando comandos desde
+la consola de <strong>R</strong>. Por ejemplo, para obtener ayuda sobre
+la función <code>lm</code>, puedes escribir: <br/><br/>
+<pre>
+help("lm")
+</pre>
+<br/>
+<pre>
+?"lm"
+</pre>
+</blockquote>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

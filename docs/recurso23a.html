@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Indicadores de centro</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Indicadores de centro</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p></br></p>
+<p>Una vez que los datos han sido organizados y su distribución ha sido
+observada a través de tablas o gráficos de frecuencias, en ocasiones es
+necesario utilizar <strong>indicadores</strong> que resuman la
+información.</p>
+<p></br></br></p>
+<h2>
+Indicadores de tendencia central
+</h2>
+<p>Entre los principales indicadores de tendencia central se
+encuentran:</p>
+<ul>
+<li><p><strong>Media aritmética</strong> (también conocida como
+promedio): Calcula el valor promedio de todas las
+observaciones.</p></li>
+<li><p><strong>Mediana</strong>: Representa el valor que divide el
+conjunto de datos en dos partes iguales.</p></li>
+<li><p><strong>Moda</strong>: Indica el valor que ocurre con mayor
+frecuencia en el conjunto de datos.</p></li>
+</ul>
+<p></br></br></p>
+<h3>
+Media aritmética
+</h3>
+<p>La <strong>media aritmética</strong> es el indicador de tendencia
+central más conocido y utilizado debido a su fácil interpretación y
+cálculo. Este indicador se define como la suma de todos los valores de
+un conjunto de datos, dividida por el número total de datos.</p>
+<p><span class="math display">\[
+\bar{x}= \frac{1}{n} \sum_{i=1}^{n} x_{i}
+\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><p><span class="math inline">\(\bar{x}\)</span>: Representa la media
+aritmética.</p></li>
+<li><p><span class="math inline">\(n\)</span>: Es el número total de
+observaciones.</p></li>
+<li><p><span class="math inline">\(x_i\)</span>: Es el valor de la <span
+class="math inline">\(i\)</span>-ésima observación.</p></li>
+</ul>
+<p>La media proporciona un valor representativo que resume todo el
+conjunto de datos, siendo especialmente <strong>útil</strong> en
+<strong>distribuciones simétricas</strong>.</p>
+<p></br></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se presentan los códigos en <strong>R</strong>
+utilizados para calcular la media aritmética de los tiempos
+correspondientes a la categoría juvenil femenina:</p>
+<pre>
+# Cargar la librería y los datos
+library(paqueteMETODOS)
+
+# Cargar los datos de la carrera
+data("CarreraLu22_c1F")
+
+# Convertir los tiempos de segundos a minutos y redondearlos a 2 decimales
+x = round(CarreraLu22_c1F$timerun / 60, 2)
+
+# Mostrar los tiempos
+x
+
+# Calcular y mostrar estadísticas básicas
+cat("n        = ", length(x), "\n")
+cat("suma     = ", sum(x), "\n")
+cat("promedio = ", mean(x))
+
+
+# Calcular promedio
+mean(x)
+</pre>
+<pre class="r"><code># Cargar la librería y los datos
+library(paqueteMETODOS)
+
+# Cargar los datos de la carrera
+data(&quot;CarreraLu22_c1F&quot;)
+
+# Convertir los tiempos de segundos a minutos y redondearlos a 2 decimales
+x = round(CarreraLu22_c1F$timerun / 60, 2)
+
+# Mostrar los tiempos
+x
+
+# Calcular y mostrar estadísticas básicas
+cat(&quot;n        = &quot;, length(x), &quot;\n&quot;)
+cat(&quot;suma     = &quot;, sum(x), &quot;\n&quot;)
+cat(&quot;promedio = &quot;, mean(x))
+
+
+# Calcular promedio
+mean(x)</code></pre>
+<pre>
+Tiempos:
+50.97    60.38    61.10    81.48    83.05    88.77    91.33
+n        =  7 
+suma     =  517.08 
+promedio =  73.86857
+</pre>
+Las mujeres de la categoría juvenil femenina presentan un tiempo
+promedio de carrera de 73.87 minutos.
+</p>
+</div>
+<p></br></br></p>
+<h4>
+Propiedades de la media
+</h4>
+<p>La <strong>media aritmética</strong> posee varias propiedades
+matemáticas importantes que la hacen una herramienta fundamental en el
+análisis de datos. A continuación, se detallan sus principales
+características:</p>
+<ul>
+<li><p>Propiedad 1: La suma de las desviaciones de los datos con
+respecto a la media es cero.<br />
+<span class="math display">\[
+\sum (x_{i}-\bar{x})=0
+\]</span></p></li>
+<li><p>Propiedad 2: La suma de los cuadrados de las desviaciones de los
+datos con respecto a un valor <span class="math inline">\(a\)</span> es
+mínima cuando <span class="math inline">\(a = \bar{x}\)</span>.</p></li>
+<li><p>Propiedad 3: Si <span class="math inline">\(x_{i} = k\)</span>
+para todo <span class="math inline">\(i\)</span>, entonces,<br />
+<span class="math display">\[
+\bar{x} = k
+\]</span></p></li>
+<li><p>Propiedad 4: Si todos los datos de una variable se multiplican
+por una constante <span class="math inline">\(k\)</span>, es decir,
+<span class="math inline">\(y_{i} = kx_{i}\)</span>, entonces:<br />
+<span class="math display">\[
+\bar{y} = k\bar{x}
+\]</span></p></li>
+<li><p>Propiedad 5: Si <span class="math inline">\(z_{i} = a x_{i} + b
+y_{i}\)</span>, donde <span class="math inline">\(a\)</span> y <span
+class="math inline">\(b\)</span> son constantes, y <span
+class="math inline">\(x_{i}\)</span>, <span
+class="math inline">\(y_{i}\)</span> son variables, entonces:<br />
+<span class="math display">\[
+\bar{z} = a\bar{x} + b\bar{y}
+\]</span></p></li>
+</ul>
+<p><br/> <br/></p>
+<h3>
+Mediana
+</h3>
+<p>La <strong>mediana</strong> es el valor que divide una muestra en dos
+partes iguales, de forma que el 50% de las observaciones están por
+debajo de este valor y el otro 50% están por encima. La mediana se
+calcula como:</p>
+<p><span class="math display">\[
+Me = \left \{
+\begin{matrix}
+    \dfrac{x_{(n+1)}}{2} &amp; \text{ si } n \text{ es impar }\\
+    &amp; \\
+    \dfrac{x_{(n/2)} + x_{(n/2)+1}}{2}  &amp; \text{ si } n \text{ es
+par }
+\end{matrix}
+\right.  
+\]</span></p>
+<ul>
+<li><p>Si el número de observaciones (<span
+class="math inline">\(n\)</span>) es <strong>impar</strong>, la mediana
+corresponde al valor ubicado en la posición <span
+class="math inline">\(\frac{n+1}{2}\)</span> después de ordenar los
+datos.</p></li>
+<li><p>Si <span class="math inline">\(n\)</span> es
+<strong>par</strong>, la mediana es el promedio de los dos valores
+centrales, es decir, los que se encuentran en las posiciones <span
+class="math inline">\(\frac{n}{2}\)</span> y <span
+class="math inline">\(\frac{n}{2} + 1\)</span>.</p></li>
+</ul>
+<p>La <strong>mediana</strong> es especialmente <strong>útil</strong>
+cuando los datos presentan <strong>valores atípicos</strong>, ya que no
+se ve afectada por estos, a diferencia de la media aritmética, que puede
+distorsionarse en presencia de valores extremos.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se presentan los códigos de <strong>R</strong> para
+calcular la mediana de los tiempos correspondientes a la categoría
+juvenil femenina:</p>
+<pre>
+# Convertir los tiempos de segundos a minutos y redondear a 2 decimales
+x = round(CarreraLuz22_c1F$timerun / 60, 2)
+
+# Mostrar los tiempos
+x
+
+# Calcular la mediana
+cat("mediana = ", median(x))
+</pre>
+<pre class="r"><code># Convertir los tiempos de segundos a minutos y redondear a 2 decimales
+x = round(CarreraLuz22_c1F$timerun / 60, 2)
+
+# Mostrar los tiempos
+x
+
+# Calcular la mediana
+cat(&quot;mediana = &quot;, median(x))</code></pre>
+Los resultados de la renderización son los siguientes:
+<pre>
+        x1       x2       x3       x4       x5       x6       x7  
+[1]  50.97    60.38    61.10    81.48    83.05    88.77    91.33
+Mediana =  x4 = 81.48
+n       =  7
+</pre>
+<p>La mediana, <span class="math inline">\(Me\)</span>, representa el
+valor que divide el conjunto de datos en dos partes iguales. En este
+caso, el número total de observaciones es <span class="math inline">\(n
+= 7\)</span>, lo que indica que:</p>
+<ul>
+<li><p>La posición de la mediana corresponde a <span
+class="math inline">\(\frac{n + 1}{2} = \frac{7 + 1}{2} =
+4\)</span>.</p></li>
+<li><p>El cuarto valor en el conjunto de datos ordenados es <span
+class="math inline">\(x_{(4)} = 81.48\)</span>.</p></li>
+</ul>
+<p>Por lo tanto:</p>
+<p><span class="math display">\[
+Me = x_{(4)} = 81.48
+\]</span></p>
+<ul>
+<li><p>El <strong>50% de los tiempos registrados</strong> son menores o
+iguales a <strong>81.48 minutos</strong>.</p></li>
+<li><p>El <strong>50% restante</strong> de los tiempos son mayores a
+este valor.</p></li>
+</ul>
+<p></br></p>
+<p>En el gráfico de cajas (ver <strong>Figura 1.9</strong>), la línea
+central de la caja representa la <strong>mediana</strong> del conjunto
+de datos. Los extremos de la caja corresponden a los indicadores de
+posición <strong>cuartiles 1 y 3</strong> (<span
+class="math inline">\(Q_1\)</span> y <span
+class="math inline">\(Q_3\)</span>), mientras que los valores iniciales
+y finales determinan el <strong>mínimo</strong> y el
+<strong>máximo</strong> de los tiempos de la carrera. Como no hay puntos
+antes o después de las líneas de los bigotes del gráfico, <strong>no se
+aprecian datos atípicos</strong> en este conjunto.</p>
+<pre class="r"><code># Cargar librerías necesarias
+library(paqueteMETODOS)
+library(ggplot2)
+
+# Cargar los datos
+data(&quot;CarreraLu22_c1F&quot;)
+
+# Convertir tiempos a minutos y redondear a 2 decimales
+x = round(CarreraLuz22_c1F$timerun / 60, 2)
+df &lt;- data.frame(x = x)
+
+# Crear un gráfico de caja horizontal
+ggplot(df, aes(x = x)) +
+  geom_boxplot(fill = &quot;#0EB0C6&quot;) + 
+  theme_minimal() + 
+  labs(title = &quot;Tiempo de Carrera categoría juvenil femenina&quot;,
+       x = &quot;Tiempo (minutos)&quot;) +
+  Theme1</code></pre>
+<p><img src="recurso23a_files/figure-html/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<center>
+<strong>Figura 1.9</strong> Tiempo de carrera categoría juvenil
+femenina.<br />
+<sub> Fuente :<a
+href="https://www.athlinks.com/event/212331/results/Event/1031677/Results">juanchocorrelon</a>
+</sub>
+</center>
+</p>
+</div>
+<p></br></br></p>
+<h3>
+Moda
+</h3>
+<p>La <strong>moda</strong> corresponde al dato o valor que se repite
+con mayor frecuencia en un conjunto de datos. Es una medida de tendencia
+central ampliamente utilizada en:</p>
+<ul>
+<li><p><strong>Variables cualitativas</strong>: Permite identificar la
+categoría más frecuente en un conjunto de observaciones.</p></li>
+<li><p><strong>Variables cuantitativas discretas</strong>: Es útil
+cuando los datos tienen un número limitado de valores posibles.</p></li>
+</ul>
+<h4>
+Características de la moda:
+</h4>
+<ul>
+<li><p>Puede existir más de una moda en un conjunto de datos, en cuyo
+caso se denomina <strong>multimodal</strong>.</p></li>
+<li><p>Es particularmente útil para describir distribuciones de datos
+con concentraciones claras en uno o más valores específicos.</p></li>
+</ul>
+<p><br/> <br/></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se utiliza una tabla de frecuencias generada con los
+códigos de <strong>R</strong> para identificar la categoría con mayor
+participación en la carrera.</p>
+<pre class="r"><code># Cargar la librería y los datos
+library(paqueteMETODOS)
+data(&quot;CarreraLuz22&quot;)
+
+# Generar tabla de frecuencias para la variable &#39;categoria&#39;
+table(CarreraLuz22$categoria)</code></pre>
+<pre><code>
+    1. Juvenil     2. Abierta 3. Veteranos A 4. Veteranos B 5. Veteranos C 
+            19           1179            423            227             74 </code></pre>
+<p>A continuación, se presentan los resultados obtenidos tras ejecutar
+el código:</p>
+<pre>
+1. Juvenil     2. Abierta 3. Veteranos A 4. Veteranos B 5. Veteranos C 
+            19           1179            423            227             74 
+</pre>
+<p>La tabla de frecuencias indica que la categoría <code>Abierta</code>
+presenta la mayor participación, con un total de <strong>1,179
+observaciones</strong>. Esto la convierte en la <strong>moda</strong> de
+esta distribución, ya que es la categoría más frecuente. Por lo tanto,
+la categoría <code>Abierta</code> puede considerarse como la más
+representativa dentro de este conjunto de datos.</p>
+</p>
+</div>
+<p></br></br></p>
+<h3>
+Media truncada
+</h3>
+<p>Con el fin de evitar que los datos atípicos introduzcan sesgos en el
+cálculo de la media, es posible utilizar una <strong>media
+truncada</strong>, que excluye una proporción fija de los valores más
+extremos en ambos extremos de la distribución.</p>
+<p>En el caso de la <strong>media truncada al 10%</strong> (<span
+class="math inline">\(\bar{x}_{_{0.10}}\)</span>):</p>
+<ul>
+<li><p>Se elimina el <strong>5% de los datos más
+pequeños</strong>.</p></li>
+<li><p>Se elimina el <strong>5% de los datos más
+grandes</strong>.</p></li>
+<li><p>Se calcula la media únicamente con el <strong>90%
+central</strong> de los datos restantes.</p></li>
+</ul>
+<p>La media truncada es particularmente útil cuando los datos contienen
+valores extremos que pueden distorsionar la media aritmética,
+proporcionando así un indicador más robusto y representativo del
+conjunto de datos.</p>
+<p><br/></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se calcula la <strong>media truncada al 10%</strong>
+(<span class="math inline">\(\bar{x}_{_{0.10}}\)</span>) para un
+conjunto de datos. La media truncada excluye el 5% de los valores más
+pequeños y el 5% de los valores más grandes, utilizando únicamente el
+90% central de los datos para el cálculo.</p>
+<p>Datos iniciales:</p>
+<pre>
+ 41.67, 42.23, 45.53, 50.82, 52.93, 
+ 57.03, 61.13, 62.48, 72.77, 75.58, 
+ 76.98, 78.05 
+</pre>
+<p>Después de eliminar los valores extremos 41.67 y 78.05, el conjunto
+de datos utilizado para el cálculo es:</p>
+<pre>
+ 42.23, 45.53, 50.82, 
+ 52.93, 57.03, 61.13, 
+ 62.48, 72.77, 75.58, 
+ 76.98
+</pre>
+<p>La <strong>media truncada al 10%</strong> se calcula como:</p>
+<p><span class="math display">\[
+\bar{x}_{_{0.10}} = 59.748
+\]</span></p>
+<p>El siguiente código de <strong>R</strong> muestra cómo realizar este
+cálculo de forma automática:</p>
+<pre>
+# Datos originales
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular la media truncada al 10%
+mean(x, 0.10)
+</pre>
+<pre class="r"><code># Datos originales
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular la media truncada al 10%
+mean(x, 0.10)</code></pre>
+</p>
+</div>
+<p></br></br></p>
+<h3>
+Rango medio
+</h3>
+<p>El <strong>rango medio</strong> es un indicador que se calcula
+sumando los valores extremos de un conjunto de datos (mínimo y máximo) y
+dividiendo el resultado por dos. Este indicador se caracteriza por su
+simplicidad y utilidad cuando se busca una estimación empírica del
+centro de la distribución, especialmente en datos con distribuciones
+simétricas. Matemáticamente, se expresa como:</p>
+<p><span class="math display">\[
+r = \frac{1}{2}\Big(\max(x)+\min(x)\Big)
+\]</span></p>
+<h4>
+Propiedades del rango medio
+</h4>
+<ul>
+<li><p>Fácil cálculo: Al utilizar únicamente los valores mínimo y
+máximo, el rango medio resulta sencillo de calcular y adecuado para
+análisis exploratorios iniciales.</p></li>
+<li><p>Alta precisión en distribuciones simétricas: Este indicador es
+confiable cuando los datos presentan simetría y carecen de valores
+extremos significativos.</p></li>
+<li><p>Estimación empírica: Proporciona una aproximación rápida y
+general al valor central de los datos, aunque es menos robusto frente a
+valores atípicos en comparación con otras medidas como la
+mediana.</p></li>
+</ul>
+<h4>
+Aplicaciones
+</h4>
+<ul>
+<li><p>Los datos tienen una distribución simétrica.</p></li>
+<li><p>Se requiere una aproximación rápida del centro de la
+distribución.</p></li>
+<li><p>No existen valores atípicos que puedan distorsionar el
+resultado.</p></li>
+</ul>
+<p><br/><br/></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se calcula el <strong>rango medio</strong> de una
+lista de datos. El rango medio se obtiene al sumar el valor mínimo y el
+valor máximo de los datos y dividir el resultado entre dos.</p>
+La lista de datos es la siguiente:
+<pre>
+41.67, 42.23, 45.53, 50.82, 
+52.93, 57.03, 61.13, 62.48, 
+72.77, 75.58, 76.98, 78.05
+</pre>
+<p>El valor mínimo es 41.67 y el valor máximo es 78.05.</p>
+<p>El cálculo se realiza utilizando el siguiente código en
+<strong>R</strong>:</p>
+<pre>
+# Lista de datos
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular el valor mínimo y máximo
+range(x)
+
+# Calcular el rango medio
+sum(range(x)) / 2
+</pre>
+<pre class="r"><code># Lista de datos
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular el valor mínimo y máximo
+range(x)
+
+# Calcular el rango medio
+sum(range(x)) / 2</code></pre>
+<p>El rango medio se calcula como:</p>
+<p><span class="math display">\[
+\text{Rango medio} = \dfrac{\text{mínimo} + \text{máximo}}{2} =
+\dfrac{41.67 + 78.05}{2} = 59.86
+\]</span></p>
+<p>Este valor proporciona una estimación empírica del centro de la
+distribución de los datos.</p>
+</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

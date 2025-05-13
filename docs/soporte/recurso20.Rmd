@@ -1,0 +1,49 @@
+---
+title: <span style="color:#686868"> **Análisis de datos**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readr)
+library(tidyverse)
+library(DT)
+library(paqueteMETODOS)
+
+data("CarreraLuz22")
+data("evaluacion")
+data("inflacionov22")
+```
+
+</br>
+
+<h2>Representación de datos</h2>
+
+Una de las formas más efectivas para organizar y resumir conjuntos amplios de datos es mediante el uso de **indicadores** (como medidas de tendencia central, variabilidad y orden), **tablas de frecuencias** y **gráficas**, ya que estas herramientas permiten condensar la información y facilitan su interpretación. Aunque estas modalidades ofrecen información complementaria, las **gráficas** son particularmente útiles cuando se busca **transmitir una idea de manera rápida e intuitiva**. Por el contrario, las **tablas de frecuencias** y los **indicadores** resultan más apropiados en contextos que demandan un **análisis detallado o una mayor precisión** en los datos.
+
+Los indicadores, tablas y gráficas pueden integrarse en distintos formatos de comunicación, como informes estadísticos, tableros interactivos, pósteres o infografías.
+
+En este contexto, el siguiente tablero permite visualizar en tiempo real los paquetes de R que están siendo descargados. El tamaño de los círculos representa las frecuencias de descarga de cada paquete, destacando aquellos con mayor frecuencia mediante círculos más grandes.
+
+
+
+</br><br/>
+
+<iframe src="https://testing-apps.shinyapps.io/flexdashboard-shiny-crandash/" width="1000" height="800"></iframe>
+
+<center>
+<sub>
+Fuente : Tomado de [CRAN Download Monitor](https://testing-apps.shinyapps.io/flexdashboard-shiny-crandash)
+</sub>
+</center>
+
+<br/>
+
+

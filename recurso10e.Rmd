@@ -1,0 +1,167 @@
+---
+title: <span style="color:#686868"> **RMarkDown**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+<br/><br/>
+<h2>RMarkDown</h2>
+
+**RMarkdown** es un formato de archivo que combina **texto** escrito en Markdown con **código** ejecutable en **R** (o en otros lenguajes como Python, SQL, etc.). Permite **integrar** explicaciones, resultados de análisis y visualizaciones en un mismo documento que se puede convertir en varios formatos como **HTML**, **PDF** o **Word**.
+
+RMarkdown facilita la creación de informes **reproducibles**: cada vez que ejecutas (o “tejes”) el documento, el código se ejecuta y actualiza automáticamente los resultados, gráficos y tablas.
+
+El uso básico de RMarkdown sigue tres pasos principales:
+
+  1. Crear un archivo `.Rmd`
+  
+      - En **RStudio**, selecciona **File > New File > R Markdown**.
+      
+      - Elige el tipo de documento que deseas (por ejemplo, HTML, PDF o Word).
+      
+      - Se crea un archivo con extensión `.Rmd`.
+  
+  2. Escribir el contenido
+  
+      - **Texto**: Se escribe utilizando sintaxis de Markdown (títulos, listas, tablas, énfasis en negrita o cursiva).
+      
+      - **Código**: Se inserta en "bloques de código" (code chunks) que se ejecutan al renderizar el documento.
+      
+  3. Tejer (Knit) el documento
+  
+      - Haz clic en el botón **Knit** en **RStudio**.
+      
+      - Se ejecuta el código y se genera un archivo de salida (HTML, PDF, Word).
+      
+      - El documento final incluye el texto, el código (opcionalmente) y los resultados del análisis.
+  
+
+La **Tabla 1.2** presenta un resumen de los elementos principales para generar un documento usando RMarkdown.
+
+
+<center>
+**Tabla 1.2** Elementos básicos de RMarkdown.
+</center> 
+
+| Elemento         | Uso                                        | Ejemplo                       |
+|:----------------:|:------------------------------------------:|:------------------------------:|
+| Títulos          | Organizar el contenido en secciones        | `# Título 1`, `## Título 2`    |
+| Texto normal     | Explicaciones, comentarios                 | Escribir texto directamente   |
+| Listas           | Enumeraciones o viñetas                    | `- Elemento`, `1. Elemento`    |
+| Código R         | Ejecutar análisis o gráficos               | Bloques ` ```{r} Código ``` `  |
+| Tablas           | Crear tablas simples                       | Usar `| columna1 | columna2 |`  |
+| Imágenes         | Insertar imágenes                          | `![Texto alternativo](ruta)`   |
+| Formato de texto | Negrita o cursiva                          | `**negrita**`, `*cursiva*`     |
+
+
+<div class="caja-ejemplo"> 
+<h3>Ejemplo:</h3> 
+<p>
+
+En **RStudio**, selecciona **File > New File > R Markdown**. Esta opción crea una **plantilla básica** que permite generar documentos dinámicos combinando texto, código y resultados.
+
+Una vez adaptada la plantilla a las necesidades específicas, puedes **generar un documento HTML** haciendo clic en el botón **Knit** (icono azul con una madeja de hilo y una aguja) y seleccionando la opción **Knit to HTML**.
+
+En este ejemplo se muestra cómo modificar la plantilla inicial para ilustrar:
+
+- **Creación de títulos y subtítulos** utilizando `#` para títulos de primer nivel y `##` para subtítulos.
+
+- **Uso de viñetas** mediante `1.`, `2.` para listas numeradas o `-`, `*` para listas de viñetas.
+
+- **Inclusión de bloques de código R** iniciados con ```` ```{r} ```` y cerrados con ```` ``` ````.
+
+Cada uno de estos elementos se integrará para construir un documento que combine explicación teórica, análisis de datos y resultados computados automáticamente.
+
+
+<pre> 
+--- 
+title: "Ejemplo de Generación y Procesamiento de Datos en RMarkdown" 
+author: "Tu Nombre" 
+date: "`r Sys.Date()`" 
+output: html_document 
+--- 
+
+# Introducción
+
+En este documento se ilustra el flujo básico de trabajo en RMarkdown: 
+
+1. Generar un conjunto de datos. 
+
+2. Crear una función personalizada. 
+
+3. Aplicar la función a los datos. 
+
+4. Interpretar los resultados de manera estructurada. 
+
+## Generación de datos 
+
+Primero, se generarán datos simulados. Se crea un vector de 100 números aleatorios siguiendo una distribución normal con media 50 y desviación estándar 10.
+
+```{r} 
+# Generar datos 
+set.seed(123) # Para asegurar la reproducibilidad 
+datos <- rnorm(100, mean = 50, sd = 10) 
+# Mostrar un resumen de los datos 
+resultados<-summary(datos) 
+``` 
+
+## Definición de la función personalizada Se define una función que: 
+
+- Recibe un vector numérico. 
+
+- Calcula la diferencia entre cada elemento y el promedio del vector. 
+
+- Retorna un nuevo vector con las diferencias. 
+
+```{r} 
+# Definición de la función 
+diferencias_con_media <- function(x) {
+  media_x <- mean(x) 
+  diferencias <- x - media_x 
+  return(diferencias)} 
+``` 
+
+## Aplicación de la función La función `diferencias_con_media` se aplicará al conjunto de datos para calcular cuánto se aleja cada valor respecto a la media. 
+
+```{r} 
+# Aplicar la función a los datos 
+resultado_diferencias <- diferencias_con_media(datos) 
+``` 
+
+## Interpretación de los resultados 
+
+Cada valor obtenido representa la distancia del valor original respecto a la media del conjunto de datos: 
+
+* Valores positivos indican que el valor es mayor que la media. 
+
+* Valores negativos indican que el valor es menor que la media. 
+
+* Valores cercanos a cero indican proximidad a la media. 
+
+Adicionalmente, debido a la propiedad de las desviaciones respecto a la media, el promedio de las diferencias debería ser cercano a cero: 
+
+```{r} 
+# Verificar que el promedio de las diferencias es cercano a cero 
+promedio<-mean(resultado_diferencias) 
+```
+</pre> 
+
+Para finalizar, copia los códigos presentados en este ejemplo dentro de la plantilla básica de RMarkdown.  Luego, guarda el archivo con extensión `.Rmd` y haz clic en el botón **Knit** (ícono azul de RStudio) para **generar el documento en formato HTML**.
+
+De esta manera, se creará automáticamente un reporte que combina explicaciones, bloques de código y resultados ejecutados, todo en un único archivo HTML. Para visualizar los resultados en el documento HTML agrega `print()` entre ```` ```{r} ```` y cerrados con ```` ``` ````
+
+
+</p> 
+</div>
+

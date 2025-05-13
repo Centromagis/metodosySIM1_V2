@@ -6,61 +6,66 @@ navbar:
     - text: "Métodos"  
       icon: fa-home
       href: index.html  
-    - text: "Conceptos básicos"
-      menu:    
-        - text: "Conceptos básicos"
-          href: recurso10.html     
-        - text: "---------"
-        - text: "Conceptos"
-          href: recurso11.html  
-        - text: "Importar"
-          href: recurso12.html  
-        - text: "Ordenar"
-          href: recurso13.html            
-        - text: "Transformar"
-          href: recurso15.html  
-    - text: "Análisis de datos"
-      menu:      
-        - text: "Análisis de datos"
-          href: recurso20.html      
-        - text: "---------"         
-        - text: "Tablas de frecuencia"
-          href: recurso21.html            
-        - text: "Indicadores de posición"
-          href: recurso22.html
-        - text: "Indicadores de centro"
-          href: recurso23.html       
-        - text: "Indicadores de disperción"
-          href: recurso24.html
-        - text: "Indicadores de forma"
-          href: recurso25.html           
-    - text: "Gráficas"
-      menu:      
-        - text: "Gráficas"
-          href: recurso30.html      
-        - text: "---------"            
-        - text: "Representación de variables cualitativas"
-          href: recurso31.html 
-        - text: "Representación de variables cuantitativas"
-          href: recurso32.html 
-        - text: "Representaciones multivariadas"
-          href: recurso33.html      
     - text: "Software R"
       menu:
         - text: "Introducción a R"
-          href: recurso40.html   
-        - text: "---------"  
+          href: recurso10a.html   
         - text: "Objetos en R"
-          href: recurso41.html 
-    - text: "Casos de estudio"
+          href: recurso10b.html 
+        - text: "Función en R"
+          href: recurso10c.html 
+        - text: "Funciones `apply`, `lapply` y `sapply`"
+          href: recurso10d.html 
+        - text: "RMarkDown"
+          href: recurso10e.html 
+        - text: "Proyecto en RStudio"
+          href: recurso10f.html 
+        - text: "Librerías"
+          href: recurso10g.html 
+    - text: "Análisis de datos"
+      menu:      
+        - text: "Análisis de datos"
+          href: recurso20a.html      
+        - text: "Tablas de frecuencia"
+          href: recurso21a.html  
+        - text: "Indicadores de posición"
+          href: recurso22a.html
+        - text: "Indicadores de centro"
+          href: recurso23a.html       
+        - text: "Indicadores de disperción"
+          href: recurso24a.html
+        - text: "Indicadores de forma"
+          href: recurso25a.html           
+    - text: "Gráficas"
+      menu:      
+        - text: "Gráficas"
+          href: recurso30a.html      
+        - text: "Cualitativas y cuantitativas discretas"
+          href: recurso31a.html 
+        - text: "Cuantitativas"
+          href: recurso32a.html 
+        - text: "Especiales"
+          href: recurso33a.html
+    - text: "Conceptos y procesamiento"
+      menu:    
+        - text: "Algunos conceptos"
+          href: recurso40a.html     
+        - text: "Importar"
+          href: recurso41a.html  
+        - text: "Ordenar"
+          href: recurso42a.html  
+        - text: "Transformar"
+          href: recurso43a.html            
+    - text: "Casos e informe"
       menu:
         - text: "Caso 1"
-          href: recurso43.html   
-        - text: "---------"  
+          href: recurso50a.html   
         - text: "Caso 2"
-          href: recurso44.html     
+          href: recurso51a.html
+        - text: "Informe"
+          href: recurso52a.html
     - text: "Referencias"
       menu:
         - text: "Referencias"
-          href: recurso42.html  
+          href: recurso60a.html  
       

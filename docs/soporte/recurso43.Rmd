@@ -1,0 +1,940 @@
+---
+title: <span style="color:#686868"> **Casos de estudio**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+</br></br>
+<h2>Caso 1</h2>
+
+<h3>Introducción</h3>
+
+En el contexto del desarrollo económico moderno, la productividad, la eficiencia y la eficacia son objetivos clave en el ámbito laboral y empresarial. No obstante, el equilibrio entre la vida personal y profesional se ha convertido en un aspecto fundamental para el bienestar de los empleados. La satisfacción laboral no solo depende del entorno de trabajo, sino también de factores personales como el descanso, la salud física y mental, y las responsabilidades fuera del ámbito laboral. [Descargar Encuesta Empleados](https://raw.githubusercontent.com/Centromagis/metodosySIM1-V2/main/docs/data/Encuesta%20empleados.xlsx)
+
+
+<h3>Objetivos</h3>
+
+A partir del análisis de la base de datos, se busca explorar las experiencias de vida de los empleados a través de los siguientes objetivos:
+
+- Estudiar si el descanso, medido en tiempo de sueño por noche, influye en el bienestar general de los trabajadores y su percepción de satisfacción en el entorno de trabajo.
+
+- Determinar si un mayor nivel de ejercicio semanal está relacionado con una mejor calidad y duración del sueño.
+
+- Analizar si la posición jerárquica dentro de una organización influye en la percepción del estrés.
+
+
+
+</br></br>
+<h3>Identificación, descripción  y clasificación de las variables de acuerdo con su naturaleza</h3>
+
+En la **Tabla 1.11** se presentan, describen y clasifican las variables, de acuerdo a su naturaleza, de la base de datos que guardan relación con los objetivos iniciales planteados en este estudio de casos.
+
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# Cargar las bibliotecas necesarias
+library(readxl)      # Para leer archivos Excel
+library(dplyr)       # Para la manipulación de datos
+library(tidyr)       # Para la manipulación de datos
+library(kableExtra)  # Para el formateo de tablas
+
+# Leer el archivo de datos
+data1 <- read_xlsx("data/Encuesta empleados.xlsx")
+
+# Seleccionar las variables de interés
+variables <- data1 %>%
+  select(JobSatisfaction, SleepHours, Stress, PhysicalActivityHours, JobLevel)
+
+# Renombrar las columnas para mayor claridad
+colnames(variables) <- c("Satisfacción laboral", "Tiempo de sueño", "Nivel de estrés",
+                         "Tiempo de actividad física", "Cargo")
+
+# Definir los nombres de las variables y sus descripciones
+nombre_variables <- colnames(variables)
+descripcion_variables <- c(
+  "Nivel de satisfacción laboral en una escala del 1 al 5, donde 1 es 'muy poco satisfecho' y 5 es 'muy satisfecho'.", 
+  "Tiempo de sueño diarias (horas), con un mínimo de 4 y un máximo de 10.", 
+  "Nivel de estrés en una escala del 1 al 5, donde 1 es 'muy bajo' y 5 es 'muy alto'.",
+  "Tiempo de actividad física semanal (horas), con un mínimo de 0 y un máximo de 5.", 
+  "Categoría del cargo del empleado: gerente, intermedio, junior, líder o pasante."
+)
+
+# Clasificación de las variables
+clasificacion_variables <- c("Cualitativa ordinal", "Cuantitativa continua", 
+                             "Cualitativa ordinal", "Cuantitativa continua",
+                             "Cualitativa ordinal")
+
+# Crear un data frame con la información estructurada
+tabla_variables <- data.frame(
+  Nombre = nombre_variables,
+  Descripción = descripcion_variables,
+  Clasificación = clasificacion_variables
+)
+
+# Generar la tabla con formato mejorado
+# kable(tabla_variables, caption = "Tabla 1.11 Descripción y clasificación de las variables seleccionadas") %>%
+  # kable_styling(bootstrap_options = c("striped"))  # Aplica un estilo con filas alternas
+```
+
+</br>
+<center>
+**Tabla 1.11** Descripción y clasificación de las variables seleccionadas.
+</center>
+| Nombre                        | Descripción                                                                                          | Clasificación          |
+|--------------------------------|------------------------------------------------------------------------------------------------------|------------------------|
+| **Satisfacción laboral**       | Nivel de satisfacción laboral en una escala del 1 al 5, donde 1 es ‘muy poco satisfecho’ y 5 es ‘muy satisfecho’. | Cualitativa ordinal    |
+| **Tiempo de sueño**            | Tiempo de sueño diario (horas), con un mínimo de 4 y un máximo de 10.                               | Cuantitativa continua  |
+| **Nivel de estrés**            | Nivel de estrés en una escala del 1 al 5, donde 1 es ‘muy bajo’ y 5 es ‘muy alto’.                  | Cualitativa ordinal    |
+| **Tiempo de actividad física** | Tiempo de actividad física semanal (horas), con un mínimo de 0 y un máximo de 5.                    | Cuantitativa continua  |
+| **Cargo**                      | Categoría del cargo del empleado: gerente, intermedio, junior, líder o pasante.                     | Cualitativa ordinal    |
+
+
+
+
+
+En las **Tablas 1.12** y **1.13** se muestran las estadísticas descriptivas de las variables cuantitativas y cualitativas seleccionadas. A partir de las Tablas **1.12** y **1.13**, podemos hacer las siguientes observaciones sobre las variables cuantitativas y cualitativas:
+
++ Los empleados duermen entre 4 y 10 horas. El 50% duerme como máximo 7 horas (mediana de 7 horas). La variabilidad del tiempo de sueño respecto a la media es moderada (coeficiente de variación de 14.3%), con un sesgo casi nulo (coeficiente de asimetría de 0.08) y una distribución que no se aleja mucho de la normal (curtosis de -0.13).
+
++ Los empleados que practican algún tipo de actividad física lo hacen por un máximo de 5 horas semanales. El 50% lo hace hasta 2 horas (mediana de 2 horas), y la variabilidad con respecto a la media es alta (coeficiente de variación de 47.6%). La distribución es aproximadamente simétrica (coeficiente de asimetría de 0.02) y algo más plana que la normal (curtosis de -0.43).
+
++ Se observa que la mayoría de los empleados reporta un nivel de satisfacción laboral alto (4), un nivel de estrés bajo (1) y ejerce el cargo de “Gerente”, que constituye la moda en la muestra.
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# Cargar las bibliotecas necesarias
+library(dplyr)
+library(e1071)  # Para calcular asimetría y curtosis
+library(knitr)  # Para generar tablas con kable
+library(kableExtra)  # Para mejorar el formato de las tablas
+
+# Seleccionar solo las variables de interés
+datos_generales <- data1 %>%
+  select(SleepHours, PhysicalActivityHours)
+
+# Calcular estadísticas descriptivas generales para el Tiempo de Sueño
+estadisticas_sueno <- datos_generales %>%
+  summarise(
+    Variable = "Tiempo de Sueño",
+    Mínimo = min(SleepHours, na.rm = TRUE),
+    Máximo = max(SleepHours, na.rm = TRUE),
+    Mediana = median(SleepHours, na.rm = TRUE),
+    Media = round(mean(SleepHours, na.rm = TRUE), 2),
+    `Desviación Estándar` = round(sd(SleepHours, na.rm = TRUE), 2),
+    `Coef. de Variación (%)` = round((sd(SleepHours, na.rm = TRUE) / mean(SleepHours, na.rm = TRUE)) * 100, 1),
+    `Primer Cuartil` = quantile(SleepHours, 0.25, na.rm = TRUE),
+    `Tercer Cuartil` = quantile(SleepHours, 0.75, na.rm = TRUE),
+    Asimetría = round(skewness(SleepHours, na.rm = TRUE), 2),
+    Curtosis = round(kurtosis(SleepHours, na.rm = TRUE), 2)
+  )
+
+# Calcular estadísticas descriptivas generales para el Tiempo de Actividad Física
+estadisticas_actividad <- datos_generales %>%
+  summarise(
+    Variable = "Tiempo de Actividad Física",
+    Mínimo = min(PhysicalActivityHours, na.rm = TRUE),
+    Máximo = max(PhysicalActivityHours, na.rm = TRUE),
+    Mediana = median(PhysicalActivityHours, na.rm = TRUE),
+    Media = round(mean(PhysicalActivityHours, na.rm = TRUE), 2),
+    `Desviación Estándar` = round(sd(PhysicalActivityHours, na.rm = TRUE), 2),
+    `Coef. de Variación (%)` = round((sd(PhysicalActivityHours, na.rm = TRUE) / mean(PhysicalActivityHours, na.rm = TRUE)) * 100, 1),
+    `Primer Cuartil` = quantile(PhysicalActivityHours, 0.25, na.rm = TRUE),
+    `Tercer Cuartil` = quantile(PhysicalActivityHours, 0.75, na.rm = TRUE),
+    Asimetría = round(skewness(PhysicalActivityHours, na.rm = TRUE), 2),
+    Curtosis = round(kurtosis(PhysicalActivityHours, na.rm = TRUE), 2)
+  )
+
+# Unir ambas tablas en una sola
+estadisticas_generales <- bind_rows(estadisticas_sueno, estadisticas_actividad)
+
+# Generar la tabla con kable
+# kable(estadisticas_generales, format = "html", caption = "Tabla 1.12 Estadísticas descriptivas generales") %>%
+#   kable_styling(bootstrap_options = c("striped", "hover", "responsive"), full_width = FALSE) %>%
+#   column_spec(1, bold = TRUE)  # Resalta la columna de la variable analizada
+```
+
+</br> 
+<center>
+**Tabla 1.12** Estadísticas descriptivas de las variables cuantitativas seleccionadas.
+</center>
+| Variable                  | Mínimo | Máximo | Mediana | Media | Desviación estándar | Coef. de variación (%) | Primer cuartil | Tercer cuartil | Asimetría | Curtosis |
+|:--------------------------|:------:|:------:|:-------:|:-----:|:--------------------:|:----------------------:|:--------------:|:--------------:|:---------:|:--------:|
+| **Tiempo de sueño**       |   4    |   10   |    7    |  7.01 |         1.00        |         14.3          |       6.3      |       7.7      |    0.08   |  -0.13   |
+| **Tiempo de actividad física** |   0    |   5    |    2    |  2.03 |         0.97        |         47.6          |       1.3      |       2.7      |    0.02   |  -0.43   |
+
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# Cargar las bibliotecas necesarias
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# Función para calcular la moda de una variable categórica
+moda <- function(x) {
+  tab <- table(x)  # Crear tabla de frecuencias
+  max_freq <- max(tab)  # Encontrar la frecuencia máxima
+  modas <- names(tab[tab == max_freq])  # Obtener las categorías con la frecuencia máxima
+  return(paste(modas, collapse = ", "))  # Devolver la moda (o modas si hay empate)
+}
+
+# Calcular la moda para cada variable cualitativa
+moda_satisfaccion <- moda(data1$JobSatisfaction)
+moda_estres <- moda(data1$Stress)
+moda_cargo <- moda(data1$JobLevel)
+
+# Crear la tabla de resultados
+tabla_moda <- data.frame(
+  Variable = c("Satisfacción Laboral", "Nivel de Estrés", "Cargo"),
+  Moda = c(moda_satisfaccion, moda_estres, moda_cargo)
+)
+
+# Generar la tabla con kable
+# kable(tabla_moda, format = "html", caption = "Tabla 1.13. Moda de las variables cualitativas") %>%
+#   kable_styling(bootstrap_options = c("striped", "hover", "responsive"), full_width = FALSE) %>%
+#   column_spec(1, bold = TRUE)  # Resalta la columna de la variable analizada
+```
+
+</br>
+<center>
+**Tabla 1.13** Estadística de las variables cualitativas seleccionadas.
+</center>
+| Variable                 | Moda    |
+|:-------------------------|:-------:|
+| **Satisfacción laboral** |    4    |
+| **Nivel de estrés**      |    1    |
+| **Cargo**                | Gerente |
+
+
+
+
+
+<br/></br>
+<h3> Descripciones asociadas al objetivo 1</h3>
+
+La información presentada en la **Figura 1.43** corresponde a la **Tabla 1.14**. En la **Figura 1.44**, se superponen las curvas de densidad para facilitar la comparación de la distribución del tiempo de sueño en los diferentes niveles.
+
+```{r, echo=TRUE}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+
+# Asegurarse de que la variable JobSatisfaction es un factor
+data1$JobSatisfaction <- as.factor(data1$JobSatisfaction)
+
+# Definir un vector de cortes (breaks) común para ambos métodos
+breaks_seq <- seq(min(data1$SleepHours, na.rm = TRUE),
+                  max(data1$SleepHours, na.rm = TRUE),
+                  length.out = 31)  # 30 intervalos = 31 cortes
+
+### GRÁFICOS CON GGPLOT2
+
+## Gráfico de histogramas con frecuencia relativa
+plot_histogramas <- ggplot(data1, aes(x = SleepHours, fill = JobSatisfaction)) +
+  geom_histogram(aes(y = after_stat(count/sum(count))),
+                 breaks = breaks_seq,
+                 color = "white", alpha = 0.8) +
+  facet_wrap(~ JobSatisfaction, ncol = 2) +
+  scale_fill_manual(values = c("#440154FF", "#39568CFF", "#1F968BFF",
+                               "#73D055FF", "#B8DE29FF")) +
+  labs(x = "Tiempo de sueño (horas/día)",
+       y = "Frecuencia relativa",
+       fill = "Satisfacción laboral",
+       title = "Histogramas del tiempo de sueño por nivel de satisfacción laboral") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+## Gráfico de histogramas con densidad
+plot_hist_dens <- ggplot(data1, aes(x = SleepHours, fill = JobSatisfaction)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 breaks = breaks_seq,
+                 color = "white", alpha = 0.8) +
+  facet_wrap(~ JobSatisfaction, ncol = 2) +
+  scale_fill_manual(values = c("#440154FF", "#39568CFF", "#1F968BFF",
+                               "#73D055FF", "#B8DE29FF")) +
+  labs(x = "Tiempo de sueño (horas/día)",
+       y = "Densidad",
+       fill = "Satisfacción laboral",
+       title = "Histogramas de densidad del tiempo de sueño por nivel de satisfacción laboral") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+# Para visualizar los gráficos, descomenta:
+# print(plot_histogramas)
+# print(plot_hist_dens)
+
+### TABLAS CON BASE R (coherentes con los gráficos)
+
+# Generar tablas por cada nivel de JobSatisfaction utilizando los mismos breaks
+niveles <- levels(data1$JobSatisfaction)
+tabla_list <- list()
+
+for (nivel in niveles) {
+  # Filtrar datos por nivel
+  subset_data <- data1 %>% filter(JobSatisfaction == nivel)
+  
+  # Calcular el histograma sin graficar utilizando los breaks comunes
+  hist_nivel <- hist(subset_data$SleepHours, breaks = breaks_seq, plot = FALSE)
+  
+  # Crear la tabla con clases, frecuencia absoluta, relativa y densidad
+  tabla_nivel <- data.frame(
+    Clase = paste(head(hist_nivel$breaks, -1), hist_nivel$breaks[-1], sep = " - "),
+    Frecuencia_Absoluta = hist_nivel$counts,
+    Frecuencia_Relativa = hist_nivel$counts / sum(hist_nivel$counts),
+    Densidad = hist_nivel$density
+  )
+  
+  # Guardar la tabla en la lista
+  tabla_list[[nivel]] <- tabla_nivel
+}
+
+# Imprimir las tablas para cada nivel de JobSatisfaction
+# for (nivel in niveles) {
+#   cat("Tabla para Satisfacción laboral =", nivel, "\n")
+#   print(tabla_list[[nivel]])
+#   cat("\n")
+# }
+```
+
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/hist_caso1.png")
+```
+**Figura 1.43** Distribución del tiempo de sueño por categorías de satisfacción laboral.
+</center>
+</br>
+
+
+
+
+<center>
+**Tabla 1.14** Densidades, frecuencias absoluta y relativa por cada clase (intervalo) del tiempo de sueño (horas).
+</center>
+<pre>
+Tabla para Satisfacción laboral = 1 
+       Clase Frecuencia_Absoluta Frecuencia_Relativa   Densidad
+1    4 - 4.2                   4         0.009592326 0.04796163
+2  4.2 - 4.4                   2         0.004796163 0.02398082
+3  4.4 - 4.6                   3         0.007194245 0.03597122
+4  4.6 - 4.8                   6         0.014388489 0.07194245
+5    4.8 - 5                   6         0.014388489 0.07194245
+6    5 - 5.2                  15         0.035971223 0.17985612
+7  5.2 - 5.4                  18         0.043165468 0.21582734
+8  5.4 - 5.6                  22         0.052757794 0.26378897
+9  5.6 - 5.8                  21         0.050359712 0.25179856
+10   5.8 - 6                  23         0.055155875 0.27577938
+11   6 - 6.2                  35         0.083932854 0.41966427
+12 6.2 - 6.4                  26         0.062350120 0.31175060
+13 6.4 - 6.6                  34         0.081534772 0.40767386
+14 6.6 - 6.8                  39         0.093525180 0.46762590
+15   6.8 - 7                  31         0.074340528 0.37170264
+16   7 - 7.2                  27         0.064748201 0.32374101
+17 7.2 - 7.4                  19         0.045563549 0.22781775
+18 7.4 - 7.6                  18         0.043165468 0.21582734
+19 7.6 - 7.8                  27         0.064748201 0.32374101
+20   7.8 - 8                  12         0.028776978 0.14388489
+21   8 - 8.2                  13         0.031175060 0.15587530
+22 8.2 - 8.4                   3         0.007194245 0.03597122
+23 8.4 - 8.6                   3         0.007194245 0.03597122
+24 8.6 - 8.8                   4         0.009592326 0.04796163
+25   8.8 - 9                   2         0.004796163 0.02398082
+26   9 - 9.2                   0         0.000000000 0.00000000
+27 9.2 - 9.4                   1         0.002398082 0.01199041
+28 9.4 - 9.6                   3         0.007194245 0.03597122
+29 9.6 - 9.8                   0         0.000000000 0.00000000
+30  9.8 - 10                   0         0.000000000 0.00000000
+
+Tabla para Satisfacción laboral = 2 
+       Clase Frecuencia_Absoluta Frecuencia_Relativa   Densidad
+1    4 - 4.2                   1         0.003610108 0.01805054
+2  4.2 - 4.4                   0         0.000000000 0.00000000
+3  4.4 - 4.6                   0         0.000000000 0.00000000
+4  4.6 - 4.8                   2         0.007220217 0.03610108
+5    4.8 - 5                   3         0.010830325 0.05415162
+6    5 - 5.2                   1         0.003610108 0.01805054
+7  5.2 - 5.4                   6         0.021660650 0.10830325
+8  5.4 - 5.6                   8         0.028880866 0.14440433
+9  5.6 - 5.8                  10         0.036101083 0.18050542
+10   5.8 - 6                  10         0.036101083 0.18050542
+11   6 - 6.2                  17         0.061371841 0.30685921
+12 6.2 - 6.4                  25         0.090252708 0.45126354
+13 6.4 - 6.6                  16         0.057761733 0.28880866
+14 6.6 - 6.8                  27         0.097472924 0.48736462
+15   6.8 - 7                  27         0.097472924 0.48736462
+16   7 - 7.2                  32         0.115523466 0.57761733
+17 7.2 - 7.4                  18         0.064981949 0.32490975
+18 7.4 - 7.6                  14         0.050541516 0.25270758
+19 7.6 - 7.8                  12         0.043321300 0.21660650
+20   7.8 - 8                  12         0.043321300 0.21660650
+21   8 - 8.2                  12         0.043321300 0.21660650
+22 8.2 - 8.4                   6         0.021660650 0.10830325
+23 8.4 - 8.6                   7         0.025270758 0.12635379
+24 8.6 - 8.8                   1         0.003610108 0.01805054
+25   8.8 - 9                   1         0.003610108 0.01805054
+26   9 - 9.2                   2         0.007220217 0.03610108
+27 9.2 - 9.4                   2         0.007220217 0.03610108
+28 9.4 - 9.6                   1         0.003610108 0.01805054
+29 9.6 - 9.8                   2         0.007220217 0.03610108
+30  9.8 - 10                   2         0.007220217 0.03610108
+
+Tabla para Satisfacción laboral = 3 
+       Clase Frecuencia_Absoluta Frecuencia_Relativa    Densidad
+1    4 - 4.2                   1         0.001766784 0.008833922
+2  4.2 - 4.4                   0         0.000000000 0.000000000
+3  4.4 - 4.6                   0         0.000000000 0.000000000
+4  4.6 - 4.8                   5         0.008833922 0.044169611
+5    4.8 - 5                   4         0.007067138 0.035335689
+6    5 - 5.2                  11         0.019434629 0.097173145
+7  5.2 - 5.4                  11         0.019434629 0.097173145
+8  5.4 - 5.6                  14         0.024734982 0.123674912
+9  5.6 - 5.8                  20         0.035335689 0.176678445
+10   5.8 - 6                  33         0.058303887 0.291519435
+11   6 - 6.2                  44         0.077738516 0.388692580
+12 6.2 - 6.4                  44         0.077738516 0.388692580
+13 6.4 - 6.6                  43         0.075971731 0.379858657
+14 6.6 - 6.8                  65         0.114840989 0.574204947
+15   6.8 - 7                  46         0.081272085 0.406360424
+16   7 - 7.2                  38         0.067137809 0.335689046
+17 7.2 - 7.4                  31         0.054770318 0.273851590
+18 7.4 - 7.6                  30         0.053003534 0.265017668
+19 7.6 - 7.8                  34         0.060070671 0.300353357
+20   7.8 - 8                  26         0.045936396 0.229681979
+21   8 - 8.2                  22         0.038869258 0.194346290
+22 8.2 - 8.4                  15         0.026501767 0.132508834
+23 8.4 - 8.6                  14         0.024734982 0.123674912
+24 8.6 - 8.8                   9         0.015901060 0.079505300
+25   8.8 - 9                   2         0.003533569 0.017667845
+26   9 - 9.2                   2         0.003533569 0.017667845
+27 9.2 - 9.4                   1         0.001766784 0.008833922
+28 9.4 - 9.6                   1         0.001766784 0.008833922
+29 9.6 - 9.8                   0         0.000000000 0.000000000
+30  9.8 - 10                   0         0.000000000 0.000000000
+
+Tabla para Satisfacción laboral = 4 
+       Clase Frecuencia_Absoluta Frecuencia_Relativa    Densidad
+1    4 - 4.2                   1        0.0008006405 0.004003203
+2  4.2 - 4.4                   1        0.0008006405 0.004003203
+3  4.4 - 4.6                   1        0.0008006405 0.004003203
+4  4.6 - 4.8                   2        0.0016012810 0.008006405
+5    4.8 - 5                  16        0.0128102482 0.064051241
+6    5 - 5.2                  11        0.0088070456 0.044035228
+7  5.2 - 5.4                  28        0.0224179343 0.112089672
+8  5.4 - 5.6                  13        0.0104083267 0.052041633
+9  5.6 - 5.8                  32        0.0256204964 0.128102482
+10   5.8 - 6                  43        0.0344275420 0.172137710
+11   6 - 6.2                  73        0.0584467574 0.292233787
+12 6.2 - 6.4                  75        0.0600480384 0.300240192
+13 6.4 - 6.6                  90        0.0720576461 0.360288231
+14 6.6 - 6.8                 101        0.0808646918 0.404323459
+15   6.8 - 7                 108        0.0864691753 0.432345877
+16   7 - 7.2                  97        0.0776621297 0.388310649
+17 7.2 - 7.4                  96        0.0768614892 0.384307446
+18 7.4 - 7.6                 105        0.0840672538 0.420336269
+19 7.6 - 7.8                  75        0.0600480384 0.300240192
+20   7.8 - 8                  72        0.0576461169 0.288230584
+21   8 - 8.2                  60        0.0480384307 0.240192154
+22 8.2 - 8.4                  49        0.0392313851 0.196156926
+23 8.4 - 8.6                  35        0.0280224179 0.140112090
+24 8.6 - 8.8                  21        0.0168134508 0.084067254
+25   8.8 - 9                  12        0.0096076861 0.048038431
+26   9 - 9.2                  17        0.0136108887 0.068054444
+27 9.2 - 9.4                   7        0.0056044836 0.028022418
+28 9.4 - 9.6                   3        0.0024019215 0.012009608
+29 9.6 - 9.8                   2        0.0016012810 0.008006405
+30  9.8 - 10                   3        0.0024019215 0.012009608
+
+Tabla para Satisfacción laboral = 5 
+       Clase Frecuencia_Absoluta Frecuencia_Relativa    Densidad
+1    4 - 4.2                   1         0.001937984 0.009689922
+2  4.2 - 4.4                   0         0.000000000 0.000000000
+3  4.4 - 4.6                   2         0.003875969 0.019379845
+4  4.6 - 4.8                   3         0.005813953 0.029069767
+5    4.8 - 5                   6         0.011627907 0.058139535
+6    5 - 5.2                   9         0.017441860 0.087209302
+7  5.2 - 5.4                  12         0.023255814 0.116279070
+8  5.4 - 5.6                  16         0.031007752 0.155038760
+9  5.6 - 5.8                  18         0.034883721 0.174418605
+10   5.8 - 6                  19         0.036821705 0.184108527
+11   6 - 6.2                  31         0.060077519 0.300387597
+12 6.2 - 6.4                  25         0.048449612 0.242248062
+13 6.4 - 6.6                  30         0.058139535 0.290697674
+14 6.6 - 6.8                  25         0.048449612 0.242248062
+15   6.8 - 7                  22         0.042635659 0.213178295
+16   7 - 7.2                  41         0.079457364 0.397286822
+17 7.2 - 7.4                  53         0.102713178 0.513565891
+18 7.4 - 7.6                  28         0.054263566 0.271317829
+19 7.6 - 7.8                  26         0.050387597 0.251937984
+20   7.8 - 8                  26         0.050387597 0.251937984
+21   8 - 8.2                  20         0.038759690 0.193798450
+22 8.2 - 8.4                  16         0.031007752 0.155038760
+23 8.4 - 8.6                  29         0.056201550 0.281007752
+24 8.6 - 8.8                  17         0.032945736 0.164728682
+25   8.8 - 9                  14         0.027131783 0.135658915
+26   9 - 9.2                  10         0.019379845 0.096899225
+27 9.2 - 9.4                   8         0.015503876 0.077519380
+28 9.4 - 9.6                   5         0.009689922 0.048449612
+29 9.6 - 9.8                   3         0.005813953 0.029069767
+30  9.8 - 10                   1         0.001937984 0.009689922
+</pre>
+
+
+
+```{r, echo=TRUE}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+
+# Asegurarse de que la variable JobSatisfaction es un factor
+data1$JobSatisfaction <- as.factor(data1$JobSatisfaction)
+
+# Definir los cortes (breaks) fijos: de 4 a 10 con ancho 0.2 (30 bins)
+breaks_seq <- seq(4, 10, by = 0.2)
+bin_width <- diff(breaks_seq)[1]  # Debe ser 0.2
+
+# Calcular las densidades para cada nivel usando histogramas con cortes fijos
+# Se arma un data frame con: JobSatisfaction, el punto central del bin y la densidad
+density_data <- lapply(levels(data1$JobSatisfaction), function(lvl) {
+  # Filtrar datos para el nivel actual
+  subset_data <- data1 %>% filter(JobSatisfaction == lvl)
+  
+  # Calcular histograma sin graficar con los cortes fijos
+  hist_obj <- hist(subset_data$SleepHours, breaks = breaks_seq, plot = FALSE)
+  
+  # Los puntos centrales (midpoints) de cada bin
+  midpoints <- hist_obj$mids
+  
+  # Calcular la densidad para cada bin:
+  # Frecuencia relativa = counts / total, y densidad = frecuencia relativa / ancho del bin
+  dens_vals <- (hist_obj$counts / sum(hist_obj$counts)) / bin_width
+  
+  # Crear un data frame para este nivel
+  data.frame(
+    JobSatisfaction = lvl,
+    x = midpoints,
+    density = dens_vals
+  )
+})
+density_data <- do.call(rbind, density_data)
+
+# Para graficar polígonos, es conveniente "cerrar" cada curva:
+# agregamos los puntos de inicio y fin, fijando y=0 en los extremos (x=mínimo y x=máximo de los cortes)
+polygon_data <- density_data %>%
+  group_by(JobSatisfaction) %>%
+  arrange(x) %>%
+  do({
+    df <- .
+    data.frame(
+      JobSatisfaction = df$JobSatisfaction[1],
+      # Agregamos el primer punto en x = mínimo (4) con density = 0,
+      # luego los puntos originales y, finalmente, el último punto en x = máximo (10) con density = 0.
+      x = c(min(breaks_seq), df$x, max(breaks_seq)),
+      density = c(0, df$density, 0)
+    )
+  }) %>%
+  ungroup()
+
+# Ahora, se genera el gráfico con polígonos superpuestos para cada nivel, usando los colores indicados.
+plot_overlay <- ggplot(polygon_data, aes(x = x, y = density, fill = JobSatisfaction, group = JobSatisfaction)) +
+  geom_polygon(alpha = 0.5, color = "black") +
+  scale_fill_manual(values = c("#440154FF", "#39568CFF", "#1F968BFF", "#73D055FF", "#B8DE29FF", "yellow2")) +
+  labs(
+    x = "Tiempo de sueño (horas/día)",
+    y = "Densidad",
+    title = "Polígonos de densidad del tiempo de sueño por nivel de satisfacción laboral",
+    fill = "Satisfacción laboral"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+# Mostrar el gráfico
+# print(plot_overlay)
+
+
+# Gráfico de densidad del tiempo de sueño por categorías de satisfacción laboral
+plot_densidades<-ggplot(data1, aes(x = SleepHours, fill = factor(JobSatisfaction))) +
+  geom_density(alpha = 0.5) +  # Transparencia para facilitar la visualización de superposiciones
+  scale_fill_manual(values = c("#440154FF", "#39568CFF", "#1F968BFF", "#73D055FF", "#B8DE29FF", "yellow2")) +
+  labs(
+    x = "Tiempo de sueño (horas/día)",
+    y = "Densidad",
+    fill = "Satisfacción laboral",
+    title = ""  # Agregado título
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")  # Mover la leyenda arriba para mejor visualización
+
+# print(plot_densidades)
+```
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/densidades1-caso1.png")
+```
+**Figura 1.44** Distribución del tiempo de sueño por categorías de satisfacción laboral.
+</center>
+</br>
+
+
+En la **Figura 1.44** se muestran los polígonos de densidad que describen la distribución del tiempo de sueño para los cinco niveles de satisfacción laboral. A partir de esta visualización y de las tablas de frecuencia, se pueden destacar los siguientes puntos:
+
+
++  Niveles bajos (1 y 2): Sus curvas de densidad se sitúan más hacia la izquierda, con un pico principal alrededor de las 6.0 a 6.6 horas de sueño. Se identifica un grupo (aunque reducido: 21) de personas que duermen menos de 5 horas, lo cual sugiere mayor incidencia de tiempos de sueño muy cortos en estos niveles. Aunque también hay casos (4 personas) que llegan a 9–9.6 horas, son menos frecuentes comparados con los niveles de satisfacción más altos.
+
++ Niveles intermedios (3 y 4): Las distribuciones muestran un desplazamiento moderado hacia la derecha respecto a los niveles 1 y 2, con picos cercanos a 6.6–7.2 horas.  El nivel 4 presenta una cola derecha particularmente larga, con ciertas personas alcanzando de 9 a 10 horas de sueño (32 personas). Aun así, la densidad más alta continúa concentrada entre 6 y 7.6 horas. Esto indica que, si bien la mayoría duerme una cantidad de horas similar a la de los niveles inferiores, existe una franja de empleados que duermen bastante más.
+
++ Nivel alto (5): El pico de la curva se ubica cerca de las 7 horas (7-7.4), pero con una amplitud significativa hacia la derecha (9–10 horas), 26 personas. Aunque se superpone parcialmente con los niveles intermedios, globalmente se ve más desplazada hacia horas de sueño mayores, lo que sugiere un promedio de descanso algo más alto en este nivel.
+
+
+La **Figura 1.45** muestra polígonos de densidad suavizados, generados mediante funciones de **R**, que permiten comparar la distribución de una variable cuantitativa según las categorías de una variable cualitativa, sin requerir la elaboración detallada de tablas de frecuencias. Estos polígonos pueden emplearse en lugar de los presentados en la **Figura 1.44**.
+
+Al complementar la interpretación de las curvas de densidad con los coeficientes de asimetría y curtosis (ver **Tabla 1.15**), se destacan los siguientes aspectos:
+
++ Los valores del coeficiente de asimetría (Skewness) varían entre 0.00 y 0.33, indicando que las distribuciones no están fuertemente sesgadas. En los niveles 2 (0.33) y 3 (0.11) se observan colas ligeramente más extendidas hacia la derecha (horas de sueño más elevadas), mientras que en los niveles 1 (0.09) y 4 (0.01) la asimetría es muy baja, lo cual sugiere distribuciones casi simétricas en torno a su media.
+
++ Los coeficientes de curtosis van de -0.59 a 0.60, lo que indica formas mesocúrticas o apenas desviadas de la normalidad (ligeramente leptocúrticas o platicúrticas). El nivel 2 (curtosis = 0.60) presenta colas algo más pesadas o un pico más marcado, mientras que el nivel 5 (curtosis = -0.59) se inclina hacia una distribución algo más plana alrededor del centro.
+
+
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/densidades-caso1.png")
+```
+**Figura 1.45** Distribución del tiempo de sueño por categorías de satisfacción laboral.
+</center>
+</br>
+
+
+
+```{r, echo=TRUE}
+
+# Sys.setlocale("LC_ALL", "es_ES.UTF-8")  # Configura el idioma español con UTF-8
+ 
+# Cargar la biblioteca necesaria
+library(ggplot2)
+
+# Crear el boxplot mejorado
+boxplot_caso1<-ggplot(data1, aes(x = factor(JobSatisfaction), y = SleepHours, fill = factor(JobSatisfaction))) +
+  geom_boxplot(outlier.shape = 16, outlier.size = 2, alpha = 0.7) +  # Boxplot con atenuación de color
+  scale_fill_manual(values = c("#440154FF", "#39568CFF", "#1F968BFF", "#73D055FF", "#B8DE29FF")) +  
+  labs(x = "Satisfacción laboral", 
+       y = "Tiempo de sueño (horas/día)", 
+       title = "Distribución del tiempo de sueño por nivel de satisfacción laboral") +
+  theme_minimal() +  # Estilo limpio y profesional
+  theme(legend.position = "none",  # Quitar la leyenda, ya que el eje X ya muestra los niveles
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 13))
+# print(boxplot_caso1)
+```
+
+
++ Al analizar los cinco niveles de satisfacción laboral, se observa que algunos empleados duermen solo 4.0 horas (mínimo). En los niveles 1 y 3, el tiempo de sueño puede llegar hasta 9.6 horas, mientras que en los otros niveles existen empleados que alcanzan incluso las 10.0 horas de descanso (ver **Tabla 1.15** y **Figura 1.46**).  
+
+
++ En los primeros cuatro niveles de satisfacción laboral se identifican personas con duraciones de sueño atípicas, ya sea significativamente mayores o menores que el rango típico. En el nivel 1, el 0.7 % de los participantes duerme más de lo habitual, registrando entre 9.5 y 9.6 horas de sueño. En los niveles 2 y 4 también se detectan grupos con valores de sueño inusuales (3.6 % en el nivel 2 y 0.4 % en el nivel 4). Quienes duermen menos en el nivel 2 registran entre 4.0 y 4.7 horas, mientras que en el nivel 4 lo hacen entre 4.0 y 4.4 horas. Por su parte, quienes duermen más en el nivel 2 alcanzan entre 9.2 y 10 horas, y en el nivel 4 descansan entre 9.9 y 10 horas. En el nivel 5, por el contrario, no se observan valores de sueño atípicos (ver **Tabla 1.15** y **Figura 1.46**).
+
++ Al analizar los cuartiles de los cinco niveles de satisfacción laboral, se observa que, para los niveles 2, 3 y 4, al menos el 50% de sus empleados duerme más horas que el 50% de los empleados con los tiempos más bajos en el nivel 1. De hecho, la mediana de sueño en el nivel 1 (6.6 horas) es la más baja de todos los niveles. De manera similar, el 25% de los empleados con menos horas de sueño en el nivel 1 registra valores inferiores a, por lo menos, el 75% de los tiempos de los otros cuatro niveles. Por otro lado, el 25% de los empleados con más horas de sueño en el nivel 5 supera, al menos, el 75% de los tiempos registrados en los demás niveles. En conjunto, estos datos indican que los empleados del nivel 1 suelen dormir menos  en comparación con los otros niveles, mientras que los del nivel 5 tienden a registrar las duraciones de sueño más altas (ver **Tabla 1.15** y **Figura 1.46**).
+
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/cajas_caso1.png")
+```
+**Figura 1.46** Distribución del tiempo de sueño por categorías de satisfacción laboral.
+</center>
+</br>
+
++  En los niveles 4 y 5, la mediana del tiempo de sueño supera las 7.0 horas, lo que indica que al menos la mitad de los empleados en estos niveles duermen más de 7.0 horas. Esto sugiere un mayor tiempo de descanso  en comparación con los niveles 1, 2 y 3, cuyas medianas se sitúan en 6.6, 7.0 y 6.8 horas, respectivamente. En otras palabras, en los primeros tres niveles, la mitad de los trabajadores duerme como máximo 7.0 horas, reflejando un patrón de sueño ligeramente menor y posiblemente una menor duración de descanso en términos generales (ver **Tabla 1.15**).
+
+
++ Al analizar el rango de los tiempos de sueño en cada nivel de satisfacción laboral, se observa que los niveles 1, 4 y 5 presentan valores similares, alrededor de 6.0 horas, mientras que los niveles 2 y 3 registran rangos de aproximadamente 5.6 horas. En cuanto al coeficiente de variación, los niveles 1 y 5 muestran valores cercanos (15.1% y 15.8%, respectivamente), mientras que en los niveles 2, 3 y 4 la variabilidad en torno a la media es también parecida (13.8%, 13.3% y 13.3%). Estos resultados indican una variabilidad moderada de los tiempos de sueño con respecto a la media, con diferencias mínimas entre los distintos niveles de satisfacción laboral (ver **Tabla 1.15**).
+
+
+```{r echo=TRUE}
+# Cargar la biblioteca necesaria para calcular asimetría y curtosis
+library(dplyr)
+library(e1071)
+library(knitr)
+library(kableExtra)
+
+# Calcular medidas estadísticas para el tiempo de sueño agrupadas por nivel de satisfacción laboral
+tabla_datosobj1 <- data1 %>%
+  group_by(JobSatisfaction) %>%
+  summarise(
+    Mínimo = min(SleepHours, na.rm = TRUE),
+    Máximo = max(SleepHours, na.rm = TRUE),
+    Mediana = median(SleepHours, na.rm = TRUE),
+    Media = round(mean(SleepHours, na.rm = TRUE), 2),
+    `Primer Cuartil` = quantile(SleepHours, 0.25, na.rm = TRUE),
+    `Tercer Cuartil` = quantile(SleepHours, 0.75, na.rm = TRUE),
+    `Coeficiente de Variación` = round((sd(SleepHours, na.rm = TRUE) / mean(SleepHours, na.rm = TRUE)) * 100, 1),
+    `Coeficiente de Asimetría` = round(skewness(SleepHours, na.rm = TRUE), 2),
+    Curtosis = round(kurtosis(SleepHours, na.rm = TRUE), 2),
+    
+    # Cálculo del rango intercuartil (IQR)
+    IQR = `Tercer Cuartil` - `Primer Cuartil`,
+    Límite_Inferior = `Primer Cuartil` - 1.5 * IQR,
+    Límite_Superior = `Tercer Cuartil` + 1.5 * IQR,
+    
+    # Contar valores atípicos
+    `% de Atípicos` = round(sum(SleepHours < Límite_Inferior | SleepHours > Límite_Superior, na.rm = TRUE) / n() * 100, 1),
+    
+    # Determinar valores atípicos menores
+    `Intervalo de Atípicos Menores` = ifelse(
+      sum(SleepHours < Límite_Inferior, na.rm = TRUE) == 0, 
+      "", 
+      paste0("[", paste(range(SleepHours[SleepHours < Límite_Inferior], na.rm = TRUE), collapse = ", "), "]")
+    ),
+    
+    # Determinar valores atípicos mayores
+    `Intervalo de Atípicos Mayores` = ifelse(
+      sum(SleepHours > Límite_Superior, na.rm = TRUE) == 0, 
+      "", 
+      paste0("[", paste(range(SleepHours[SleepHours > Límite_Superior], na.rm = TRUE), collapse = ", "), "]")
+    )
+  ) %>%
+  select(-IQR, -Límite_Inferior, -Límite_Superior)  # Eliminar columnas intermedias
+
+# Generar la tabla con formato mejorado
+# kable(tabla_datosobj1, 
+#       col.names = c("Satisfacción Laboral", "Mínimo", "Máximo", "Mediana", "Media", 
+#                     "Primer Cuartil", "Tercer Cuartil", "Coef. de Variación", 
+#                     "Coef. de Asimetría", "Curtosis", "% de Atípicos", 
+#                     "Intervalo de Atípicos Menores", "Intervalo de Atípicos Mayores"),
+#       caption = "Tabla 1.14 Estadísticas para el tiempo de sueño agrupadas por nivel de satisfacción laboral") %>%
+#   kable_styling(bootstrap_options = c("striped")) %>%
+#   add_header_above(c(" " = 1, "Tiempo de Sueño" = 12))  # Encabezado agrupado correctamente
+```
+
+
+
+<center>
+**Tabla 1.15** Estadísticas para el tiempo de sueño agrupadas por nivel de satisfacción laboral.
+</center>
+
+
+| Satisfacción laboral | Mínimo | Máximo | Mediana | Media | Primer cuartil | Tercer cuartil | Coef. de variación | Coef. de asimetría | Curtosis | % de atípicos | Intervalo de atípicos menores | Intervalo de atípicos mayores |
+|:---------------------|:------:|:------:|:-------:|:-----:|:--------------:|:--------------:|:------------------:|:------------------:|:--------:|:-------------:|:----------------------------:|:----------------------------:|
+| 1                   |  4.0   |  9.6   |   6.6   |  6.60 |       5.9      |       7.3      |        15.1        |        0.09        |  -0.03   |      0.7      |                            |    [9.5, 9.6]    |
+| 2                   |  4.0   | 10.0   |   7.0   |  6.98 |       6.4      |       7.5      |        13.9        |        0.33        |   0.60   |      3.6      |    [4, 4.7]    |    [9.2, 10]    |
+| 3                   |  4.1   |  9.6   |   6.8   |  6.88 |       6.2      |       7.6      |        13.3        |        0.11        |  -0.30   |      0.2      |     [4.1, 4.1]    |                            |
+| 4                   |  4.0   | 10.0   |   7.1   |  7.12 |       6.5      |       7.8      |        13.3        |        0.01        |  -0.08   |      0.4      |    [4, 4.4]    |    [9.9, 10]    |
+| 5                   |  4.0   | 10.0   |   7.2   |  7.20 |       6.3      |       8.0      |        15.8        |        0.00        |  -0.59   |      0.0      |                            |                            |
+
+
+
+
+
+En conjunto, estos hallazgos sugieren que, conforme sube la satisfacción laboral, es más probable encontrar empleados que duerman un número de horas superior, reforzando la asociación entre mayor satisfacción y patrones de descanso más prolongados.
+
+<br/></br>
+<h3> Descripciones asociadas al objetivo 2</h3>
+
+
+```{r, echo = TRUE, warning= FALSE}
+# Cargar las bibliotecas necesarias
+library(ggplot2)  # Para la creación de gráficos
+library(ggExtra)  # Para agregar distribuciones marginales
+
+# Crear el scatter plot (gráfico de dispersión)
+scatter_plot <- ggplot(data1, aes(x = PhysicalActivityHours, y = SleepHours)) +
+  geom_point(size = 3, color = "#39568CFF", alpha = 0.7) +  # Puntos con transparencia para mejor visibilidad
+  labs(
+    x = "Tiempo de actividad física (horas/semana)", 
+    y = "Tiempo de sueño (horas/día)", 
+    title = "Relación entre actividad física y tiempo de sueño"
+  ) +
+  theme_classic() +  # Estilo limpio sin cuadrículas de fondo
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Centrar título y mejorar apariencia
+    axis.text = element_text(size = 12), 
+    axis.title = element_text(size = 13)
+  )
+
+# Agregar densidades marginales en los ejes X e Y
+scatter_with_density <- ggMarginal(
+  scatter_plot,
+  type = "density",  # Tipo de gráfico marginal (distribución de densidad)
+  margins = "both",  # Mostrar densidades en ambos ejes
+  fill = "skyblue",  # Color de las distribuciones
+  alpha = 0.5        # Transparencia para evitar opacidad excesiva
+)
+
+# Mostrar el gráfico
+# scatter_with_density
+```
+
+
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/dispersion_caso1.png")
+```
+**Figura 1.47** Relación entre actividad física y tiempo de sueño.
+</center>
+</br>
+
+
+De la **Figura 1.47**  se puede concluir: 
+
++ Los empleados realizan entre 0 y 5 horas de actividad física semanal, y la mayoría se concentra entre 1 y 3 horas. La variabilidad con respecto a la media es relativamente alta, pues se observan personas que no practican ejercicio alguno y otras que alcanzan el máximo de 5 horas por semana. Esto coincide con las estadísticas descriptivas anteriores, que muestran una media cercana a 2 horas y una variabilidad relativa  alta respecto a la media.
+
++ El tiempo de sueño de los empleados oscila entre 4 y 10 horas diarias, con la mayor parte de los empleados durmiendo entre 6 y 8 horas, y un punto máximo alrededor de 7 horas. Esto coincide con las estadísticas descriptivas anteriores, que muestran una media cercana a 7 horas y una dispersión relativa moderada respecto a la media.
+
++  A simple vista, no se aprecia una tendencia claramente creciente o decreciente (ni lineal ni curvilínea) entre el tiempo de sueño y la actividad física. Los puntos están dispersos en la zona central del diagrama, lo que sugiere que no existe una asociación significativa entre ambas variables.
+
+A simple vista, no se aprecia una tendencia claramente creciente o decreciente (ni lineal ni curvilínea) entre el tiempo de sueño y la actividad física. Los puntos están dispersos en la zona central del diagrama, lo que sugiere que no existe una asociación significativa entre ambas variables.
+
+<br/></br>
+<h3> Descripciones asociadas al objetivo 3</h3>
+
+
+```{r, echo= TRUE}
+# Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar las bibliotecas necesarias
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Crear tabla cruzada de frecuencia entre Nivel de Estrés y Cargo del Empleado
+tabla_cruzada <- as.data.frame(table(Stress = data1$Stress, Cargo = data1$JobLevel))
+
+# Renombrar las columnas para evitar errores de nombres
+colnames(tabla_cruzada) <- c("Nivel de estrés", "Cargo", "Frecuencia")
+
+# Convertir las variables en factores para un mejor control en ggplot2 y calcular el porcentaje por Cargo
+tabla_cruzada <- tabla_cruzada %>%
+  mutate(`Nivel de Estrés` = factor(`Nivel de estrés`, levels = unique(`Nivel de estrés`)),
+         Cargo = factor(Cargo, levels = unique(Cargo))) %>%
+  group_by(Cargo) %>%
+  mutate(Porcentaje = Frecuencia / sum(Frecuencia) * 100) %>%
+  ungroup()
+
+# Crear gráfico de barras agrupadas usando porcentajes en el eje Y
+barplot1 <- ggplot(tabla_cruzada, aes(x = Cargo, y = Porcentaje, fill = `Nivel de estrés`)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +  # Barras agrupadas
+  scale_fill_manual(values = c("#440154FF", "#39568CFF", "#1F968BFF", "#73D055FF", "yellow2")) +  # Paleta de colores
+  labs(
+    x = "Cargo del empleado", 
+    y = "Porcentaje", 
+    title = "Distribución del nivel de estrés por cargo"
+  ) +
+  theme_minimal() +  # Estilo limpio sin fondo
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Centrar título
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 11)
+  ) +
+  guides(fill = guide_legend(title = "Nivel de estrés")) +
+  scale_y_continuous(labels = function(x) paste0(x, "%"))  # Mostrar el porcentaje en el eje Y
+
+# Mostrar el gráfico
+# print(barplot1)
+
+```
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/barplot1_caso1.png")
+```
+**Figura 1.48** Relación entre nivel de estrés y cargo del empleado.
+</center>
+</br>
+
+
+```{r, echo= TRUE}
+
+# Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar las bibliotecas necesarias
+library(ggplot2)  # Para visualización
+library(dplyr)    # Para manipulación de datos
+library(scales)   # Para formateo de porcentajes
+
+# Crear tabla cruzada asegurando que solo tenga tres columnas
+tabla_cruzada <- as.data.frame(table(Stress = data1$Stress, Cargo = data1$JobLevel))
+
+# Verificar los nombres originales de las columnas
+# print("Nombres originales de columnas:")
+# print(colnames(tabla_cruzada))
+
+# Si hay una columna vacía, eliminarla
+tabla_cruzada <- tabla_cruzada[, colnames(tabla_cruzada) != ""]
+
+# Renombrar columnas asegurando que todas tengan nombres válidos
+colnames(tabla_cruzada) <- c("Nivel_Estres", "Cargo", "Frecuencia")
+
+# Verificar que los nombres se han corregido
+# print("Nombres corregidos de columnas:")
+# print(colnames(tabla_cruzada))
+
+# Convertir a tibble para evitar problemas con `group_by()`
+tabla_cruzada <- as_tibble(tabla_cruzada)
+
+# Calcular el porcentaje dentro de cada categoría de "Cargo"
+tabla_cruzada <- tabla_cruzada %>%
+  group_by(Cargo) %>%
+  mutate(Porcentaje = Frecuencia / sum(Frecuencia))
+
+# Definir una paleta de colores personalizada para cada nivel de estrés
+colores_estres <- c("1" = "#440154FF", "2" = "#39568CFF", "3" = "#1F968BFF", 
+                    "4" = "#73D055FF", "5" = "#B8DE29FF")
+
+# Crear el gráfico de barras apiladas normalizadas
+barplot2<-ggplot(tabla_cruzada, aes(x = Cargo, y = Porcentaje, fill = Nivel_Estres)) + 
+  geom_bar(stat = "identity", position = "fill") +  # Barras apiladas normalizadas
+  scale_fill_manual(values = colores_estres) +  # Aplicar paleta de colores
+  geom_text(aes(label = scales::percent(Porcentaje, accuracy = 0.1)), 
+            position = position_stack(vjust = 0.5),  # Posicionar etiquetas en el centro
+            color = "white", size = 3.0) +  # Texto en color blanco para visibilidad
+  labs(
+    title = "Distribución del nivel de estrés por cargo",
+    x = "Cargo del empleado", 
+    y = "Porcentaje", 
+    fill = "Nivel de estrés"
+  ) +
+  scale_y_continuous(labels = scales::percent) +  # Formato del eje Y en porcentaje
+  theme_minimal() +  # Estilo visual limpio
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Centrar título
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 11)
+  )
+
+# print(barplot2)
+```
+
+<center>
+```{r, echo=FALSE, out.width="100%", fig.align = "center"}
+knitr::include_graphics("img/barplot2_caso1.png")
+```
+**Figura 1.49** Relación entre nivel de estrés y cargo del empleado.
+</center>
+</br>
+
+
+De la **Figura 1.48** y **Figura 1.49** permiten comparar el nivel de estrés por cada uno de los cargos de los empleados. 
+
++ En general, el porcentaje más alto de empleados se concentra en el nivel de estrés 1 en todos los cargos. Tanto los gerentes como los empleados junior muestran los valores más elevados de este nivel (61.0% y 61.5%, respectivamente), mientras que los pasantes tienen el porcentaje más bajo (53.5%). Esto indica que, independientemente del puesto, la mayoría reporta un nivel de estrés bajo.
+
++ Los niveles 1 y 2 abarcan más del 75% de los empleados en todos los cargos, lo que evidencia una tendencia general hacia niveles bajos de estrés. Sin embargo, los pasantes presentan el mayor porcentaje en el nivel 2 (22.8%), lo cual sugiere que experimentan un estrés ligeramente mayor en comparación con otros puestos.
+
++ Los pasantes también exhiben una proporción más alta en los niveles 4 y 5 (17.3% y 5.0%, respectivamente), reflejando una mayor variabilidad en sus niveles de estrés. Por el contrario, los líderes y gerentes muestran valores mucho más reducidos en esas categorías (aproximadamente 6.5% en el nivel 4 y 2.8% en el nivel 5 en el caso de gerentes).
+
++ En los niveles intermedios de estrés (3 y 4), los empleados en cargos junior e intermedios presentan proporciones relativamente similares, con una ligera inclinación hacia niveles de estrés algo más bajos en los puestos intermedios. El nivel 3 es más frecuente entre los empleados intermedios y junior, mientras que en el caso de los líderes el porcentaje en este nivel es menor (15.5%).
+
+En conjunto, los datos muestran que, aunque la gran mayoría de empleados experimenta niveles de estrés entre bajos y moderados, se observan algunas diferencias según el cargo, destacando el grupo de pasantes por su mayor dispersión hacia los niveles altos (4 y 5). Aun así, el estrés severo resulta poco frecuente en la muestra analizada.
