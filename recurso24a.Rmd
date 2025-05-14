@@ -1,0 +1,410 @@
+---
+title: <span style="color:#686868"> **Indicadores de dispersión**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+devtools::install_github("dgonxalex80/paqueteMETODOS")
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readr)
+library(tidyverse)
+library(DT)
+library(paqueteMETODOS)
+
+# Tamaños de letras gráficos con ggplot2
+Theme1 = theme(
+axis.title.x = element_text(size = 16),
+axis.text.x = element_text(size = 12),
+axis.title.y = element_text(size = 16),
+axis.text.y = element_blank(),
+axis.text = element_text( size = 12),
+legend.title = element_text(size = 12),
+legend.text = element_text(size = 12),  
+strip.text = element_text(size=12),
+title =element_text(size=12, face='bold')
+)# tamaño letra por grupos
+
+
+data("CarreraLuz22")
+data("evaluacion")
+data("inflacionov22")
+
+G1=c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+     38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23 )
+G2=c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+     17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18 )
+
+```
+
+</br></br>
+<h2>Indicadores de dispersión</h2>
+
+
+Suponga que se tienen dos grupos de participantes patrocinados por dos empresas. Se sabe que ambos grupos tienen el mismo promedio de edad, con una media de 28 años. A primera vista, se podría asumir que ambos grupos tienen una composición similar debido a la coincidencia en el promedio. Sin embargo, esto no necesariamente es cierto.
+
+A continuación, se presentan los datos correspondientes a dos grupos. Aunque ambos tienen una media de 28, sus distribuciones son claramente diferentes. Este hecho ilustra que la media, por sí sola, no es suficiente para describir completamente las características de un conjunto de datos. 
+
+Es necesario contar con otro indicador que proporcione información sobre **qué tan dispersos son los datos**, lo cual es crucial para determinar si los grupos son similares no solo en su centro, sino también en su variabilidad. Esta necesidad se aborda mediante los **indicadores de dispersión**.
+
+<br/>
+
+|               |                                                             |
+|:--------------|:------------------------------------------------------------|
+| **Grupo 1**   | 27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, | 
+|               | 38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23  | 
+| **Grupo 2**   | 35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, | 
+|               | 17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18  |
+|               |                                                                                                                       |
+</br>
+
+A continuación, se presentan los códigos para crear un data frame en **R** que contiene los datos de los dos grupos, agrupando las edades de cada participante en una sola estructura de datos para su análisis.
+
+<pre>
+# Datos del Grupo 1
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+
+# Datos del Grupo 2
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con las edades y el grupo correspondiente
+data5 = data.frame(
+  Edad = c(G1, G2),
+  Grupo = rep(c("Grupo 1", "Grupo 2"), each = 30)
+)
+</pre>
+
+
+```{r, echo=FALSE,include=FALSE}
+# Datos del Grupo 1
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+
+# Datos del Grupo 2
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con las edades y el grupo correspondiente
+data5 = data.frame(
+  Edad = c(G1, G2),
+  Grupo = rep(c("Grupo 1", "Grupo 2"), each = 30)
+)
+```
+
+
+</br></br>
+<h3>Rango</h3>
+
+El **rango** es el indicador de dispersión más sencillo de calcular. Representa la diferencia entre el valor máximo y el valor mínimo de un conjunto de datos, proporcionando una medida básica de la extensión de la distribución.
+
+El rango se calcula como:
+
+\[
+r = \max(x) - \min(x)
+\]
+
+</br></br>
+<h4>Características:</h4>
+
+- Fácil cálculo: Requiere únicamente los valores extremos (máximo y mínimo) del conjunto de datos.
+
+- Medida básica de dispersión: Indica la amplitud de la distribución, aunque no refleja la variabilidad dentro de los datos.
+
+- Sensibilidad a valores atípicos: El rango puede verse significativamente afectado por la presencia de datos extremos.
+
+
+</br></br>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p>
+
+En el caso de los dos grupos mencionados anteriormente, se presentan a continuación el promedio y el rango de las edades para cada grupo:
+
+|Grupo 1                  | Grupo 2                        |
+|:----------------------------|:-----------------------------------|
+|$\bar{x}_{1} = 28$ años      | $\bar{x}_{2} = 28$ años            |
+|$r_{1} = 16$ años            | $r_{2} = 38$ años                  |  
+|                             |                                    |
+
+- Aunque ambos grupos tienen el mismo promedio de edad 28 años), el rango muestra que las edades en el Grupo 2 están mucho más dispersas (\(r_{2} = 38\) años) en comparación con el Grupo 1 (\(r_{1} = 16\) años).
+
+- Esto resalta la necesidad de utilizar indicadores adicionales, como la varianza o la desviación estándar, para comprender completamente las características de la distribución.
+
+</p>
+</div>
+
+<div class="caja-actividad">
+<h3>Actividad:</h3>
+
+>Valida los resultados del ejemplo anterior usando **R**.
+>
+</div>
+
+
+</br></br>
+<h3>Varianza</h3> 
+
+La **varianza** es una de las medidas de dispersión más utilizadas en estadística. Está definida como el promedio de los cuadrados de las diferencias entre los datos y su media. Matemáticamente, se expresa como:
+
+\[
+s^{2}=\frac{1}{n-1} \sum_{i=1}^{n} (x_{i}-\bar{x})^{2}
+\]
+
+La varianza  proporcionando una medida del grado de dispersión de los datos alrededor de su media.
+
+
+</br></br>
+<h4>Propiedades de la varianza</h4> 
+
+1. Fórmula alternativa:  
+   \[
+   s^{2} = \frac{1}{n} \sum x_{i}^{2} - (\bar{x})^{2}
+   \]
+
+2. No negatividad: La varianza siempre es no negativa:  
+   \[
+   s^{2} \geq 0
+   \]
+
+3. Varianza de una constante: Si todos los valores son iguales a una constante \(k\), entonces la varianza es cero:  
+   \[
+   s_{k}^{2} = 0
+   \]
+
+4. Escalamiento por una constante: Si \(y_{i} = k x_{i}\), entonces:  
+   \[
+   s_{y}^{2} = k^{2} s_{x}^{2}
+   \]
+
+5. Desplazamiento por una constante: Si \(y_{i} = x_{i} + k\), entonces:  
+   \[
+   s_{y}^{2} = s_{x}^{2}
+   \]
+
+6. Combinación lineal de dos variables: Si \(z_{i} = a x_{i} + b y_{i}\), la varianza de \(z_{i}\) se calcula como:  
+   \[
+   s_{z}^{2} = a^{2}s_{x}^{2} + b^{2}s_{y}^{2} + 2ab \cdot \text{cov}(x, y)
+   \]  
+   
+   En el contexto de la fórmula de \(s_{z}^{2}\), el término \(2ab \cdot \text{cov}(x, y)\) representa el efecto conjunto de la relación    lineal entre las variables \(x\) e \(y\) en la varianza de \(z\).
+   
+   La covarianza (\(\text{cov}(x, y)\)) mide el grado de relación lineal entre las variables \(x\) e \(y\). Matemáticamente, se define como:  
+     \[
+     \text{cov}(x, y) = \frac{1}{n-1} \sum_{i=1}^{n} \Big((x_{i} - \bar{x})(y_{i} - \bar{y})\Big)
+     \]  
+     
+     La covarianza puede ser positiva, negativa o igual a cero:
+     
+      - Positiva: Si \(x\) e \(y\) tienden a aumentar o disminuir juntas.
+     
+     - Negativa: Si \(x\) aumenta cuando \(y\) disminuye, y viceversa.
+     
+     - Cero: Si \(x\) e \(y\) no tienen una relación lineal.
+
+   
+
+</br></br>
+<h4> Limitación de la varianza</h4> 
+
+Un problema importante de la varianza es su **interpretación**, ya que sus unidades están elevadas al cuadrado. En la mayoría de los casos, esta característica dificulta la interpretación directa de los resultados.
+
+Por esta razón, se utiliza una medida de dispersión alternativa: la **desviación estándar**, que se calcula como la raíz cuadrada de la varianza. La desviación estándar tiene las mismas unidades que los datos originales, facilitando así la interpretación.
+
+
+
+</br></br>
+<h3>Desviación estándar</h3> 
+
+La **desviación estándar** es una medida de dispersión que se calcula como la raíz cuadrada de la varianza. Matemáticamente, se expresa como:
+
+\[
+s = \sqrt{s^{2}}
+\]
+
+</br></br>
+<h4>Interpretación</h4> 
+
+- La desviación estándar representa el promedio de las desviaciones de los datos con respecto a la media, pero en las mismas unidades que los datos originales.
+
+- A diferencia de la varianza, la desviación estándar es más fácil de interpretar y comparar, ya que no está expresada en unidades al cuadrado.
+
+
+</br></br>
+<h4>Propiedades</h4> 
+
+1. Es siempre no negativa:  
+   \[
+   s \geq 0
+   \]
+   
+2. Una desviación estándar pequeña indica que los datos están concentrados cerca de la media, mientras que una desviación estándar grande indica mayor dispersión.
+
+3. Es sensible a valores atípicos, ya que estos incrementan considerablemente su valor.
+
+
+
+</br>
+
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+
+En este ejemplo, se presentan los resultados del promedio, la varianza y la desviación estándar de las edades de los dos grupos mencionados previamente.
+
+Aunque la desviación estándar facilita la interpretación debido a que tiene las mismas unidades que la variable, tanto la desviación estándar como la varianza son útiles para comparar dos grupos con igual media. Sin embargo, cuando las medias son diferentes, es necesario considerar otras medidas o métodos de análisis.
+
+|Grupo 1                      | Grupo 2                        |
+|:--------------------------------|:-----------------------------------|
+|$\bar{x}_{1} = 28$ años          |$\bar{x}_{2} = 28$ años             |
+|$s^{2}_{1} = 16.62$ años$^2$     |$s^{2}_{2} = 116.89$ años$^2$       |  
+|$s_{1}  = 4.16$ años             |$s_{2} = 10.81$ años                | 
+|                                 |                                    |
+</br>
+
+Aunque ambos grupos tienen la misma, media 28 años, las diferencias en la dispersión se hacen evidentes al analizar la varianza y la desviación estándar.
+
+En caso de que las medias de los grupos sean diferentes, se deben considerar alternativas como el **coeficiente de variación** para evaluar la dispersión relativa.
+
+</p>
+</div>
+
+</br>
+
+<div class="caja-nota">
+<h3>Nota</h3> 
+
+> Es importante destacar que las propiedades definidas para la **varianza** no aplican directamente a la **desviación estándar**, ya que la raíz cuadrada no es una función lineal. Por lo tanto: 
+<br/><br/>
+>
+- Las relaciones de escala y combinación que son válidas para la varianza no se mantienen de manera exacta para la desviación estándar.
+<br/>
+>
+- Aunque la desviación estándar es útil para interpretar la dispersión en las mismas unidades que los datos, pierde algunas de las características algebraicas que hacen a la varianza especialmente útil en análisis estadísticos avanzados.
+<br/><br/>
+>
+Si bien la desviación estándar es más intuitiva para la interpretación práctica, la varianza sigue siendo preferida en contextos teóricos y matemáticos debido a su simplicidad algebraica.
+> 
+</div> 
+
+
+<br/> <br/>
+<h3>Coeficiente de variación</h3> 
+
+El **coeficiente de variación** (\(CV\)) es un indicador adimensional que mide la relación entre la desviación estándar y la media, expresándola en porcentaje. Este indicador es útil para evaluar la dispersión relativa de un conjunto de datos, independientemente de las unidades de medida.
+
+Este se calcula con la siguiente expresión: 
+
+\[
+CV = \dfrac{s}{\vert\bar{x}\vert} \times 100 \%
+\]
+
+Donde:
+
+- \(s\): Desviación estándar.
+
+- \(\bar{x}\): Media del conjunto de datos.
+
+
+</br></br>
+<h4>Reglas empíricas</h4> 
+
+El **coeficiente de variación** (\(CV\)) indica qué tan grande o pequeña es la **desviación estándar** con respecto a su **media**.  Es especialmente útil para comparar la dispersión de diferentes conjuntos de datos, incluso si tienen diferentes escalas o unidades de medida.
+
+</br></br>
+<h4>Interpretación</h4> 
+
+Existen diversas reglas empíricas para interpretar el **coeficiente de variación** (\(CV\)), que permiten clasificar los conjuntos de datos según su nivel de dispersión relativa. Una de las más comunes establece los siguientes niveles:
+
+- **Muy baja variabilidad**: Si \(CV \leq 10\%\), el grupo de datos se considera **muy homogéneo**, con poca dispersión relativa.
+
+- **Baja variabilidad**: Si \(10\% < CV \leq 20\%\), el grupo de datos se considera **homogéneo**, con una dispersión moderada.
+
+- **Variabilidad moderada**: Si \(20\% < CV \leq 30\%\), el grupo de datos presenta una **moderada heterogeneidad**, indicando mayor dispersión relativa.
+
+- **Variabilidad alta**: Si \(30\% < CV \leq 40\%\), el grupo de datos se considera **heterogéneo**, con una alta dispersión relativa.
+
+- **Variabilidad muy alta**: Si \(CV > 40\%\), el grupo de datos se clasifica como **muy heterogéneo**, indicando una dispersión relativa muy alta.
+
+
+
+
+
+</br></br>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+
+
+A continuación, se presentan los códigos y resultados del **coeficiente de variación**  para los dos grupos que se han estado trabajando en los ejemplos anteriores, relacionados con la edad de los usuarios de dos empresas. 
+
+El código en **R**:
+
+<pre>
+# Datos de los grupos
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con ambos grupos
+data6 = data.frame(G1, G2) 
+
+# Calcular estadísticas descriptivas, incluyendo el coeficiente de variación
+summarytools::descr(data6)
+</pre>
+
+```{r, eval=FALSE}
+# Datos de los grupos
+G1 = c(27, 27, 28, 28, 34, 28, 26, 33, 24, 28, 25, 25, 33, 27, 34, 
+       38, 24, 26, 22, 23, 33, 23, 26, 26, 32, 33, 29, 30, 25, 23)
+G2 = c(35, 25, 19, 17, 24, 17, 55, 25, 31, 35, 43, 28, 32, 19, 20, 
+       17, 25, 18, 21, 22, 17, 35, 29, 20, 54, 46, 24, 29, 40, 18)
+
+# Crear un data frame con ambos grupos
+data6 = data.frame(G1, G2) 
+
+# Calcular estadísticas descriptivas, incluyendo el coeficiente de variación
+summarytools::descr(data6)
+```
+
+Después de ejecutar el código anterior, se obtuvieron los siguientes resultados:
+
+|Grupo 1                  | Grupo 2                        |
+|:----------------------------|:-----------------------------------|
+|$\bar{x}_{1} = 28$ años      |$\bar{x}_{2} = 28$ años             |
+|$CV_{1}  = 15$ %          |$CV_{2} = 39$ %                  |  
+|                             |                                    |
+
+**Grupo 1**: Con un coeficiente de variación del 15% indica que las edades tienen una  moderada dispersión relativa respecto a la media.
+
+**Grupo 2**: Con un coeficiente de variación del 39% indica que las edades una alta dispersión relativa respecto a la media.
+
+</p>
+</div>
+
+<div class="caja-actividad">
+<h3>Actividad:</h3>
+
+> Valida los resultados anteriores.
+>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

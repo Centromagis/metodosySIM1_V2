@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Funciones apply, lapply y sapply</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Funciones <code>apply</code>, <code>lapply</code> y
+<code>sapply</code></strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<br/><br/>
+<h2>
+Funciones <code>apply</code>, <code>lapply</code> y <code>sapply</code>
+</h2>
+<p>En <strong>R</strong>, las funciones <code>apply</code>,
+<code>lapply</code> y <code>sapply</code> forman parte de la familia de
+funciones de <em>aplicación</em> (<code>*apply</code>). Estas funciones
+permiten aplicar operaciones de manera eficiente a estructuras de datos
+como listas, vectores, matrices y data frames, evitando el uso de bucles
+explícitos como <code>for</code>.</p>
+<p>Su uso promueve un estilo de programación más
+<strong>conciso</strong>, <strong>rápido</strong> y
+<strong>legible</strong>, facilitando el procesamiento de datos en
+bloques y mejorando el rendimiento de los scripts.</p>
+<p>El uso de <code>apply</code>, <code>lapply</code> y
+<code>sapply</code> ofrece múltiples ventajas:</p>
+<ul>
+<li><p><strong>Simplificación del código</strong>: Reducen la necesidad
+de escribir bucles repetitivos.</p></li>
+<li><p><strong>Mayor eficiencia</strong>: Ejecutan las operaciones de
+forma más optimizada internamente.</p></li>
+<li><p><strong>Legibilidad</strong>: Hacen que el código sea más limpio
+y fácil de mantener.</p></li>
+<li><p><strong>Flexibilidad</strong>: Permiten aplicar funciones
+personalizadas a diferentes estructuras de datos.</p></li>
+<li><p><strong>Compatibilidad</strong>: Son altamente compatibles con la
+mayoría de estructuras básicas en <strong>R</strong>.</p></li>
+</ul>
+<p>La <strong>Tabla 1.1</strong> presenta una comparación de estas
+funciones aunque posteriormente se detalla y amplia la información por
+cada función.</p>
+<br/><br/>
+<center>
+<strong>Tabla 1.1</strong> Comparación de las funciones
+<code>apply</code>, <code>lapply</code> y <code>sapply</code>.
+</center>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="32%" />
+<col width="22%" />
+<col width="24%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Función</th>
+<th align="center">Sobre qué opera</th>
+<th align="center">Qué recorre</th>
+<th align="center">Resultado principal</th>
+<th align="center">¿Usa <code>MARGIN</code>?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>lapply</code></td>
+<td align="center">Listas, vectores, data frames</td>
+<td align="center">Cada <strong>elemento</strong></td>
+<td align="center"><strong>Lista</strong></td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center"><code>sapply</code></td>
+<td align="center">Listas, vectores, data frames</td>
+<td align="center">Cada <strong>elemento</strong></td>
+<td align="center"><strong>Vector</strong> o <strong>matriz</strong> si
+es posible, sino lista</td>
+<td align="center">No</td>
+</tr>
+<tr class="odd">
+<td align="center"><code>apply</code></td>
+<td align="center">Matrices, data frames numéricos</td>
+<td align="center"><strong>Filas</strong> (<code>MARGIN = 1</code>) o
+<strong>Columnas</strong> (<code>MARGIN = 2</code>)</td>
+<td align="center"><strong>Vector</strong>, <strong>matriz</strong> o
+<strong>lista</strong> según la operación</td>
+<td align="center">Sí</td>
+</tr>
+</tbody>
+</table>
+<div class="caja-nota">
+<h3>
+Observaciones:
+</h3>
+<blockquote>
+<ul>
+<li><code>lapply</code> nunca simplifica el resultado (siempre devuelve
+lista).<br />
+</li>
+<li><code>sapply</code> intenta simplificar automáticamente el
+resultado.<br />
+</li>
+<li><code>apply</code> se usa principalmente para recorrer matrices o
+data frames en una dimensión específica (filas o columnas).</li>
+</ul>
+</blockquote>
+</div>
+<hr />
+<br/><br/>
+<h3>
+Función <code>apply</code>
+</h3>
+<p>Aplica una función a lo largo de las filas o columnas de una matriz o
+data frame numérico. Es útil cuando quieres realizar cálculos sobre
+filas o columnas completas de manera automática.</p>
+<p>La sintaxis básica consiste en lo siguiente:</p>
+<pre> 
+apply(X, MARGIN, FUN, ...) 
+</pre>
+<p>Donde:</p>
+<ul>
+<li><p><code>X</code>: Una matriz o data frame numérico sobre el cual se
+desea aplicar la función.</p></li>
+<li><p><code>MARGIN</code>: Un valor que indica la dimensión sobre la
+cual se aplicará la función:</p>
+<ul>
+<li><p><code>1</code>: para aplicar la función sobre las filas.</p></li>
+<li><p><code>2</code>: para aplicar la función sobre las
+columnas.</p></li>
+</ul></li>
+<li><p><code>FUN</code>: La función que quieres aplicar aplicar a cada
+fila o columna.</p></li>
+<li><p><code>...</code>: Argumentos adicionales que quieras pasar a
+<code>FUN</code>.</p></li>
+</ul>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se muestra cómo utilizar la función
+<code>apply</code> para:</p>
+<ul>
+<li><p>Recorrer las filas de una matriz.</p></li>
+<li><p>Calcular la suma de los elementos en cada fila.</p></li>
+<li><p>Retornar un vector con las sumas correspondientes.</p></li>
+</ul>
+<pre>
+# Definición de la matriz
+mi_matriz <- matrix(1:9, nrow = 3, byrow = TRUE) 
+
+# Uso de apply para sumar los elementos de cada fila 
+suma_filas <- apply(mi_matriz, MARGIN = 1, FUN = sum)
+</pre>
+<p>Al aplicar la función:</p>
+<pre>
+# Mostrar las sumas de las filas 
+suma_filas 
+</pre>
+<p>Se obtiene como resultado:</p>
+<pre>
+[1]  6 15 24
+</pre>
+</p>
+</div>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se muestra cómo utilizar la función
+<code>apply</code> posterior a la creación de una función:</p>
+<ul>
+<li><p>Crear una función personalizada que:</p>
+<ul>
+<li><p>Toma el primer elemento de un conjunto de valores y lo multiplica
+por 2.</p></li>
+<li><p>Suma este resultado con el promedio de todos los
+elementos.</p></li>
+<li><p>Luego divide el total entre 4.</p></li>
+</ul></li>
+<li><p>Aplicar esta función a las filas de un data frame que contiene
+solo valores numéricos.</p></li>
+</ul>
+<pre>
+# Definición del data frame 
+df <- data.frame( A = c(2, 4, 6), B = c(8, 10, 12), C = c(1, 3, 5) ) 
+
+# Definición de la función personalizada 
+mi_funcion <- function(x) { 
+primer_elemento <- x[1] 
+promedio <- mean(x) 
+resultado <- (2 * primer_elemento + promedio) / 4 
+return(resultado) } 
+
+# Uso de apply para aplicar la función a las filas 
+resultado_filas <- apply(df, MARGIN = 1, FUN = mi_funcion)
+</pre>
+<p>Al aplicar la función:</p>
+<pre>
+# Mostrar el resultado de aplicar la función a cada fila 
+resultado_filas 
+</pre>
+<p>Se obtiene como resultado:</p>
+<pre>
+[1] 1.916667 3.416667 4.916667
+</pre>
+</p>
+</div>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se muestra cómo utilizar la función
+<code>apply</code> posterior a la creación de dos funciones:</p>
+<ul>
+<li><p>Crear una primera función que:</p>
+<ul>
+<li><p>Genere <code>m</code> muestras aleatorias de tamaño
+<code>n</code> cada una, provenientes de una distribución
+uniforme.</p></li>
+<li><p>Crear una segunda función que:</p>
+<ul>
+<li><p>Tome el último valor de un vector.</p></li>
+<li><p>Lo multiplique por el valor máximo del vector.</p></li>
+<li><p>Luego divida el resultado entre el mínimo del vector.</p></li>
+</ul></li>
+</ul></li>
+<li><p>Aplicar la segunda función a las muestras generadas, utilizando
+<code>apply</code>.</p></li>
+</ul>
+<pre>
+# Primera función: generar muestras aleatorias uniformes 
+generar_muestras <- function(m, n) { 
+matriz <- matrix(runif(m * n), nrow = m, ncol = n) 
+return(matriz)} 
+
+# Segunda función: operación con último, máximo y mínimo 
+operacion_vector <- function(x) { 
+ultimo <- x[length(x)] 
+maximo <- max(x) 
+minimo <- min(x) 
+resultado <- (ultimo * maximo) / minimo return(resultado)} 
+
+# Generar 5 muestras (m = 5) de tamaño 4 (n = 4) 
+muestras <- generar_muestras(m = 5, n = 4) 
+
+# Aplicar la segunda función a cada fila de la matriz 
+resultado_muestras <- apply(muestras, MARGIN = 1, FUN = operacion_vector)
+</pre>
+<p>Al aplicar las funciones:</p>
+<pre>
+# Mostrar el resultado de aplicar la función a cada fila 
+resultado_muestras 
+</pre>
+<p>Se obtiene un resultado como el siguiente:</p>
+<pre>
+[1] 18.8992251  0.7883051  0.8924190  0.8830174  8.8518827
+</pre>
+</p>
+</div>
+<hr />
+<br/><br/>
+<h3>
+Función <code>lapply</code>
+</h3>
+<p>Aplica una función a cada elemento de un objeto (generalmente una
+lista o vector) y devuelve siempre una lista como resultado, sin
+importar el tipo de salida de la función aplicada.</p>
+<p>La sintaxis básica consiste de lo siguiente:</p>
+<pre>
+lapply(X, FUN, ...)
+</pre>
+<p>Donde:</p>
+<ul>
+<li><p><code>X</code>: Un objeto iterable (como un vector, lista o data
+frame).</p></li>
+<li><p><code>FUN</code>: La función que quieres aplicar a cada elemento
+de <code>X</code>.</p></li>
+<li><p><code>...</code>: Argumentos adicionales que quieras pasar a
+<code>FUN</code>.</p></li>
+</ul>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se muestra cómo utilizar la función
+<code>lapply</code> posterior a la creación de una función:</p>
+<p>Crear una función personalizada que:</p>
+<ul>
+<li><p>Reciba un vector numérico.</p></li>
+<li><p>Calcule el cuadrado de cada elemento del vector.</p></li>
+<li><p>Devuelva el vector de cuadrados.</p></li>
+<li><p>Aplicar esta función a cada elemento de una lista que contiene
+vectores numéricos.</p></li>
+</ul>
+<pre> 
+# Definición de la lista 
+mi_lista <- list(grupo1 = c(1, 2, 3), grupo2 = c(4, 5), grupo3 = c(6, 7, 8, 9)) 
+
+# Definición de la función personalizada 
+cuadrados_vector <- function(x) { 
+return(x^2)} 
+
+# Uso de lapply para aplicar la función a cada elemento 
+resultado_cuadrados <- lapply(mi_lista, cuadrados_vector) 
+</pre>
+<p>Al aplicar la función:</p>
+<pre> 
+# Mostrar el resultado de aplicar la función a cada grupo 
+resultado_cuadrados 
+</pre>
+<p>Se obtiene como resultado:</p>
+<pre> 
+$grupo1
+[1] 1 4 9
+
+$grupo2
+[1] 16 25
+
+$grupo3
+[1] 36 49 64 81
+</pre>
+</p>
+</div>
+<hr />
+<br/><br/>
+<h3>
+Función <code>sapply</code>
+</h3>
+<p>También aplica una función a cada elemento de un objeto como
+<code>lapply</code>, pero trata de simplificar el resultado:</p>
+<ul>
+<li><p>Si todos los resultados tienen longitud 1, devuelve un
+vector.</p></li>
+<li><p>Si los resultados son vectores del mismo tamaño (&gt;1), devuelve
+una matriz.</p></li>
+<li><p>Si no puede simplificar, devuelve una lista (igual que
+<code>lapply</code>).</p></li>
+</ul>
+<p>La sintaxis básica consiste de lo siguiente:</p>
+<pre>
+sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
+</pre>
+<p>Donde:</p>
+<ul>
+<li><p><code>X</code>: Un objeto iterable (como un vector, lista o data
+frame).</p></li>
+<li><p><code>FUN</code>: La función que quieres aplicar a cada elemento
+de <code>X</code>.</p></li>
+<li><p><code>...</code>: Argumentos adicionales que quieras pasar a
+<code>FUN</code>.</p></li>
+</ul>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se muestra cómo utilizar la función
+<code>sapply</code> para:</p>
+<ul>
+<li><p>Recorrer los elementos de una lista numérica.</p></li>
+<li><p>Calcular el promedio (media) de cada elemento.</p></li>
+<li><p>Retornar un vector con los promedios correspondientes.</p></li>
+</ul>
+<pre>
+# Definición de la lista 
+mi_lista <- list(grupo1 = c(2, 4, 6), 
+                 grupo2 = c(10, 12, 14), 
+                 grupo3 = c(1, 3, 5, 7)) 
+
+# Uso de sapply para calcular la media de cada 
+medias <- sapply(mi_lista, mean)
+</pre>
+<p>Al aplicar la función:</p>
+<pre>
+# Mostrar las medias calculadas medias 
+medias
+</pre>
+<p>Se obtiene como resultado:</p>
+<pre>
+grupo1 grupo2 grupo3 
+     4     12      4 
+</pre>
+</p>
+</div>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo se muestra cómo utilizar la función
+<code>sapply</code> posterior a la creación de una función:</p>
+<ul>
+<li><p>Crear una función personalizada que:</p>
+<ul>
+<li><p>Calcula el máximo de un conjunto de valores.</p></li>
+<li><p>Lo multiplica por el número de elementos del vector.</p></li>
+<li><p>Luego divide este producto entre la varianza de los
+datos.</p></li>
+</ul></li>
+<li><p>Aplicar esta función a los elementos de una lista que contiene
+solo vectores numéricos.</p></li>
+</ul>
+<pre>
+# Definición de la lista 
+mi_lista <- list( grupo1 = c(2, 4, 6), 
+                  grupo2 = c(5, 7, 9, 11), 
+                  grupo3 = c(1, 3)) 
+
+# Definición de la función personalizada 
+mi_funcion <- function(x) { 
+maximo <- max(x) 
+cantidad <- length(x) 
+varianza <- var(x) 
+resultado <- (maximo * cantidad) / varianza return(resultado) } 
+
+# Uso de sapply para aplicar la función a cada grupo 
+resultado_lista <- sapply(mi_lista, mi_funcion)
+</pre>
+<p>Al aplicar la función:</p>
+<pre>
+# Mostrar el resultado de aplicar la función a cada grupo 
+resultado_lista 
+</pre>
+<p>Se obtiene como resultado:</p>
+<pre>
+grupo1 grupo2 grupo3 
+   4.5    6.6    3.0 
+</pre>
+</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

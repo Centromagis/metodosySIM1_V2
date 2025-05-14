@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Análisis de datos</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Análisis de datos</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+<p></br></p>
+<h2>
+Representación de datos
+</h2>
+<p>Una de las formas más efectivas para organizar y resumir conjuntos
+amplios de datos es mediante el uso de <strong>indicadores</strong>
+(como medidas de tendencia central, variabilidad y orden),
+<strong>tablas de frecuencias</strong> y <strong>gráficas</strong>, ya
+que estas herramientas permiten condensar la información y facilitan su
+interpretación. Aunque estas modalidades ofrecen información
+complementaria, las <strong>gráficas</strong> son particularmente útiles
+cuando se busca <strong>transmitir una idea de manera rápida e
+intuitiva</strong>. Por el contrario, las <strong>tablas de
+frecuencias</strong> y los <strong>indicadores</strong> resultan más
+apropiados en contextos que demandan un <strong>análisis detallado o una
+mayor precisión</strong> en los datos.</p>
+<p>Los indicadores, tablas y gráficas pueden integrarse en distintos
+formatos de comunicación, como informes estadísticos, tableros
+interactivos, pósteres o infografías.</p>
+<p>En este contexto, el siguiente tablero permite visualizar en tiempo
+real los paquetes de <strong>R</strong> que están siendo descargados. El
+tamaño de los círculos representa las frecuencias de descarga de cada
+paquete, destacando aquellos con mayor frecuencia mediante círculos más
+grandes.</p>
+<p></br><br/></p>
+<iframe src="https://testing-apps.shinyapps.io/flexdashboard-shiny-crandash/" width="1000" height="800">
+</iframe>
+<center>
+<sub> Fuente : Tomado de <a
+href="https://testing-apps.shinyapps.io/flexdashboard-shiny-crandash">CRAN
+Download Monitor</a> </sub>
+</center>
+<p><br/></p>
+<br/><br/>
+<h2>
+Estadística
+</h2>
+<br/><br/>
+<h3>
+¿Qué es Estadística?
+</h3>
+<p>Algunas definiciones de la estadística son las siguientes:</p>
+<div class="caja-nota">
+<blockquote>
+<p><em>“Estudio matemático de la incertidumbre y la variabilidad que
+proporciona herramientas y métodos para describir, modelar y analizar
+fenómenos aleatorios, y tomar decisiones basadas en la información
+disponible.”</em><br />
+— Kolmogorov, A. N. (1933)</p>
+</blockquote>
+</div>
+<div class="caja-nota">
+<blockquote>
+<p><em>“Ciencia que trata de la toma de decisiones en presencia de
+incertidumbre mediante el uso de datos observados.”</em><br />
+— Fisher, R. A. (1959)</p>
+</blockquote>
+</div>
+<div class="caja-nota">
+<blockquote>
+<p><em>“Conjunto de métodos para recopilar, organizar, resumir,
+presentar y analizar datos, así como para obtener conclusiones válidas y
+tomar decisiones razonables basadas en tal análisis.”</em><br />
+— Walpole, R. E. (2012)</p>
+</blockquote>
+</div>
+<div class="caja-nota">
+<blockquote>
+<p><em>“Ciencia que utiliza métodos para recopilar, describir, analizar
+e interpretar datos, así como para tomar decisiones basadas en dichos
+análisis.”</em><br />
+— Anderson, D. R. (2013)</p>
+</blockquote>
+</div>
+<br/><br/>
+<h3>
+¿Dónde y cómo surge?
+</h3>
+<p>La <strong>Estadística</strong> surge como la herramienta ideal para
+abordar los efectos de incertidumbre inherentes a la gran mayoría de
+procesos biológicos, químicos, industriales y de comportamiento humano,
+donde predominan el azar y la incertidumbre.</p>
+<p>En su desarrollo histórico, la estadística ha atravesado las
+siguientes etapas:</p>
+<ul>
+<li><p>Conteo de poblaciones, riquezas y recursos naturales (Antes de
+Cristo – siglo XVII).</p></li>
+<li><p>Cuantificación de probabilidades de éxito en los juegos de azar
+(siglo XVIII).</p></li>
+<li><p>Optimización de la producción agrícola (siglo XIX).</p></li>
+<li><p>Herramienta de apoyo en el desarrollo científico y tecnológico en
+todas las áreas del conocimiento. </br></p></li>
+</ul>
+<br/><br/>
+<h3>
+¿Cuál es su objetivo?
+</h3>
+<p>El objetivo principal de la <strong>Estadística</strong> radica en
+procesar, analizar y modelar la información contenida en bases de datos
+con el propósito de extraer conocimiento útil para la toma de decisiones
+informadas. Cabe señalar que los datos representan mediciones, conteos,
+cualidades o características individuales, mientras que la información
+se genera al integrar dichos datos con herramientas, métodos y modelos
+estadísticos, así como al considerar factores contextuales relevantes.
+Este proceso de transformación permite desarrollar criterios bien
+fundamentados, lo que facilita la toma de decisiones efectivas y basadas
+en evidencia.</p>
+<div class="caja-nota">
+<blockquote>
+<p><em>“Llegará el día en el que el pensamiento estadístico será una
+condición tan necesaria para la convivencia eficiente como la capacidad
+de leer y escribir”.</em><br />
+— Anderson, D. R. (2013)</p>
+</blockquote>
+</div>
+<p></br></p>
+<br/><br/>
+<h3>
+¿Dónde aplicarla?
+</h3>
+<p>La <strong>Estadística</strong> es una ciencia transversal a las
+diversas disciplinas del conocimiento, como, por ejemplo, finanzas,
+ingeniería, salud, economía, contabilidad, mercadeo, sociología, entre
+muchas otras. Algunos ejemplos de su aplicación son:</p>
+<ul>
+<li><p><em>Finanzas</em>: permite segmentar clientes, predecir fraudes,
+estimar el riesgo de una inversión o la asignación de un préstamo por
+parte de una entidad bancaria, determinar tendencias del mercado y medir
+la satisfacción del cliente.</p></li>
+<li><p><em>Ingeniería</em>: facilita el control de calidad de productos,
+la predicción del consumo de recursos como energía, y el pronóstico del
+tiempo de fallo de equipos.</p></li>
+<li><p><em>Salud</em>: permite determinar factores de riesgo y sobrevida
+de pacientes con cáncer, evaluar la eficacia de tratamientos y, en
+general, realizar investigaciones que contribuyen a generar mejores
+terapias para diversas enfermedades.</p></li>
+<li><p><em>Economía</em>: permite estudiar los determinantes del
+desempleo o el crecimiento económico en una región.</p></li>
+</ul>
+<p>Asimismo, en las actividades cotidianas, existen numerosos ejemplos
+en los que es fundamental disponer de información confiable para tomar
+decisiones fundamentadas. Por ejemplo, en el ámbito de la movilidad, las
+aplicaciones de navegación emplean análisis estadísticos para predecir
+los tiempos de viaje y recomendar rutas más rápidas, utilizando datos de
+tráfico en tiempo real. Otro caso se encuentra en las finanzas
+personales, donde los hogares evalúan sus gastos mensuales y analizan
+tendencias de consumo con el propósito de planificar presupuestos y
+evitar deudas.</p>
+<p></br></p>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>De acuerdo con tu área de profesión, identifica alguna situación o
+actividad donde sea necesaria la Estadística.</p>
+</blockquote>
+</div>
+</br></br>
+<h2>
+Unidad de análisis
+</h2>
+<p>Una <em>unidad de análisis o unidad muestral</em> es el elemento
+concreto sobre el cual se realiza la observación o medición, y su
+selección adecuada es crucial para el éxito de cualquier estudio
+estadístico. Definir correctamente las unidades muestrales es
+fundamental para garantizar que:</p>
+<ul>
+<li><p>El proceso de muestreo sea válido y eficiente.</p></li>
+<li><p>Los datos recolectados sean consistentes y útiles para responder
+a las preguntas de investigación.</p></li>
+<li><p>Las conclusiones obtenidas sean generalizables a la población,
+siempre que la muestra sea representativa.</p></li>
+</ul>
+<div class="caja-ejemplo">
+<h3>
+Ejemplos:
+</h3>
+<p>
+A continuación se presentan algunos estudios y la <em>unidad
+muestral</em> que se considera.
+</p>
+<p>
+<ul>
+<li><p>En un estudio sobre el nivel de satisfacción de los clientes de
+un banco, la <em>unidad muestral</em> corresponde a cada
+<em>cliente</em> encuestado. Por ejemplo, el banco podría seleccionar
+una muestra de clientes que han utilizado sus servicios en el último mes
+para evaluar su experiencia y satisfacción.</p></li>
+<li><p>En un análisis de calidad de un producto, la <em>unidad
+muestral</em> podría ser cada producto individual evaluado. Por ejemplo,
+en una fábrica de <em>botellas plásticas</em>, las unidades muestrales
+son las botellas individuales seleccionadas aleatoriamente de una línea
+de producción para verificar si cumplen con los estándares de
+calidad.</p></li>
+<li><p>En un estudio agrícola, la <em>unidad muestral</em> podría ser
+cada <em>parcela de tierra</em> seleccionada para formar parte del
+muestreo. Por ejemplo, en una investigación sobre la fertilidad del
+suelo, las parcelas individuales se eligen dentro de un terreno más
+grande para analizar características específicas del suelo.</p></li>
+<li><p>En un estudio diseñado para evaluar la calidad del agua en un
+río, se definen como <em>unidades muestrales</em> las <em>muestras de
+agua</em> recolectadas en puntos específicos del río. Cada muestra puede
+ser tomada en diferentes ubicaciones, profundidades o momentos del día,
+dependiendo del diseño del estudio.</p></li>
+</ul>
+</p>
+</div>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>
+<blockquote>
+<p>A continuación, se presentan tres escenarios relacionados con
+estudios de investigación. Lee cada uno cuidadosamente y determina la
+<strong>unidad muestral</strong> en el estudio.</p>
+<p></br></p>
+<ul>
+<li>Un estudio busca medir el impacto de un nuevo programa de enseñanza
+de matemáticas en una población estudiantil. Para ello, se seleccionan
+estudiantes de diferentes escuelas que participan en el programa y se
+les aplica una prueba estandarizada antes y después de su
+implementación.</li>
+</ul>
+<p></br></p>
+<ul>
+<li>En una fábrica de licuadoras, el equipo de calidad desea verificar
+si los productos ensamblados cumplen con los estándares establecidos.
+Durante el proceso, se seleccionan aleatoriamente licuadoras de cada
+lote de producción y se evalúan en función de su funcionamiento y
+durabilidad.</li>
+</ul>
+<p></br></p>
+<ul>
+<li>Un equipo de investigadores estudia la calidad del aire en
+diferentes zonas de una ciudad. Para ello, colocan estaciones de
+monitoreo en puntos estratégicos que recolectan muestras de aire durante
+intervalos regulares. Los datos recolectados incluyen concentraciones de
+partículas contaminantes y gases.</li>
+</ul>
+</blockquote>
+</div>
+</br></br>
+<h2>
+Variable
+</h2>
+<p>En el marco de la estadística, una <em>variable</em> es una función
+que traduce los resultados del espacio muestral (resultados posibles de
+un experimento aleatorio) en valores concretos (números reales) sobre
+los cuales se pueden asignar probabilidades, permitiendo analizar y
+modelar fenómenos aleatorios de manera sistemática.</p>
+<p>En términos más coloquiales, una <em>variable</em> corresponde a los
+resultados registrados a partir de la unidad de análisis. Se asocia una
+medición o conteo (número) o una cualidad (categoría) a la unidad
+muestral, de acuerdo con reglas predeterminadas en el estudio. Las
+variables se pueden clasificar según su <em>origen</em>,
+<em>naturaleza</em> o <em>relación con otras variables</em>. En la
+<strong>Figura 1.1</strong> se muestra un resumen de la clasificación de
+las variables. <br/></p>
+<center>
+<img src="img/variable1.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.1</strong> Clasificación de las variables de acuerdo a
+su origen, naturaleza y relaciones.
+</center>
+<p></br></p>
+<h3>
+Por su origen
+</h3>
+<p>Una <em>variable aleatoria</em> es una función matemática que asigna
+valores numéricos a los resultados de un experimento aleatorio. Su
+principal característica es que sus valores no son predecibles con
+certeza antes de realizar el experimento, pero su comportamiento puede
+modelarse mediante una distribución de probabilidad, lo que permite
+describir la probabilidad de que tome ciertos valores o intervalos.
+Estas variables son esenciales en estudios estadísticos, ya que modelan
+fenómenos sujetos al azar.</p>
+<p>Una <em>variable determinística</em> es aquella cuyo valor está
+completamente definido por una regla o fórmula matemática y no está
+sujeto a incertidumbre. Esto significa que, dado un conjunto de
+condiciones iniciales, el valor de la variable es único y predecible. En
+la <strong>Tabla 1.1</strong> se presenta la comparación entre variable
+aleatoria y determinística.</p>
+<p><strong>Tabla 1.1</strong> Comparación entre variable aleatoria y
+determinística.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="19%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspecto</strong></th>
+<th><strong>Variable aleatoria</strong></th>
+<th><strong>Variable determinística</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Definición</strong></td>
+<td>Depende de resultados aleatorios.</td>
+<td>Determinada por reglas o relaciones matemáticas.</td>
+</tr>
+<tr class="even">
+<td><strong>Predecibilidad</strong></td>
+<td>No se puede predecir con certeza; se describe con probabilidad.</td>
+<td>Totalmente predecible dada la información inicial.</td>
+</tr>
+<tr class="odd">
+<td><span style="color:#C75000"><strong>Ejemplos</strong></span></td>
+<td>Resultado de lanzar un dado balanceado al aire. Si los tres primeros
+resultados del lanzamiento son 1, 2 y 3, no se puede predecir el cuarto
+resultado como el número 4, puede ser cualquiera de los 6 números. Sin
+embargo, en 600 lanzamientos del dado, se estima que aproximadamente en
+100 casos cae el número 4.</td>
+<td>Cálculo de la velocidad: <span class="math inline">\(v = d /
+t\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Representación matemática</strong></td>
+<td>Se define como una función <span class="math inline">\(X: S \to
+\mathbb{R}\)</span>, donde <span class="math inline">\(S\)</span> es el
+conjunto determinado por los resultados posibles del experimento
+aleatorio. En el ejemplo, el experimento es lanzar el dado y sus
+resultados posibles los números del 1 al 6.</td>
+<td>Se define como una función determinística <span
+class="math inline">\(Y = f(x)\)</span>. En el ejemplo, la variable
+dependiente <span class="math inline">\(Y\)</span> es la velocidad y las
+independientes <span class="math inline">\(d\)</span> (distancia) y
+<span class="math inline">\(t\)</span> (tiempo).</td>
+</tr>
+</tbody>
+</table>
+<p></br></p>
+<h3>
+Por su naturaleza
+</h3>
+<p>En estadística, las variables se clasifican según su naturaleza en
+dos categorías principales: <strong>variables cualitativas</strong> y
+<strong>variables cuantitativas</strong>. Estas categorías reflejan el
+tipo de información que las variables representan y las operaciones que
+se pueden realizar con ellas.</p>
+<p>Las <strong>variables cualitativas</strong> describen atributos,
+características o categorías que no pueden medirse numéricamente. Su
+principal propósito es clasificar o etiquetar los elementos de estudio,
+y no se pueden realizar operaciones matemáticas con sus valores. Estas
+se clasifican en dos grupos: ordinales y nominales. En las variables
+cualitativas nominales, las categorías no tienen un orden específico,
+mientras que en las variables ordinales, las categorías tienen un orden
+lógico o jerárquico. En la <strong>Tabla 1.2</strong> se presenta la
+comparación entre variables ordinal y nominal.</p>
+<p><strong>Tabla 1.2</strong> Comparación entre variable ordinal y
+nominal.</p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="50%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tipo de Variable</strong></th>
+<th><strong>Definición</strong></th>
+<th><span style="color:#C75000"><strong>Ejemplos</strong></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cualitativa nominal</strong></td>
+<td>Categorías sin orden inherente.</td>
+<td>- Estado civil (soltero, casado, divorciado).<br>- Estado de una
+transacción respecto al fraude (1=fraude, 0=no fraude).<br></td>
+</tr>
+<tr class="even">
+<td><strong>Cualitativa ordinal</strong></td>
+<td>Categorías con un orden lógico o jerárquico.</td>
+<td>- Nivel de satisfacción (bajo, medio, alto). <br> - Grados
+académicos (licenciatura, maestría, doctorado). <br> - Estrato
+socioeconómico de un predio (1, 2, 3, 4, 5, y 6).</td>
+</tr>
+</tbody>
+</table>
+<p>Las <strong>variables cuantitativas</strong> representan valores
+numéricos que permiten realizar operaciones matemáticas, como sumas y
+promedios. Estas variables reflejan cantidades que resultan de
+mediciones o conteos y se clasifican en dos grupos:
+<strong>continuas</strong> y <strong>discretas</strong>.</p>
+<p>Las <strong>variables discretas</strong> corresponden a aquellas cuyo
+conjunto de posibles valores puede tomar un número finito o infinito
+numerable de valores (por ejemplo, enteros positivos junto con el cero)
+y suelen proceder de conteos. Por otro lado, las <strong>variables
+continuas</strong> pueden tomar cualquier valor dentro de un rango
+infinito no numerable, como es el caso de los valores en el campo de los
+números reales. Estas últimas suelen estar asociadas a procesos de
+medición. En la <strong>Tabla 1.3</strong> se presenta la comparación
+entre variables discreta y continua.</p>
+<p><strong>Tabla 1.3</strong> Comparación entre variable discreta y
+continua.</p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="50%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tipo de Variable</strong></th>
+<th><strong>Definición</strong></th>
+<th><span style="color:#C75000"><strong>Ejemplos</strong></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cuantitativa discreta</strong></td>
+<td>Valores numéricos enteros, asociados a conteos.</td>
+<td>- Número de hijos en una familia (0, 1, 2, etc.). <br> - Número de
+automóviles vendidos en un mes (0, 1, 2, etc.). <br> - Número de
+transacciones diarias de un cliente (0, 1, 2, 3, etc.).</td>
+</tr>
+<tr class="even">
+<td><strong>Cuantitativa continua</strong></td>
+<td>Valores numéricos reales, asociados a mediciones precisas.</td>
+<td>- Altura de una persona (1.65 metros, 1.732 metros, 1 metro, etc.).
+<br> - Tiempo requerido para completar una tarea (3.5 horas, 2 horas,
+etc.). <br> - El Índice de Precios al Consumidor (IPC), que mide la
+variación promedio de los precios de un conjunto de bienes y servicios
+representativos adquiridos por los hogares en un periodo determinado
+(101.23, 102.56, etc.). Los valores del IPC son producto de mediciones
+basadas en precios de bienes y servicios recolectados regularmente, como
+alimentos, transporte, vivienda y educación.</td>
+</tr>
+</tbody>
+</table>
+<p></br></p>
+<h3>
+Por su relación con otras variables
+</h3>
+<p>Las variables pueden clasificarse según su relación en
+<strong>variables independientes</strong>,
+<strong>dependientes</strong>, <strong>intervinientes</strong> y
+<strong>de control</strong>. Esta clasificación se basa en la influencia
+que tienen unas sobre otras y su papel en un análisis estadístico o
+experimental.</p>
+<p>Una variable independiente es la variable que el investigador
+manipula o selecciona para observar su efecto en otra variable. No
+depende de otras variables dentro del contexto del estudio. Mientras que
+la variable dependiente es la variable que se mide o estudia para
+observar los efectos de la variable independiente. Su valor depende de
+los cambios realizados en la variable independiente. En un estudio sobre
+el impacto de las horas de estudio en el rendimiento académico, las
+horas de estudio serían la variable independiente y el rendimiento
+académico (como la calificación) sería la variable dependiente.</p>
+<p>Una variable interviniente es una variable que no se mide
+directamente en el estudio pero que puede influir en la relación entre
+la variable independiente y la dependiente. También conocida como
+variable mediadora o moderadora, y la variable de control es una
+variable que el investigador mantiene constante o regula para evitar que
+afecte la relación entre la variable independiente y la dependiente.
+Permite aislar el efecto de la variable independiente. En el estudio
+anterior, factores como la calidad del sueño o el nivel de estrés del
+estudiante podrían actuar como variables intervinientes. Mientras que la
+edad de los estudiantes podría ser una variable de control para
+asegurarse de que las diferencias en el rendimiento no se deban a la
+edad. En la <strong>Tabla 1.4</strong> se presenta la comparación entre
+variables por su relación con otras variables.</p>
+<p><strong>Tabla 1.4</strong> Comparación entre independiente,
+dependiente, interviniente y de control.</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="22%" />
+<col width="21%" />
+<col width="22%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspecto</strong></th>
+<th><strong>Variable independiente</strong></th>
+<th><strong>Variable dependiente</strong></th>
+<th><strong>Variable interviniente</strong></th>
+<th><strong>Variable de control</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Definición</strong></td>
+<td>Variable manipulada o seleccionada para observar su efecto en
+otra.</td>
+<td>Variable que se mide o estudia para observar el efecto de la
+variable independiente.</td>
+<td>Variable que no se mide directamente, pero influye en la relación
+entre la independiente y la dependiente.</td>
+<td>Variable mantenida constante para evitar que afecte la relación
+entre la independiente y la dependiente.</td>
+</tr>
+<tr class="even">
+<td><strong>Propósito</strong></td>
+<td>Explorar su impacto en otra variable.</td>
+<td>Reflejar los cambios generados por la independiente.</td>
+<td>Identificar o considerar factores adicionales que podrían afectar la
+relación principal.</td>
+<td>Aislar el efecto de la independiente y garantizar la validez del
+estudio.</td>
+</tr>
+<tr class="odd">
+<td><span style="color:#C75000"><strong>Ejemplos</strong></span></td>
+<td>- Tipo de fertilizante en un cultivo (orgánico o químico). <br> -
+Tiempo (horas) de sueño en un estudio sobre el rendimiento
+cognitivo.</td>
+<td>- Producción de la cosecha (en kilogramos). <br> - Puntaje obtenido
+en un test de memoria.</td>
+<td>- Tipo de suelo en un experimento agrícola. <br> - Nivel de estrés
+en un análisis del rendimiento cognitivo.</td>
+<td>- Condiciones climáticas constantes en el cultivo. <br> - Edad de
+los participantes en el estudio cognitivo.</td>
+</tr>
+<tr class="even">
+<td><strong>Relación matemática</strong></td>
+<td>Actúa como una entrada o predictor en modelos estadísticos: <span
+class="math inline">\(Y = f(X) + \epsilon\)</span>.</td>
+<td>Se define como una respuesta o salida que depende de la
+independiente.</td>
+<td>Se considera como un moderador o mediador que ajusta el efecto de
+<span class="math inline">\(X\)</span> sobre <span
+class="math inline">\(Y\)</span>.</td>
+<td>No entra directamente en la relación <span
+class="math inline">\(X\)</span> - <span
+class="math inline">\(Y\)</span>, pero puede afectar indirectamente si
+no se controla.</td>
+</tr>
+</tbody>
+</table>
+<p></br></p>
+<h3>
+Escalas de medición
+</h3>
+<p>Determinar el tipo de escala de medición de una variable es
+fundamental, ya que define el tipo de análisis estadístico a realizar y
+la forma más adecuada de presentar los datos gráficamente. Las escalas
+de medición se clasifican en cuatro niveles principales:
+<strong>nominal</strong>, <strong>ordinal</strong>, <strong>de
+intervalo</strong> y <strong>de razón</strong>. Cada una tiene
+características específicas que influyen en las operaciones estadísticas
+permitidas y en su interpretación.</p>
+<p>Las variables con escala de medición <strong>nominal</strong> tienen
+categorías cuyos valores no pueden ser ordenados de manera natural. No
+existe una jerarquía o relación de mayor o menor entre las categorías.
+Por otro lado, las variables con escala <strong>ordinal</strong> poseen
+categorías que pueden ser ordenadas de manera lógica o jerárquica. En la
+<strong>Tabla 1.5</strong> se presenta la comparación entre escala
+nominal y ordinal.</p>
+<p><strong>Tabla 1.5</strong> Comparación entre escala nominal y
+ordinal.</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="39%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspecto</strong></th>
+<th><strong>Nominal</strong></th>
+<th><strong>Ordinal</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Definición</strong></td>
+<td>Categorías sin orden inherente.</td>
+<td>Categorías con un orden lógico o jerárquico.</td>
+</tr>
+<tr class="even">
+<td><strong>Características</strong></td>
+<td>No existe jerarquía entre los valores.</td>
+<td>Existe jerarquía; las categorías pueden ser ordenadas.</td>
+</tr>
+<tr class="odd">
+<td><span style="color:#C75000"><strong>Ejemplos</strong></span></td>
+<td>- Profesión (ingeniero, estadístico, administrador, etc.). </br> -
+Nacionalidad (colombiano, venezolano, ecuatoriano, etc.). </br> -
+Religión (católico, cristiano, evangélico, agnóstico, etc.).</td>
+<td>- Nivel educativo (primaria, secundaria, universitario,
+especialización, maestría, doctorado). </br> - Nivel de estrés (bajo,
+medio, alto). </br> - Evaluación de un servicio (excelente, muy bueno,
+bueno, regular, muy regular).</td>
+</tr>
+</tbody>
+</table>
+<p>Las variables de <strong>intervalo</strong> son numéricas y tienen la
+particularidad de que el valor cero (0) es arbitrario y no implica la
+ausencia de la característica medida. Las diferencias entre los valores
+son significativas y uniformes, pero no se pueden realizar operaciones
+de proporción, ya que el cero no es absoluto. Por otro lado, en la
+escala <strong>de razón</strong>, el valor cero (0) indica ausencia de
+la característica medida. Esta escala permite realizar todo tipo de
+operaciones matemáticas, incluyendo sumas, restas, multiplicaciones y
+divisiones, lo que posibilita interpretar proporciones y relaciones
+entre los valores. En la <strong>Tabla 1.6</strong> y <strong>Figura
+1.1</strong> se resume y comparan los tipos de escala.</p>
+<p><strong>Tabla 1.6</strong> Comparación entre escala de intervalo y de
+razón.</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="38%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspecto</strong></th>
+<th><strong>Intervalo</strong></th>
+<th><strong>Razón</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Definición</strong></td>
+<td>El cero es arbitrario y no implica ausencia de la característica
+medida.</td>
+<td>El cero indica ausencia de la característica medida.</td>
+</tr>
+<tr class="even">
+<td><strong>Características</strong></td>
+<td>Las diferencias entre valores son significativas, pero no se pueden
+realizar proporciones.</td>
+<td>Permite realizar cualquier operación matemática, incluyendo
+proporciones.</td>
+</tr>
+<tr class="odd">
+<td><span style="color:#C75000"><strong>Ejemplos</strong></span></td>
+<td>Temperatura (°C, °F, °K).</td>
+<td>Número de hijos, salario, ventas mensuales.</td>
+</tr>
+</tbody>
+</table>
+<center>
+<img src="img/escalas.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.1</strong> Clasificación de las variables y tipo de
+escalas de medición.
+</center>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>
+<p>A continuación, se presentan descripciones de variables utilizadas en
+diferentes estudios. Tu tarea será analizar cada variable y
+<strong>clasificarla según el origen, naturaleza y relación</strong> con
+otras variables.</p>
+<p></br></p>
+<ul>
+<li>Un estudio mide el rendimiento físico de atletas en una prueba de
+resistencia. Las variables recolectadas incluyen: Tiempo total en
+minutos para completar la prueba, frecuencia cardiaca promedio durante
+la prueba y altura del atleta.</li>
+</ul>
+<p></br></p>
+<ul>
+<li>Un estudio busca determinar los factores que afectan el rendimiento
+agrícola en hectáreas de cultivo. Las variables incluyen: Producción en
+kilogramos por hectárea, cantidad de fertilizante aplicado (en kg),
+nivel de lluvia (en mm) durante el ciclo agrícola y tipo de suelo
+(arenoso, arcilloso, limoso).</li>
+</ul>
+<p></br></p>
+<ul>
+<li>En un ensayo clínico, se evalúa la efectividad de un nuevo
+medicamento. Las variables recolectadas son: Reducción del nivel de
+glucosa en sangre (en mg/dL), dosis administrada del medicamento (en
+mg), edad del paciente y presencia de efectos secundarios (sí/no).</li>
+</ul>
+</p>
+</blockquote>
+</div>
+</br></br>
+<h2>
+Población
+</h2>
+<p>En estadística, la <strong>población</strong> es el conjunto total de
+valores posibles que puede tomar una <strong>variable</strong> dentro de
+un contexto determinado. Estos valores pueden estar asociados a
+individuos, objetos, eventos o cualquier <em>unidad de análisis</em>
+definida en el estudio.</p>
+<p><span class="math display">\[
+\text{Población} = \{x_1, x_2, x_3, \dots, x_N\},
+\]</span></p>
+<p>donde <span class="math inline">\(x_i\)</span> representa un valor
+particular de la variable para el <span
+class="math inline">\(i\)</span>-ésimo elemento de la población, y <span
+class="math inline">\(N\)</span> es el tamaño de la población (puede ser
+finito o infinito).</p>
+<p>La población se define con respecto a una o varias variables
+específicas que se desean estudiar.</p>
+<p></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<ul>
+<li><p>Si la variable es <strong>“peso de una persona”</strong>, la
+población podría ser <em>“el peso de todos los habitantes de Cali en el
+2024”</em>.<br />
+(<em>Unidad de análisis</em>: habitante de Cali en el periodo
+2024).</p></li>
+<li><p>Si la variable es <strong>“altura de una persona”</strong>, la
+población podría ser <em>“la altura de los estudiantes matriculados en
+la universidad para el periodo 2024-1”</em>.<br />
+(<em>Unidad de análisis</em>: estudiante matriculado en la universidad
+para el periodo 2024-1).</p></li>
+<li><p>Si la variable es <strong>“número de habitantes”</strong>, la
+población podría ser <em>“el número de habitantes en cada ciudad de
+Colombia a diciembre 31 de 2023”</em>.<br />
+(<em>Unidad de análisis</em>: ciudad de Colombia a diciembre 31 de
+2023).</p></li>
+<li><p>Si la variable es <strong>“estrato socioeconómico de un
+predio”</strong>, la población podría ser <em>“el estrato socioeconómico
+de los predios de Cali a diciembre de 2024”</em>.<br />
+(<em>Unidad de análisis</em>: predios de Cali para el 2024).</p></li>
+<li><p>Si la variable es <strong>“estado fraudulento de una
+transacción”</strong>, la población podría ser <em>“el estado de las
+transacciones de Bancolombia en diciembre de 2024”</em>.<br />
+(<em>Unidad de análisis</em>: transacciones de Bancolombia a diciembre
+de 2024).</p></li>
+</ul>
+</p>
+</div>
+<p>Para un mismo conjunto de <em>unidades de análisis</em> en un
+estudio, puede ser de interés analizar diferentes variables, lo que
+lleva a definir <strong>distintas poblaciones de estudio</strong> según
+el enfoque estadístico y formal de lo que se entiende por población.</p>
+</br></br>
+<h2>
+Muestra aleatoria
+</h2>
+<p>En estadística, una <strong>muestra aleatoria</strong> es un
+subconjunto de la población, seleccionado de manera que cada elemento de
+la población tenga una probabilidad conocida y no nula de ser incluido
+en la muestra. Matemáticamente, si la población se define como:</p>
+<p><span class="math display">\[
+\text{Población} = \{x_1, x_2, x_3, \dots, x_N\},
+\]</span></p>
+<p>entonces una muestra aleatoria es un subconjunto de <span
+class="math inline">\(n\)</span> elementos seleccionados de la
+población:</p>
+<p><span class="math display">\[
+\text{Muestra} = \{x_{1}, x_{2}, x_{3}, \dots, x_{n}\}, \quad
+\text{donde } n \leq N.
+\]</span></p>
+<p>Una muestra aleatoria <strong>independiente e idénticamente
+distribuida</strong> (<span class="math inline">\(i.i.d\)</span>) cumple
+con las siguientes condiciones:</p>
+<ul>
+<li><p><strong>Selección aleatoria</strong>: Los valores de la muestra
+se obtienen de un experimento aleatorio o proceso de selección en el que
+cada unidad tiene una probabilidad conocida y no nula de ser
+seleccionada. No hay sesgos sistemáticos en la selección de los
+elementos.</p></li>
+<li><p><strong>Independencia estadística</strong>: Los valores de la
+muestra son estadísticamente independientes entre sí. El valor observado
+para una unidad no afecta el valor observado para otra. Es decir, el
+conocimiento de un dato no proporciona información sobre otro.</p></li>
+<li><p><strong>Distribución idéntica</strong>: Todos los valores de la
+muestra provienen de la misma distribución de probabilidad. Cada
+observación sigue las mismas características de la población, como la
+misma media, varianza y forma de la distribución.</p></li>
+</ul>
+<p>Estas propiedades son esenciales en estadística porque garantizan que
+los resultados de los análisis sean confiables y las inferencias
+válidas.</p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>Suponga que la población representa las alturas de los adultos en una
+ciudad. Se sabe que estas alturas siguen de forma acampanada con
+promedio de 170 cm y desviación estándar de 10 cm. En la unidad
+siguiente se estudiará esta districuón como una <strong>distribución
+normal</strong> con una media o promedio (<span
+class="math inline">\(\mu\)</span>) de 170 cm y una desviación estándar
+(<span class="math inline">\(\sigma\)</span>) de 10 cm, lo que se denota
+como:</p>
+<p><span class="math display">\[
+X \sim N(\mu = 170, \sigma = 10)
+\]</span></p>
+<p>Ahora, al extrar una muestra aleatoria de tamaño <span
+class="math inline">\(n = 50\)</span> de esta población bajo las
+siguientes condiciones:</p>
+<ul>
+<li><p>Cada observación es seleccionada de manera
+<strong>aleatoria</strong>.</p></li>
+<li><p>Las observaciones son <strong>independientes</strong> entre
+sí.</p></li>
+<li><p>Todas las observaciones provienen de la misma distribución normal
+<span class="math inline">\(N(\mu = 170, \sigma =
+10)\)</span>.</br></p></li>
+</ul>
+<p>Entonces podemos denotar la información como:</p>
+<p><strong>Población</strong>: <span class="math display">\[
+   X \sim N(\mu = 170, \sigma = 10)
+   \]</span></p>
+<p><strong>Muestra i.i.d</strong>: <span class="math display">\[
+   X_1, X_2, \dots, X_{50} \overset{\text{i.i.d}}{\sim} N(\mu = 170,
+\sigma = 10)
+   \]</span></p>
+<p>La <strong>población</strong> corresponde a las alturas de todos los
+adultos en la ciudad, mientras que la <strong>muestra aleatoria
+i.i.d.</strong> consiste en 50 registros de alturas de adultos
+seleccionados aleatoriamente, con sus alturas medidas en centímetros. El
+resultado podría ser algo como:</p>
+<p><span class="math display">\[
+\text{Muestra} = \{160.5, 172.3, 168.7, 180.1, 165.4, \dots\}
+\]</span></p>
+<p>Se puede representar esta <strong>población</strong> y simular una
+<strong>muestra aleatoria</strong> utilizando el software
+<strong>R</strong>. Los resultados de los siguientes códigos se
+presentan en las <strong>Figuras 1.2</strong> y
+<strong>1.3</strong>.</p>
+<pre>
+# Cargar librería ggplot2
+library(ggplot2)
+
+# Configuración de parámetros de la población
+mu <- 170  # Media de la población
+sigma <- 10  # Desviación estándar de la población
+
+# Crear un rango de valores para la población
+x <- seq(mu - 4 * sigma, mu + 4 * sigma, length.out = 500)
+
+# Calcular la densidad de la distribución normal
+densidad <- dnorm(x, mean = mu, sd = sigma)
+
+# Crear un data frame para ggplot
+datos <- data.frame(Altura = x, Densidad = densidad)
+
+# Graficar con ggplot2
+plot_pob <- ggplot(datos, aes(x = Altura, y = Densidad)) +
+  geom_line(color = "blue", linewidth = 1) +  # Línea de densidad con `linewidth`
+  geom_vline(xintercept = mu, color = "red", linetype = "dashed") +  # Línea en la media
+  labs(title = "",
+       x = "Altura (cm)",
+       y = "Densidad") +
+  theme_minimal() +  # Tema minimalista
+  theme(plot.title = element_text(hjust = 0.5)) +  # Centrar título
+  annotate("text", x = mu + 5, y = max(densidad) / 2, 
+           label = "Media (170 cm)", color = "red", angle = 0)
+
+# Mostrar el gráfico
+print(plot_pob)
+</pre>
+<pre class="r"><code># Cargar librería ggplot2
+library(ggplot2)
+
+# Configuración de parámetros de la población
+mu &lt;- 170  # Media de la población
+sigma &lt;- 10  # Desviación estándar de la población
+
+# Crear un rango de valores para la población
+x &lt;- seq(mu - 4 * sigma, mu + 4 * sigma, length.out = 500)
+
+# Calcular la densidad de la distribución normal
+densidad &lt;- dnorm(x, mean = mu, sd = sigma)
+
+# Crear un data frame para ggplot
+datos &lt;- data.frame(Altura = x, Densidad = densidad)
+
+# Graficar con ggplot2
+plot_pob &lt;- ggplot(datos, aes(x = Altura, y = Densidad)) +
+  geom_line(color = &quot;blue&quot;, linewidth = 1) +  # Línea de densidad con `linewidth`
+  geom_vline(xintercept = mu, color = &quot;red&quot;, linetype = &quot;dashed&quot;) +  # Línea en la media
+  labs(title = &quot;&quot;,
+       x = &quot;Altura (cm)&quot;,
+       y = &quot;Densidad&quot;) +
+  theme_minimal() +  # Tema minimalista
+  theme(plot.title = element_text(hjust = 0.5)) +  # Centrar título
+  annotate(&quot;text&quot;, x = mu + 5, y = max(densidad) / 2, 
+           label = &quot;Media (170 cm)&quot;, color = &quot;red&quot;, angle = 0)
+
+# Mostrar el gráfico
+# print(plot_pob)</code></pre>
+<p></br></p>
+<p><img src="img/poblacion1R.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><strong>Figura 1.2</strong> Curva de densidad de la población con
+media (poblacional) de 170 cm y desviación estándar (poblacional) de 10
+cm.</p>
+<pre>
+# Cargar librería ggplot2
+library(ggplot2)
+
+# Configuración de parámetros de la población
+set.seed(123)  # Para reproducibilidad
+mu <- 170      # Media de la población
+sigma <- 10    # Desviación estándar de la población
+n <- 50        # Tamaño de la muestra
+
+# Simulación de la muestra iid
+muestra <- rnorm(n, mean = mu, sd = sigma)
+promedio <- mean(muestra)
+desviacion <- sd(muestra)
+
+# Crear un data frame para ggplot
+datos <- data.frame(Altura = muestra)
+
+# Graficar el histograma con ggplot2
+plot_hist <- ggplot(datos, aes(x = Altura)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +  # Histograma
+  geom_vline(xintercept = promedio, color = "red", linetype = "dashed", linewidth = 1) +  # Línea de la media muestral
+  labs(title = "",
+       x = "Altura (cm)",
+       y = "Frecuencia absoluta") +
+  theme_minimal()  # Estilo minimalista
+
+# Mostrar el gráfico
+print(plot_hist)
+</pre>
+<pre class="r"><code># Cargar librería ggplot2
+library(ggplot2)
+
+# Configuración de parámetros de la población
+set.seed(123)  # Para reproducibilidad
+mu &lt;- 170      # Media de la población
+sigma &lt;- 10    # Desviación estándar de la población
+n &lt;- 50        # Tamaño de la muestra
+
+# Simulación de la muestra iid
+muestra &lt;- rnorm(n, mean = mu, sd = sigma)
+promedio &lt;- mean(muestra)
+desviacion &lt;- sd(muestra)
+
+# Crear un data frame para ggplot
+datos &lt;- data.frame(Altura = muestra)
+
+# Graficar el histograma con ggplot2
+plot_hist &lt;- ggplot(datos, aes(x = Altura)) +
+  geom_histogram(binwidth = 5, fill = &quot;skyblue&quot;, color = &quot;black&quot;) +  # Histograma
+  geom_vline(xintercept = promedio, color = &quot;red&quot;, linetype = &quot;dashed&quot;, linewidth = 1) +  # Línea de la media muestral
+  labs(title = &quot;&quot;,
+       x = &quot;Altura (cm)&quot;,
+       y = &quot;Frecuencia absoluta&quot;) +
+  theme_minimal()  # Estilo minimalista
+
+# Mostrar el gráfico
+# print(plot_hist)</code></pre>
+<p></br></p>
+<p><img src="img/hist_muestra.png" width="50%" style="display: block; margin: auto;" /></p>
+<strong>Figura 1.3</strong> La distribución de las alturas de una
+muestra <span class="math inline">\(i.i.d.\)</span> que tiene una
+<strong>media muestral</strong> <span class="math inline">\(\bar{x} =
+170.344\)</span> y una <strong>desviación estándar muestral</strong>
+<span class="math inline">\(s = 9.2587\)</span>. Estos resultados fueron
+obtenidos utilizando <code>set.seed(123)</code> para generar la muestra
+aleatoria de la población. Si se cambia el valor de la semilla
+(<code>123</code>), la muestra aleatoria seleccionada será diferente, lo
+que resultará en valores distintos para la media <span
+class="math inline">\(\bar{x}\)</span> y la desviación estándar <span
+class="math inline">\(s\)</span>.
+</p>
+</div>
+</br></br>
+<h2>
+Parámetro, estimador y estimación
+</h2>
+<p>En el <em>enfoque frecuentista</em>, un <strong>parámetro</strong> es
+un valor fijo y desconocido que describe una propiedad poblacional. Los
+datos muestrales permiten calcular <strong>estimaciones</strong> para
+aproximar el valor del parámetro y realizar inferencias estadísticas
+sobre la población.</p>
+<p>Algunos ejemplos comunes de parámetros son: la <strong>media
+poblacional</strong>, la <strong>varianza poblacional</strong> y la
+<strong>proporción poblacional</strong>. Estos son denotados, en
+general, como <span class="math inline">\(\theta\)</span>.</p>
+<p>Un <strong>estimador</strong> es una <strong>función
+matemática</strong> aplicada a los datos muestrales para aproximar un
+<strong>parámetro desconocido</strong> de la población. El estimador
+utiliza información de la muestra para proporcionar una
+<strong>estimación</strong> del valor verdadero del parámetro.</p>
+<p>Dado un parámetro poblacional <span
+class="math inline">\(\theta\)</span> (como la media <span
+class="math inline">\(\mu\)</span>, varianza <span
+class="math inline">\(\sigma^2\)</span> o proporción <span
+class="math inline">\(p\)</span>), un <strong>estimador</strong> se
+define como una función de las observaciones de una muestra
+aleatoria:</p>
+<p><span class="math display">\[
+\hat{\theta} = T(X_1, X_2, \dots, X_n),
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><p><span class="math inline">\(\hat{\theta}\)</span> es el
+<strong>estimador</strong> del parámetro <span
+class="math inline">\(\theta\)</span>.</p></li>
+<li><p><span class="math inline">\(X_1, X_2, \dots, X_n\)</span> son los
+valores observados en la muestra.</p></li>
+<li><p><span class="math inline">\(T\)</span> es la función que define
+cómo se calcula el estimador.</p></li>
+</ul>
+<p><br/></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplos:
+</h3>
+<p>
+<ul>
+<li><p><strong>Media muestral (<span
+class="math inline">\(\bar{X}\)</span>)</strong>:</p>
+<ul>
+<li><p>Estimador de la <strong>media poblacional</strong> (<span
+class="math inline">\(\mu\)</span>).</p></li>
+<li><p>Fórmula:<br />
+<span class="math display">\[
+\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i
+\]</span></p></li>
+</ul></li>
+<li><p><strong>Desviación estándar muestral (<span
+class="math inline">\(S\)</span>)</strong>:</p>
+<ul>
+<li><p>Estimador de la <strong>desviación estándar poblacional</strong>
+(<span class="math inline">\(\sigma\)</span>).</p></li>
+<li><p>Fórmula:<br />
+<span class="math display">\[
+S = \sqrt{\frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2}
+\]</span></p></li>
+</ul></li>
+</ul>
+</p>
+</div>
+<p>En el ejemplo anterior, los <strong>parámetros poblacionales</strong>
+son la <strong>media</strong> y la <strong>desviación estándar</strong>
+de las alturas, con valores de <span class="math inline">\(170 \,
+\text{cm}\)</span> y <span class="math inline">\(10 \,
+\text{cm}\)</span>, respectivamente. Las <strong>fórmulas</strong> del
+<strong>promedio muestral</strong> y de la <strong>desviación estándar
+muestral</strong> actúan como los <strong>estimadores</strong>.</p>
+<p>Los resultados de aplicar estas fórmulas a los datos de la muestra
+son las <strong>estimaciones puntuales de los parámetros</strong>. En
+este caso, las <strong>estimaciones</strong> de la media y la desviación
+estándar poblacional son:</p>
+<ul>
+<li><p><strong>Media muestral</strong>: <span
+class="math inline">\(170.344 \, \text{cm}\)</span>,</p></li>
+<li><p><strong>Desviación estándar muestral</strong>: <span
+class="math inline">\(9.2587 \, \text{cm}\)</span>.</p></li>
+</ul>
+<p>En la <strong>Figura 1.4</strong> relacionamos algunos de los
+términos principales que se relacionan con muestra y población.</p>
+<p></br></p>
+<center>
+<img src="img/poblacion1.png" width="70%" style="display: block; margin: auto;" />
+<strong>Figura 1.4</strong> Representación de la relación entre
+población y muestra.
+</center>
+<p></br></br></p>
+<div class="caja-ejemplo">
+<h3>
+Ejemplos:
+</h3>
+<p>
+Este ejemplo amplía el caso descrito anteriormente. En esta ocasión, se
+seleccionan 12 muestras aleatorias de tamaño 50 provenientes de la misma
+población descrita en el ejemplo previo. Para cada muestra, se elabora
+un histograma que representa la distribución de las alturas, y se
+calculan tanto la media como la desviación estándar. La <strong>Figura
+1.5</strong> presenta los histogramas obtenidos, junto con los valores
+de la media y la desviación estándar para cada muestra aleatoria,
+utilizando los códigos proporcionados a continuación.
+<pre>
+# Cargar librería ggplot2
+library(ggplot2)
+
+# Configuración de parámetros
+set.seed(42)  # Cambia este valor para otros resultados reproducibles
+mu <- 170      # Media de la población
+sigma <- 10    # Desviación estándar de la población
+n <- 50        # Tamaño de cada muestra
+num_muestras <- 12  # Número de muestras
+
+# Generar 12 muestras y calcular estadísticas
+muestras <- replicate(num_muestras, rnorm(n, mean = mu, sd = sigma))
+estadisticas <- apply(muestras, 2, function(muestra) {
+  c(promedio = mean(muestra), desviacion = sd(muestra))
+})
+
+# Preparar datos para gráficos con etiquetas personalizadas
+datos_graficos <- data.frame(
+  Altura = as.vector(muestras),
+  Muestra = rep(paste("s =", round(estadisticas["desviacion", ], 2)), each = n)  # Etiquetas con s
+)
+
+# Crear etiquetas con expresión matemática para promedio muestral
+medias <- data.frame(
+  Muestra = paste("s =", round(estadisticas["desviacion", ], 2)),  # Etiquetas personalizadas
+  Media = estadisticas["promedio", ],
+  Etiqueta = paste0("bar(x) == ", round(estadisticas["promedio", ], 2))  # Expresión para promedio muestral
+)
+
+# Graficar histogramas por muestra con la media
+plot_histogramas <- ggplot(datos_graficos, aes(x = Altura)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  geom_vline(data = medias, aes(xintercept = Media), color = "red", linetype = "dashed", linewidth = 1) +
+  geom_text(data = medias, aes(x = Media + 10, y = 15, label = Etiqueta), 
+            color = "red", vjust = -0.5, size = 3, parse = TRUE) +  # Etiqueta con expresión matemática
+  facet_wrap(~Muestra, scales = "free_x", ncol = 4) +  # Etiquetas personalizadas en facetas
+  scale_y_continuous(limits = c(0, 18)) +  # Límite del eje Y
+  labs(title = "Histogramas de las muestras simuladas",
+       x = "Altura (cm)", y = "Frecuencia absoluta") +
+  theme_minimal()
+
+# Mostrar los gráficos
+print(plot_histogramas)
+
+# Mostrar las estadísticas calculadas
+print(estadisticas)
+</pre>
+<pre class="r"><code># Cargar librería ggplot2
+library(ggplot2)
+
+# Configuración de parámetros
+set.seed(42)  # Cambia este valor para otros resultados reproducibles
+mu &lt;- 170      # Media de la población
+sigma &lt;- 10    # Desviación estándar de la población
+n &lt;- 50        # Tamaño de cada muestra
+num_muestras &lt;- 12  # Número de muestras
+
+# Generar 12 muestras y calcular estadísticas
+muestras &lt;- replicate(num_muestras, rnorm(n, mean = mu, sd = sigma))
+estadisticas &lt;- apply(muestras, 2, function(muestra) {
+  c(promedio = mean(muestra), desviacion = sd(muestra))
+})
+
+# Preparar datos para gráficos con etiquetas personalizadas
+datos_graficos &lt;- data.frame(
+  Altura = as.vector(muestras),
+  Muestra = rep(paste(&quot;s =&quot;, round(estadisticas[&quot;desviacion&quot;, ], 2)), each = n)  # Etiquetas con s
+)
+
+# Crear etiquetas con expresión matemática para promedio muestral
+medias &lt;- data.frame(
+  Muestra = paste(&quot;s =&quot;, round(estadisticas[&quot;desviacion&quot;, ], 2)),  # Etiquetas personalizadas
+  Media = estadisticas[&quot;promedio&quot;, ],
+  Etiqueta = paste0(&quot;bar(x) == &quot;, round(estadisticas[&quot;promedio&quot;, ], 2))  # Expresión para promedio muestral
+)
+
+# Graficar histogramas por muestra con la media
+plot_histogramas &lt;- ggplot(datos_graficos, aes(x = Altura)) +
+  geom_histogram(binwidth = 5, fill = &quot;skyblue&quot;, color = &quot;black&quot;) +
+  geom_vline(data = medias, aes(xintercept = Media), color = &quot;red&quot;, linetype = &quot;dashed&quot;, linewidth = 1) +
+  geom_text(data = medias, aes(x = Media + 10, y = 15, label = Etiqueta), 
+            color = &quot;red&quot;, vjust = -0.5, size = 3, parse = TRUE) +  # Etiqueta con expresión matemática
+  facet_wrap(~Muestra, scales = &quot;free_x&quot;, ncol = 4) +  # Etiquetas personalizadas en facetas
+  scale_y_continuous(limits = c(0, 18)) +  # Límite del eje Y
+  labs(title = &quot;Histogramas de las muestras simuladas&quot;,
+       x = &quot;Altura (cm)&quot;, y = &quot;Frecuencia absoluta&quot;) +
+  theme_minimal()
+
+# Mostrar los gráficos
+#print(plot_histogramas)
+
+# Mostrar las estadísticas calculadas
+#print(estadisticas)</code></pre>
+<p><img src="img/hist_muestras.png" width="100%" style="display: block; margin: auto;" />
+<strong>Figura 1.5</strong> Histograma, media y desviación estándar de
+las alturas por cada muestra aleatoria. Estos resultados fueron
+obtenidos utilizando <code>set.seed(42)</code>. Si se cambia el valor de
+la semilla (<code>42</code>), las muestras aleatorias seleccionadas
+serán diferentes, lo que resultará en valores distintos para la media
+<span class="math inline">\(\bar{x}\)</span> y la desviación estándar
+<span class="math inline">\(s\)</span>.</p>
+</p>
+</div>
+<p></br></br></p>
+<p></br></br></p>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>
+<blockquote>
+<p>Genera 10 muestras aleatorias de tamaño 100 provenientes de una
+población que sigue una distribución exponencial con una media de 10 y
+una desviación estándar de 10. Para cada muestra, estima la media y la
+desviación estándar. Utiliza la función
+<code>rexp(n=100, rate=0.1)</code> para generar las muestras.</p>
+</blockquote>
+</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

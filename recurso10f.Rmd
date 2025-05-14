@@ -1,0 +1,139 @@
+---
+title: <span style="color:#686868"> **Proyecto en RStudio**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+<br/><br/>
+<h2>Proyecto en RStudio</h2>
+
+
+Crear un proyecto en **RStudio** permite organizar de forma estructurada todos los archivos relacionados con un análisis o desarrollo. Un proyecto en **RStudio** crea un entorno de trabajo independiente, facilitando la gestión de scripts, datos, gráficos y resultados.
+
+Para crear un proyecto:
+
+1. En **RStudio**, selecciona **File > New Project**.
+
+2. Escoge entre:
+
+   - **New Directory**: Para crear un proyecto en una nueva carpeta.
+   
+   - **Existing Directory**: Para convertir una carpeta existente en un proyecto.
+   
+   - **Version Control**: Para crear un proyecto a partir de un repositorio Git o SVN.
+   
+3. Define el nombre y la ubicación del proyecto.
+
+4. Haz clic en **Create Project**.
+
+Al crear el proyecto, **RStudio** genera automáticamente un archivo con extensión `.Rproj` que define el entorno de trabajo.
+
+
+<br/><br/>
+**Tabla 1.3** Ventajas de usar proyectos en **RStudio**.
+
+| Ventaja                         | Descripción                                                                 |
+|:---------------------------------:|:--------------------------------------------------------------------------:|
+| **Organización**                 | Permite mantener todos los archivos relacionados en una misma carpeta.    |
+| **Entornos independientes**      | Cada proyecto tiene su propio espacio de trabajo y directorio base (`working directory`). |
+| **Reproducibilidad**             | Facilita que los análisis se puedan ejecutar en otros entornos manteniendo la estructura de carpetas y rutas relativas. |
+| **Integración con control de versiones** | Se integra fácilmente con Git, GitHub y otros sistemas de control de versiones. |
+| **Facilidad de colaboración**    | Estandariza la estructura de proyectos, facilitando compartir el trabajo con otros usuarios. |
+| **Automatización de configuraciones** | Permite guardar opciones específicas del proyecto como paquetes cargados, historial de archivos, y opciones de visualización. |
+
+
+
+
+<div class="caja-nota">
+<h3>Recomendación</h3>
+> Siempre se recomienda trabajar dentro de un proyecto para garantizar que los caminos relativos funcionen correctamente y se eviten errores al mover o compartir archivos.  
+</div>
+
+
+
+</br></br>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p>
+
+A continuación, se muestra un ejemplo práctico para ilustrar cómo crear un proyecto en **RStudio**, organizar archivos dentro del mismo y trabajar con rutas relativas.
+
+Pasos a seguir:
+
+1. **Crear la carpeta del proyecto** 
+
+   En tu escritorio, crea una nueva carpeta y asígnale el nombre `Actividad1`.
+
+2. **Crear el proyecto en RStudio**  
+
+   Abre **RStudio** y selecciona **File > New Project**.  Luego elige la opción **Existing Directory** y busca la carpeta `Actividad1` que creaste.  **RStudio** generará un archivo llamado `Actividad1.Rproj` dentro de esa carpeta (identificado con un ícono azul en forma de cubo).
+
+3. **Cerrar RStudio**  
+
+   Cierra completamente **R** y **RStudio**.
+
+4. **Abrir el proyecto directamente** 
+
+   Ve a la carpeta `Actividad1` y haz doble clic sobre el archivo `Actividad1.Rproj`.  Esto abrirá automáticamente **RStudio** con el proyecto activo.
+
+5. **Crear un script de código** 
+
+   En **RStudio**, selecciona **File > New File > R Script** y guarda el archivo con el nombre `cod.R`.  Este script se guardará automáticamente dentro de la carpeta del proyecto `Actividad1`.
+
+6. **Crear un archivo de datos** 
+
+   En la carpeta `Actividad1`, crea un archivo de texto plano llamado `data.txt`. Luego copia y guarda el siguiente contenido en su interior:
+
+<pre>
+variable1 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+1 
+1 
+2 
+2 
+3 
+5
+</pre>
+
+
+7. **Leer los datos desde R**  
+
+En el archivo `cod.R`, escribe el siguiente código: `read.table("data.txt", header = TRUE)`. Ejecuta la línea presionando **`Ctrl + R`** (en Windows) o **`Cmd + Return`** (en macOS).
+
+**R** importará correctamente los datos, ya que está trabajando en el **directorio raíz del proyecto**. Por este  motivo **no es necesario especificar una ruta absoluta** para acceder al archivo `data.txt`; basta con el nombre del archivo si se encuentra en la misma carpeta del proyecto.
+
+8. **Verificar el contenido del proyecto**  
+
+Si escribes `dir()` en el script o en la consola de **R**, observarás que el proyecto contiene:`[1] "Actividad1.Rproj" "cod.R" "data.txt"`.
+
+Una de las principales ventajas de trabajar con proyectos en **RStudio** es que puedes **mover la carpeta del proyecto a cualquier ubicación** sin necesidad de cambiar las rutas a tus archivos, ya que todo se gestiona de forma relativa al directorio raíz del proyecto.
+
+</p>
+</div>
+
+<div class="caja-nota">
+<h3>Requerimientos:</h3>
+> - Todas las actividades evaluativas de esta asignatura deben desarrollarse utilizando **R** y **RStudio**.  
+Además, cada entrega debe presentarse en **formato HTML** generado mediante **RMarkdown**.  
+>-  Es requisito obligatorio crear un **proyecto en RStudio** para cada actividad y **enviar un archivo comprimido (.zip)** que contenga todos los archivos asociados, incluyendo: Es requisito obligatorio crear un **proyecto en RStudio** para cada actividad y **enviar un archivo comprimido (.zip)** que contenga todos los archivos asociados, incluyendo: El archivo del proyecto (`.Rproj`), Los documentos `.Rmd` correspondientes, Cualquier otro archivo necesario para la ejecución (como bases de datos o scripts adicionales).
+</div>
+
+
+

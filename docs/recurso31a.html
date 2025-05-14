@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Métodos y Simulación Estadística" />
+
+
+<title> Cualitativas y cuantitativas discretas</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"> </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Métodos
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso10a.html">Introducción a R</a>
+    </li>
+    <li>
+      <a href="recurso10b.html">Objetos en R</a>
+    </li>
+    <li>
+      <a href="recurso10c.html">Función en R</a>
+    </li>
+    <li>
+      <a href="recurso10d.html">Funciones `apply`, `lapply` y `sapply`</a>
+    </li>
+    <li>
+      <a href="recurso10e.html">RMarkDown</a>
+    </li>
+    <li>
+      <a href="recurso10f.html">Proyecto en RStudio</a>
+    </li>
+    <li>
+      <a href="recurso10g.html">Librerías</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Análisis de datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso20a.html">Análisis de datos</a>
+    </li>
+    <li>
+      <a href="recurso21a.html">Tablas de frecuencia</a>
+    </li>
+    <li>
+      <a href="recurso22a.html">Indicadores de posición</a>
+    </li>
+    <li>
+      <a href="recurso23a.html">Indicadores de centro</a>
+    </li>
+    <li>
+      <a href="recurso24a.html">Indicadores de disperción</a>
+    </li>
+    <li>
+      <a href="recurso25a.html">Indicadores de forma</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gráficas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso30a.html">Gráficas</a>
+    </li>
+    <li>
+      <a href="recurso31a.html">Cualitativas y cuantitativas discretas</a>
+    </li>
+    <li>
+      <a href="recurso32a.html">Cuantitativas</a>
+    </li>
+    <li>
+      <a href="recurso33a.html">Especiales</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conceptos y procesamiento
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso40a.html">Algunos conceptos</a>
+    </li>
+    <li>
+      <a href="recurso41a.html">Importar</a>
+    </li>
+    <li>
+      <a href="recurso42a.html">Ordenar</a>
+    </li>
+    <li>
+      <a href="recurso43a.html">Transformar</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Casos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso50a.html">Caso 1</a>
+    </li>
+    <li>
+      <a href="recurso51a.html">Caso 2</a>
+    </li>
+    <li>
+      <a href="recurso52a.html">Informe</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Referencias
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="recurso60a.html">Referencias</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><span style="color:#686868">
+<strong>Cualitativas y cuantitativas discretas</strong></span></h1>
+<h4 class="author">Métodos y Simulación Estadística</h4>
+
+</div>
+
+
+</br><br/>
+<h2>
+Variable cualitativa o cuantitativa discreta
+</h2>
+<p>Para las <strong>variables cualitativas nominales</strong>, su
+visualización se puede realizar mediante una <strong>gráfica
+circular</strong> o <strong>de torta</strong>, como también el
+<strong>gráfico de barras</strong>. Estos gráficos permites identificar
+rápidamente la categoría con mayor participación, representada por el
+área más grande o barra más alta en la gráfica.</p>
+<p>Las <strong>variables cualitativas ordinales</strong> o
+<strong>variables cuantitativas discretas</strong> representan
+categorías con un <strong>orden intrínseco</strong>, lo que facilita
+interpretaciones basadas en jerarquías o niveles. Para visualizar este
+tipo de variables, se suelen emplear <strong>diagramas de
+barras</strong>. Este formato destaca las diferencias en frecuencia o
+proporción de las categorías, manteniendo el orden jerárquico de las
+mismas.</p>
+<br/><br/>
+<h3>
+Gráfica circular o de torta
+</h3>
+<p>Entre las ventajas de usar este gráfico:</p>
+<ul>
+<li><p><strong>Identificación visual</strong>: Facilita la comparación
+de las proporciones de cada categoría.</p></li>
+<li><p><strong>Porcentajes</strong>: Además de las etiquetas, se pueden
+incluir los porcentajes de participación, proporcionando una
+interpretación más clara.</p></li>
+</ul>
+<p>En caso de que la variable tenga muchas categorías, es posible
+reagrupar las categorías con <strong>bajas frecuencias</strong> en una
+sola llamada <strong>“Otras”</strong>. Esto mejora la presentación
+gráfica al reducir el número de segmentos y mantener la claridad de la
+información.</p>
+<p>La representación con gráficas circulares es una herramienta valiosa
+para:</p>
+<ul>
+<li><p>Comunicar la proporción relativa de las categorías de forma
+visual y efectiva.</p></li>
+<li><p>Destacar la participación de cada categoría en el total.</p></li>
+<li><p>Mejorar la interpretación y presentación de datos
+cualitativos.</p></li>
+</ul>
+<br/><br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se presentan los códigos en <strong>R</strong> para
+generar un <strong>gráfico de pastel</strong> (ver <strong>Figura
+1.12</strong>) que representa las frecuencias de la variable
+<code>categoria</code> en el conjunto de datos
+<code>CarreraLuz22</code>.</p>
+<pre>
+# Establecer configuración regional en español para etiquetas
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar los datos
+data <- CarreraLuz22
+
+# Crear tabla de frecuencias absolutas
+frecuencias <- table(data$categoria)
+
+# Calcular los porcentajes
+porcentajes <- prop.table(frecuencias) * 100
+
+# Crear etiquetas con categoría y porcentaje
+etiquetas <- paste(names(frecuencias), "-", round(porcentajes, 1), "%")
+
+# Generar gráfico de pastel con porcentajes
+pie(frecuencias,
+    labels = etiquetas,
+    main = "Distribución de corredores por categoría",
+    col = rainbow(length(frecuencias))
+)
+
+</pre>
+<br/><br/>
+<center>
+<img src="img/fig1.12a.png" width="90%" style="display: block; margin: auto;" />
+<strong>Figura 1.12</strong> Distribución por categorías del nivel del
+corredor.
+</center>
+<p><br/><br/></p>
+<p>La <strong>Figura 1.12</strong> presenta la distribución de
+porcentaje por cada tipo de corredor. A continuación la salida
+computacional de los porcentajes.</p>
+<pre>
+> porcentajes
+
+    1. Juvenil     2. Abierta 3. Veteranos A 4. Veteranos B 5. Veteranos C 
+     0.9885536     61.3423517     22.0083247     11.8106139      3.8501561
+</pre>
+<p>De acuerdo con la <strong>Figura 1.12</strong>, la mayoría de los
+corredores se concentra en las categorías Abierta y Veteranos A, con
+participaciones aproximadas del 61.3% y 22%, respectivamente. En
+contraste, las categorías Juvenil y Veteranos C presentan una
+participación marginal, con cerca del 1% y 3.9% del total de
+corredores.</p>
+</p>
+</div>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+<p>En esta actividad, se presenta un código para explorar cómo generar
+un <strong>gráfico de pastel</strong> utilizando la función
+<code>PieChart</code> del paquete <code>lessR</code>. Este gráfico
+incluye características personalizables como colores, etiquetas de
+porcentajes y estilos adicionales.<br/></p>
+<pre>
+# Cargar las librerías necesarias
+library(paqueteMETODOS)
+# install.packages("lessR")
+library(lessR)
+# Cargar los datos
+data = CarreraLuz22
+# Generar el gráfico de pastel
+PieChart(categoria, 
+hole = 0,              # Sin agujero en el centro
+values = "%",          # Mostrar porcentajes
+data = CarreraLuz22,   # Especificar el conjunto de datos
+fill = "blues",        # Paleta de colores en tonos azules
+main = "",             # Título del gráfico
+values_size = 0.8)     # Tamaño de los valores mostrados
+</pre>
+<p><br/></p>
+</blockquote>
+</div>
+<p><br/><br/></p>
+<br/><br/>
+<h3>
+Diagrama de barras simple
+</h3>
+<p>Los <strong>gráficos de barras</strong> son representaciones visuales
+útiles para analizar variables <strong>ordinales</strong> o
+<strong>cuantitativas discretas</strong> (especialmente cuando tienen
+pocos valores únicos). Este tipo de visualización permite:</p>
+<ul>
+<li><p>Examinar la <strong>distribución jerárquica</strong> de las
+categorías cuando existe un orden natural (por ejemplo, niveles de
+satisfacción o calificaciones).</p></li>
+<li><p>Facilitar la <strong>interpretación visual</strong> de los datos,
+mostrando de forma clara la frecuencia o proporción de cada
+categoría.</p></li>
+<li><p>Identificar <strong>patrones</strong> o
+<strong>tendencias</strong> dentro de las mediciones, como categorías
+predominantes o comportamientos extremos.</p></li>
+</ul>
+<p>Además, el uso de <strong>colores</strong> en los gráficos de barras
+puede ayudar a comunicar mejor el significado de las categorías. Una
+práctica común es aplicar <strong>paletas tipo “semáforo”</strong>,
+especialmente en contextos de evaluación:</p>
+<ul>
+<li><p><strong>Rojo</strong>: Categorías desfavorables o con baja
+calificación.</p></li>
+<li><p><strong>Amarillo</strong>: Categorías intermedias o
+promedio.</p></li>
+<li><p><strong>Verde</strong> (o azul): Categorías positivas o de alto
+rendimiento.</p></li>
+</ul>
+<br/><br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>A continuación, se presenta un fragmento de código en
+<strong>R</strong> para construir un gráfico de barras simple (ver
+<strong>Figura 1.13</strong>) que representa la categorización del
+tiempo de carrera en niveles bajo, medio y alto.</p>
+<pre>
+# Establecer configuración regional (solo si es necesario)
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar librerías
+library(ggplot2)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data <- CarreraLuz22
+
+# Convertir a minutos
+data$tiempo_min <- data$timerun / 60
+
+# Categorizar el rendimiento
+data$rendimiento <- cut(
+  data$tiempo_min,
+  breaks = c(-Inf, 40, 60, Inf),
+  labels = c("Alto", "Medio", "Bajo")
+)
+
+# Crear tabla de frecuencias
+frecuencia <- as.data.frame(table(data$rendimiento))
+colnames(frecuencia) <- c("Rendimiento", "Frecuencia")
+
+# Calcular porcentaje
+frecuencia$Porcentaje <- round(100 * frecuencia$Frecuencia / sum(frecuencia$Frecuencia), 1)
+
+# Graficar
+ggplot(frecuencia, aes(x = Rendimiento, y = Frecuencia, fill = Rendimiento)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  geom_text(aes(label = paste0(Porcentaje, "%")), 
+            vjust = -0.5, size = 4.5) +
+  scale_fill_manual(values = c("Alto" = "#0d3b66", "Medio" = "#f4d35e", "Bajo" = "#f95738")) +
+  labs(
+    title = "Distribución del rendimiento por tiempo (minutos)",
+    x = "Nivel de rendimiento",
+    y = "Número de corredores"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+</pre>
+<br/><br/>
+<center>
+<img src="img/fig1.13aa.png" width="90%" style="display: block; margin: auto;" />
+<strong>Figura 1.13</strong> Distribución del rendimiento por tiempo
+(minutos).
+</center>
+<p><br/><br/></p>
+<p>De la <strong>Figura 1.13</strong> se puede decir lo siguiente:</p>
+<ul>
+<li><p>Bajo rendimiento (tiempos mayores a 60 minutos) agrupa a la
+mayoría de los corredores, con un 61.6% del total. Esto indica que más
+de la mitad de los participantes tardaron más de una hora en completar
+la carrera.</p></li>
+<li><p>Rendimiento medio (entre 40 y 60 minutos) corresponde al 37.5% de
+los corredores, lo que sugiere que un grupo considerable tuvo un
+desempeño moderado.</p></li>
+<li><p>Alto rendimiento (menos de 30 minutos) representa apenas el 1% de
+los corredores, lo que refleja que muy pocos lograron tiempos
+excepcionales en la carrera.</p></li>
+</ul>
+</p>
+</div>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<p>
+<blockquote>
+<p>En esta actividad, se presentan dos fragmentos de código que permiten
+explorar cómo generar gráficos de barras estáticos y gráficos
+interactivos para representar los datos de evaluación de un proceso de
+inducción.</p>
+<p><br/> <strong>Código 1: Gráfico estático con
+<code>ggplot2</code></strong>: El primer código genera un
+<strong>gráfico de barras estático</strong> utilizando
+<code>ggplot2</code>, con colores personalizados para cada
+categoría.</p>
+<pre>
+library(ggplot2)
+
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+geom_bar(stat = "identity", width = 0.7) +
+scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+labs(
+title = "Evaluación proceso de inducción",
+x = "Categoría",
+y = "Frecuencia"
+) +
+theme_minimal() +
+theme(legend.position = "none")  # Esta línea quita la leyenda
+</pre>
+<p><br/></p>
+</blockquote>
+<pre class="r"><code>library(ggplot2)
+
+# Datos de evaluación
+ev &lt;- c(5, 13, 30, 52, 35)
+categories &lt;- c(&quot;Muy regular&quot;, &quot;Regular&quot;, &quot;Bueno&quot;, &quot;Muy bueno&quot;, &quot;Excelente&quot;)
+ev_data &lt;- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = &quot;identity&quot;, width = 0.7) +
+  scale_fill_manual(values = c(&quot;#f95738&quot;, &quot;#ee964b&quot;, &quot;#f4d35e&quot;, &quot;#faf0ca&quot;, &quot;#0d3b66&quot;)) +
+  labs(
+    title = &quot;Evaluación proceso de inducción&quot;,
+    x = &quot;Categoría&quot;,
+    y = &quot;Frecuencia&quot;
+  ) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)  # Esta línea quita la leyenda</code></pre>
+<blockquote>
+<p><br/> <strong>Código 2: Gráfico interactivo con plotly</strong>: El
+segundo código convierte el gráfico de barras generado con
+<code>ggplot2</code> en un gráfico interactivo utilizando
+<code>plotly</code>.</p>
+<pre>
+library(ggplot2)
+library(plotly)
+
+# Datos de evaluación
+ev <- c(5, 13, 30, 52, 35)
+categories <- c("Muy regular", "Regular", "Bueno", "Muy bueno", "Excelente")
+ev_data <- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+plot <- ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+geom_bar(stat = "identity", width = 0.7) +
+scale_fill_manual(values = c("#f95738", "#ee964b", "#f4d35e", "#faf0ca", "#0d3b66")) +
+labs(
+title = "Evaluación proceso de inducción",
+x = "Categoría",
+y = "Frecuencia"
+) +
+theme_minimal() +
+theme(legend.position = "none")  # Esta línea quita la leyenda
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo de plotly
+plotly_graph <- ggplotly(plot, tooltip = c("x", "y"))
+
+# Imprimir el gráfico interactivo
+print(plotly_graph)
+</pre>
+<p><br/></p>
+</blockquote>
+<pre class="r"><code>library(ggplot2)
+library(plotly)
+
+# Datos de evaluación
+ev &lt;- c(5, 13, 30, 52, 35)
+categories &lt;- c(&quot;Muy regular&quot;, &quot;Regular&quot;, &quot;Bueno&quot;, &quot;Muy bueno&quot;, &quot;Excelente&quot;)
+ev_data &lt;- data.frame(Categoria = factor(categories, levels = categories), Frecuencia = ev)
+
+# Crear el gráfico de barras con ggplot2
+plot &lt;- ggplot(ev_data, aes(x = Categoria, y = Frecuencia, fill = Categoria)) +
+  geom_bar(stat = &quot;identity&quot;, width = 0.7) +
+  scale_fill_manual(values = c(&quot;#f95738&quot;, &quot;#ee964b&quot;, &quot;#f4d35e&quot;, &quot;#faf0ca&quot;, &quot;#0d3b66&quot;)) +
+  labs(
+    title = &quot;Evaluación proceso de inducción&quot;,
+    x = &quot;Categoría&quot;,
+    y = &quot;Frecuencia&quot;
+  ) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)  # Esta línea quita la leyenda
+
+# Convertir el gráfico de ggplot2 a un gráfico interactivo de plotly
+plotly_graph &lt;- ggplotly(plot, tooltip = c(&quot;x&quot;, &quot;y&quot;))
+
+# Imprimir el gráfico interactivo
+print(plotly_graph)</code></pre>
+<blockquote>
+<p><br/> <strong>Explora los códigos</strong>:</p>
+<ul>
+<li><p>Ejecútalos para generar tanto el gráfico estático como el gráfico
+interactivo.</p></li>
+<li><p>Observa cómo el gráfico interactivo permite explorar más
+detalles, como los valores exactos de las barras.</p></li>
+</ul>
+<p><br/> <strong>Modifica el código</strong>:</p>
+<ul>
+<li><p>Cambia los colores en <code>scale_fill_manual</code> para
+personalizar el diseño.</p></li>
+<li><p>Ajusta el ancho de las barras con el argumento width en
+<code>geom_bar</code>.</p></li>
+<li><p>En el gráfico interactivo, experimenta con las opciones de
+<code>tooltip</code> en <code>ggplotly</code>.</p></li>
+</ul>
+<p><br/> <strong>Reflexión</strong>:</p>
+<ul>
+<li><p>Compara los gráficos estático e interactivo.</p></li>
+<li><p>¿En qué situaciones usarías cada tipo de gráfico?</p></li>
+<li><p>¿Qué ventajas ofrece el gráfico interactivo frente al
+estático?</p></li>
+</ul>
+</blockquote>
+</p>
+</div>
+<br/><br/>
+<h3>
+Diagrama de barras compuesto
+</h3>
+<p>Cuando se desea representar <strong>dos variables cualitativas
+simultáneamente</strong>, se requiere construir una <strong>tabla
+cruzada</strong> o <strong>tabla de doble entrada</strong>, la cual
+muestra cómo se distribuyen conjuntamente ambas variables.</p>
+<p>A partir de esta tabla se puede generar un <strong>gráfico de barras
+compuesto</strong>, que facilita la <strong>visualización
+comparativa</strong> de la relación entre ambas variables. Este tipo de
+gráfico permite:</p>
+<ul>
+<li><p>Observar cómo se distribuyen los valores de una variable dentro
+de cada categoría de la otra.</p></li>
+<li><p>Comparar las proporciones o frecuencias relativas entre
+subgrupos.</p></li>
+<li><p>Detectar posibles asociaciones o diferencias notorias en la
+distribución conjunta de las variables.</p></li>
+</ul>
+<p>Es importante destacar que los diagramas de barras compuestos también
+pueden aplicarse cuando una de las variables es cuantitativa discreta
+con pocos valores distintos. En estos casos, dicha variable puede ser
+tratada como categórica, permitiendo construir una tabla cruzada y
+representar visualmente la relación entre ambas variables. Esta técnica
+resulta útil, por ejemplo, para analizar cómo se distribuye el número de
+hijos (0, 1, 2, 3 o más) según el sexo, nivel educativo u otra variable
+cualitativa, facilitando la comparación de frecuencias o proporciones
+entre categorías.</p>
+<br/>
+<div class="caja-ejemplo">
+<h3>
+Ejemplo:
+</h3>
+<p>
+<p>En este ejemplo, se presentan los códigos en <strong>R</strong> para
+construir un <strong>gráfico de barras compuesto</strong> (ver
+<strong>Figura 1.14</strong>). Este gráfico representa la distribución
+del porcentaje de atletas por categoría de tipo de atleta versus el
+sexo, utilizando colores diferenciados para cada sexo.</p>
+<br/>
+<pre>
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar librerías necesarias
+library(ggplot2)
+library(paqueteMETODOS)
+library(dplyr)
+
+# Cargar los datos
+data("CarreraLuz22")
+
+# Crear tabla de frecuencias cruzadas y calcular proporciones por categoría
+conteo_df <- CarreraLuz22 |>
+  count(Sexo = sex, Categoría = categoria) |>
+  group_by(Categoría) |>
+  mutate(
+    Porcentaje = round(n / sum(n) * 100, 1),
+    Etiqueta = paste0(Porcentaje, "%")
+  )
+
+# Gráfico de barras proporcionales (100%)
+ggplot(conteo_df, aes(x = Categoría, y = Porcentaje, fill = Sexo)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.7) +
+  geom_text(aes(label = Etiqueta),
+            position = position_stack(vjust = 0.5),
+            size = 4, color = "black") +
+  scale_fill_manual(values = c("Hombre" = "#457b9d", "Mujer" = "#f4d35e")) +
+  labs(
+    title = "Distribución porcentual por categoría y sexo",
+    x = "Categoría",
+    y = "Porcentaje (%)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "top",
+    legend.title = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+</pre>
+<p>Los valores de <strong>R</strong> resultantes que determinan la tabla
+cruzada de la <strong>Tabla 1.8</strong> (equivalentes a los de la
+<strong>Tabla 1.9</strong>) son los siguientes:</p>
+<pre>
+> conteo_df
+# A tibble: 10 × 5
+# Groups:   Categoría [5]
+   Sexo   Categoría          n Porcentaje Etiqueta
+   <chr>  <chr>          <int>      <dbl> <chr>   
+ 1 Hombre 1. Juvenil        12       63.2 63.2%   
+ 2 Hombre 2. Abierta       677       57.4 57.4%   
+ 3 Hombre 3. Veteranos A   276       65.2 65.2%   
+ 4 Hombre 4. Veteranos B   155       68.3 68.3%   
+ 5 Hombre 5. Veteranos C    58       78.4 78.4%   
+ 6 Mujer  1. Juvenil         7       36.8 36.8%   
+ 7 Mujer  2. Abierta       502       42.6 42.6%   
+ 8 Mujer  3. Veteranos A   147       34.8 34.8%   
+ 9 Mujer  4. Veteranos B    72       31.7 31.7%   
+10 Mujer  5. Veteranos C    16       21.6 21.6%
+</pre>
+<br/><br/>
+<center>
+<strong>Tabla 1.8</strong> Número de mujeres y hombres por categoría del
+corredor.
+</center>
+<table>
+<thead>
+<tr class="header">
+<th>Categoría</th>
+<th align="center">Hombre</th>
+<th align="center">Mujer</th>
+<th align="center">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Juvenil</td>
+<td align="center">12</td>
+<td align="center">7</td>
+<td align="center">19</td>
+</tr>
+<tr class="even">
+<td>2. Abierta</td>
+<td align="center">677</td>
+<td align="center">502</td>
+<td align="center">1179</td>
+</tr>
+<tr class="odd">
+<td>3. Veteranos A</td>
+<td align="center">276</td>
+<td align="center">147</td>
+<td align="center">423</td>
+</tr>
+<tr class="even">
+<td>4. Veteranos B</td>
+<td align="center">155</td>
+<td align="center">72</td>
+<td align="center">227</td>
+</tr>
+<tr class="odd">
+<td>5. Veteranos C</td>
+<td align="center">58</td>
+<td align="center">16</td>
+<td align="center">74</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td align="center"><strong>1178</strong></td>
+<td align="center"><strong>744</strong></td>
+<td align="center"><strong>1922</strong></td>
+</tr>
+</tbody>
+</table>
+<br/><br/>
+<center>
+<strong>Tabla 1.9</strong> Porcentaje de mujeres y hombres por categoría
+del corredor.
+</center>
+<table>
+<thead>
+<tr class="header">
+<th>Categoría</th>
+<th align="center">Hombre (%)</th>
+<th align="center">Mujer (%)</th>
+<th align="center">Total (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Juvenil</td>
+<td align="center">63.2</td>
+<td align="center">36.8</td>
+<td align="center">100</td>
+</tr>
+<tr class="even">
+<td>2. Abierta</td>
+<td align="center">57.4</td>
+<td align="center">42.6</td>
+<td align="center">100</td>
+</tr>
+<tr class="odd">
+<td>3. Veteranos A</td>
+<td align="center">65.2</td>
+<td align="center">34.8</td>
+<td align="center">100</td>
+</tr>
+<tr class="even">
+<td>4. Veteranos B</td>
+<td align="center">68.3</td>
+<td align="center">31.7</td>
+<td align="center">100</td>
+</tr>
+<tr class="odd">
+<td>5. Veteranos C</td>
+<td align="center">78.4</td>
+<td align="center">21.6</td>
+<td align="center">100</td>
+</tr>
+</tbody>
+</table>
+<p>La gráfica de la <strong>Figura 1.14</strong> muestra la distribución
+porcentual del sexo por categoría de corredor de la tabla cruzada
+<strong>Tabla 1.9</strong>.</p>
+<br/><br/>
+<center>
+<img src="img/fig1.14a.png" width="90%" style="display: block; margin: auto;" />
+<strong>Figura 1.14</strong> Distribución porcentual de sexo por tipo de
+corredor.
+</center>
+<p><br/><br/></p>
+<p>En la <strong>Figura 1.14</strong> se observa que la proporción por
+sexo no es similar entre las diferentes categorías de corredores. Las
+proporciones de participación masculina y femenina varían de forma
+notable según la categoría:</p>
+<ul>
+<li><p>A medida que se avanza hacia las categorías de mayor edad
+(<code>Veteranos</code>), la participación femenina disminuye
+progresivamente, pasando de un 36.8% en <code>Juvenil</code>, a 34.8% en
+<code>Veteranos A</code>, 31.7% en <code>Veteranos B</code>, y
+alcanzando apenas un 21.6% en <code>Veteranos C</code>.</p></li>
+<li><p>La única excepción parcial a esta tendencia es la categoría
+<code>Abierta</code>, donde la participación femenina (42.6%) supera
+levemente a la observada en la categoría <code>Juvenil</code>, aunque
+sigue siendo inferior a la masculina (57.4%).</p></li>
+<li><p>En conjunto, estos resultados indican que el porcentaje de
+participación por sexo sí varía según la categoría del corredor,
+consistentemente se observa una mayor proporción de hombres en todas las
+categorías, con una diferencia más marcada en los grupos de mayor
+edad.</p></li>
+</ul>
+<p>Al realizar este tipo de gráficos surge una pregunta clave: ¿Qué se
+debe analizar? ¿El porcentaje de sexo dentro de cada categoría de
+corredor o el porcentaje de categorías dentro de cada sexo?</p>
+<p>Ambas perspectivas son válidas, pero responden a preguntas
+distintas:</p>
+<ul>
+<li><p>Analizar el porcentaje de sexo por tipo de corredor permite ver
+la distribución de hombres y mujeres dentro de cada categoría.</p></li>
+<li><p>Analizar el porcentaje de tipo de corredor por sexo muestra cómo
+se distribuyen los corredores, según su sexo, en las distintas
+categorías.</p></li>
+</ul>
+<p>A continuación, se presentará un gráfico que permite analizar la
+proporción de categorías dentro de cada sexo, es decir, cómo se
+distribuyen los tipos de corredor entre hombres y mujeres.</p>
+<pre>
+# Establecer configuración regional (opcional en algunos sistemas)
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+# Cargar librerías necesarias
+library(ggplot2)
+library(paqueteMETODOS)
+library(dplyr)
+
+# Cargar los datos
+data("CarreraLuz22")
+
+# Crear tabla de frecuencias cruzadas y calcular proporciones por sexo
+conteo_df <- CarreraLuz22 |>
+  count(Sexo = sex, Categoría = categoria) |>
+  group_by(Sexo) |>
+  mutate(
+    Porcentaje = round(n / sum(n) * 100, 1),
+    Etiqueta = paste0(Porcentaje, "%")
+  )
+
+# Gráfico de barras proporcionales (100%) por sexo
+ggplot(conteo_df, aes(x = Sexo, y = Porcentaje, fill = Categoría)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.7) +
+  geom_text(aes(label = Etiqueta),
+            position = position_stack(vjust = 0.5),
+            size = 4, color = "black") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Distribución porcentual de categorías dentro de cada sexo",
+    x = "Sexo",
+    y = "Porcentaje (%)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    legend.title = element_blank()
+  )
+</pre>
+<br/><br/>
+<center>
+<img src="img/fig1.15a.png" width="90%" style="display: block; margin: auto;" />
+<strong>Figura 1.15</strong> Distribución porcentual de tipo de corredor
+por sexo.
+</center>
+<br/><br/>
+</p>
+</div>
+<p>De acuerdo con la <strong>Figura 1.15</strong>, la distribución de
+los corredores por categoría varía según el sexo:</p>
+<ul>
+<li><p>En ambos sexos, la categoría <code>Abierta</code> es la
+predominante, aunque su peso relativo es mayor en las mujeres (67.5%)
+que en los hombres (57.5%).</p></li>
+<li><p>Los hombres presentan una mayor representación proporcional en
+las categorías de mayor edad (<code>Veteranos A</code>,
+<code>Veteranos B</code> y <code>Veteranos C</code>), con porcentajes de
+23.4%, 13.2% y 4.9% respectivamente, en comparación con las mujeres
+(19.8%, 9.7% y 2.2%).</p></li>
+<li><p>La categoría <code>Juvenil</code> tiene una participación muy
+baja y similar en ambos sexos, 1% de los hombres y 0.9% de las
+mujeres.</p></li>
+</ul>
+<br/><br/>
+<div class="caja-actividad">
+<h3>
+Actividad:
+</h3>
+<blockquote>
+En esta actividad, se presenta un código para explorar cómo generar un
+<strong>gráfico de barras apilado</strong> utilizando
+<code>ggplot2</code> y <code>plotly</code>. Este gráfico muestra la
+distribución de atletas por categoría y sexo. También se incluye una
+actividad para representar el gráfico invirtiendo las variables. <br/>
+<pre>
+# Cargar las librerías necesarias
+library(ggplot2)
+library(plotly)
+library(paqueteMETODOS)
+
+# Cargar los datos
+data("CarreraLuz22")
+# Gráfico de barras por categoría y sexo
+p1 = ggplot(CarreraLuz22, aes(x = categoria, fill = sex)) +
+geom_bar(position = "stack", width = 0.7) +                    
+labs(
+title = "Número de atletas por categoría y sexo",            
+x = "Categorías",                                            
+y = "Número de atletas"                                      
+) +
+scale_fill_manual(values = c("#0d3b66", "#f4d35e")) +          
+theme_minimal() +                                              
+theme(
+legend.position = "top",                                     
+legend.title = element_blank()                               
+)
+
+# Convertir el gráfico a interactivo
+ggplotly(p1)
+
+# Gráfico de barras por sexo y categoría
+p2 = ggplot(CarreraLuz22, aes(x = sex, fill = categoria)) +
+geom_bar(position = "stack", width = 0.7) +                    
+labs(
+title = "Número de atletas por sexo y categoría",            
+x = "Sexo",                                                  
+y = "Número de atletas"                                      
+) +
+scale_fill_brewer(palette = "Set3") +                          
+theme_minimal() +                                              
+theme(
+legend.position = "top",                                     
+legend.title = element_blank()                               
+)
+
+# Convertir el gráfico a interactivo
+ggplotly(p2)
+</pre>
+<p><br/></p>
+</blockquote>
+<p>¿Cuál de los dos gráficos prefieres? ¿Por qué?</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

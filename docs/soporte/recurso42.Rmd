@@ -1,0 +1,49 @@
+---
+title: <span style="color:#686868"> **Referencias**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+<div class="caja-referencia">
+<p>
+Anderson, D. R. (2013). <em>Modern business statistics with Microsoft Excel</em> (5.ª ed.). Cengage Learning.
+</p>
+<p>
+Çetinkaya-Rundel, M., & Hardin, J. (s.f.). <em>Statistical inference via data science</em>. Recuperado de <a href="https://moderndive.com/" target="_blank">https://moderndive.com/</a>
+</p>
+<p>
+Fisher, R. A. (1959). <em>Statistical methods and scientific inference</em>. Oliver and Boyd.
+</p>
+<p>
+Hill, A. B. (1965). The environment and disease: Association or causation? <em>Proceedings of the Royal Society of Medicine, 58</em>(5), 295–300. <a href="https://doi.org/10.1177/003591576505800503" target="_blank">https://doi.org/10.1177/003591576505800503</a>
+</p>
+<p>
+Kolmogorov, A. N. (1933). <em>Foundations of the theory of probability</em>. Chelsea Publishing Company.
+</p>
+<p>
+Rubin, D. B. (1976). Inference and missing data. <em>Biometrika, 63</em>(3), 581–592. <a href="https://doi.org/10.1093/biomet/63.3.581" target="_blank">https://doi.org/10.1093/biomet/63.3.581</a>
+</p>
+<p>
+Scheaffer, R. L., Mendenhall, W., & Ott, L. (2006). <em>Elementos de muestreo</em>. Paraninfo.
+</p>
+<p>
+Walpole, R. E. (2012). <em>Probability and statistics for engineers and scientists</em> (9.ª ed.). Pearson Education.
+</p>
+<p>
+Wickham, H., & Grolemund, G. (s.f.). <em>R for data science</em>. Recuperado de <a href="https://r4ds.had.co.nz/" target="_blank">https://r4ds.had.co.nz/</a>
+</p>
+<p>
+Xie, Y. (s.f.). <em>bookdown: Authoring books and technical documents with R Markdown</em>. Recuperado de <a href="https://bookdown.org/yihui/bookdown/" target="_blank">https://bookdown.org/yihui/bookdown/</a>
+</p>
+</div>

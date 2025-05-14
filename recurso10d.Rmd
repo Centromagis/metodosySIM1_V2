@@ -1,0 +1,526 @@
+---
+title: <span style="color:#686868"> **Funciones `apply`, `lapply` y `sapply`**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+```
+
+<br/><br/>
+<h2>Funciones `apply`, `lapply` y `sapply`</h2>
+
+En **R**, las funciones `apply`, `lapply` y `sapply` forman parte de la familia de funciones de *aplicación* (`*apply`). Estas funciones permiten aplicar operaciones de manera eficiente a estructuras de datos como listas, vectores, matrices y data frames, evitando el uso de bucles explícitos como `for`.
+
+Su uso promueve un estilo de programación más **conciso**, **rápido** y **legible**, facilitando el procesamiento de datos en bloques y mejorando el rendimiento de los scripts.
+
+El uso de `apply`, `lapply` y `sapply` ofrece múltiples ventajas:
+
+  - **Simplificación del código**: Reducen la necesidad de escribir bucles repetitivos.
+  
+   - **Mayor eficiencia**: Ejecutan las operaciones de forma más optimizada internamente.
+   
+  - **Legibilidad**: Hacen que el código sea más limpio y fácil de mantener.
+  
+  - **Flexibilidad**: Permiten aplicar funciones personalizadas a diferentes estructuras de datos.
+  
+  - **Compatibilidad**: Son altamente compatibles con la mayoría de estructuras básicas en **R**.
+
+La **Tabla 1.1** presenta una comparación de estas funciones aunque posteriormente se detalla y amplia la información por cada función.
+
+<br/><br/>
+<center>
+**Tabla 1.1** Comparación de las funciones `apply`, `lapply` y `sapply`.
+</center> 
+| Función  | Sobre qué opera                          | Qué recorre               | Resultado principal           | ¿Usa `MARGIN`? |
+|:--------:|:----------------------------------------:|:---------------------------:|:------------------------------:|:--------------:|
+| `lapply` | Listas, vectores, data frames             | Cada **elemento**           | **Lista**                      | No             |
+| `sapply` | Listas, vectores, data frames             | Cada **elemento**           | **Vector** o **matriz** si es posible, sino lista | No             |
+| `apply`  | Matrices, data frames numéricos           | **Filas** (`MARGIN = 1`) o **Columnas** (`MARGIN = 2`) | **Vector**, **matriz** o **lista** según la operación | Sí             |
+
+
+<div class="caja-nota">
+<h3>Observaciones:</h3>
+> - `lapply` nunca simplifica el resultado (siempre devuelve lista).  
+> - `sapply` intenta simplificar automáticamente el resultado.  
+> - `apply` se usa principalmente para recorrer matrices o data frames en una dimensión específica (filas o columnas).
+</div>
+
+
+---
+
+<br/><br/>
+<h3>Función `apply`</h3>
+
+Aplica una función a lo largo de las filas o columnas de una matriz o data frame numérico. Es útil cuando quieres realizar cálculos sobre filas o columnas completas de manera automática.
+
+La sintaxis básica consiste en lo siguiente:
+
+<pre> 
+apply(X, MARGIN, FUN, ...) 
+</pre>
+
+Donde:
+
+  - `X`: Una matriz o data frame numérico sobre el cual se desea aplicar la función.
+  
+  - `MARGIN`: Un valor que indica la dimensión sobre la cual se aplicará la función:
+  
+    - `1`: para aplicar la función sobre las filas.
+    
+    - `2`: para aplicar la función sobre las columnas.
+  
+  - `FUN`: La función que quieres aplicar aplicar a cada fila o columna.
+  
+  - `...`: Argumentos adicionales que quieras pasar a `FUN`.
+
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+A continuación, se muestra cómo utilizar la función `apply` para:
+
+  - Recorrer las filas de una matriz.
+
+  - Calcular la suma de los elementos en cada fila.
+
+  - Retornar un vector con las sumas correspondientes.
+
+<pre>
+# Definición de la matriz
+mi_matriz <- matrix(1:9, nrow = 3, byrow = TRUE) 
+
+# Uso de apply para sumar los elementos de cada fila 
+suma_filas <- apply(mi_matriz, MARGIN = 1, FUN = sum)
+</pre>
+
+Al aplicar la función:
+
+<pre>
+# Mostrar las sumas de las filas 
+suma_filas 
+</pre>
+
+Se obtiene como resultado:
+
+<pre>
+[1]  6 15 24
+</pre>
+
+```{r,include=FALSE,echo=FALSE}
+# Definición de la matriz
+mi_matriz <- matrix(1:9, nrow = 3, byrow = TRUE) 
+
+# Uso de apply para sumar los elementos de cada fila 
+suma_filas <- apply(mi_matriz, MARGIN = 1, FUN = sum)
+
+suma_filas 
+```
+</p>
+</div>
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+En este ejemplo se muestra cómo utilizar la función `apply` posterior a la creación de una función:
+
+  - Crear una función personalizada que:
+
+    - Toma el primer elemento de un conjunto de valores y lo multiplica por 2.
+
+    - Suma este resultado con el promedio de todos los elementos.
+    
+    - Luego divide el total entre 4.
+
+  - Aplicar esta función a las filas de un data frame que contiene solo valores numéricos.
+
+<pre>
+# Definición del data frame 
+df <- data.frame( A = c(2, 4, 6), B = c(8, 10, 12), C = c(1, 3, 5) ) 
+
+# Definición de la función personalizada 
+mi_funcion <- function(x) { 
+primer_elemento <- x[1] 
+promedio <- mean(x) 
+resultado <- (2 * primer_elemento + promedio) / 4 
+return(resultado) } 
+
+# Uso de apply para aplicar la función a las filas 
+resultado_filas <- apply(df, MARGIN = 1, FUN = mi_funcion)
+</pre>
+
+Al aplicar la función:
+
+<pre>
+# Mostrar el resultado de aplicar la función a cada fila 
+resultado_filas 
+</pre>
+
+Se obtiene como resultado:
+
+<pre>
+[1] 1.916667 3.416667 4.916667
+</pre>
+
+```{r,include=FALSE,echo=FALSE}
+# Definición del data frame
+df <- data.frame(
+  A = c(2, 4, 6),
+  B = c(8, 10, 12),
+  C = c(1, 3, 5)
+)
+
+# Definición de la función personalizada
+mi_funcion <- function(x) {
+  primer_elemento <- x[1]
+  promedio <- mean(x)
+  resultado <- (2 * primer_elemento + promedio) / 4
+  return(resultado)
+}
+
+# Uso de apply para aplicar la función a las filas
+resultado_filas <- apply(df, MARGIN = 1, FUN = mi_funcion)
+
+# Mostrar el resultado
+resultado_filas
+```
+</p>
+</div>
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+En este ejemplo se muestra cómo utilizar la función `apply` posterior a la creación de dos funciones:
+
+  - Crear una primera función que:
+  
+    - Genere `m` muestras aleatorias de tamaño `n` cada una, provenientes de una distribución uniforme.
+    
+    - Crear una segunda función que:
+    
+      - Tome el último valor de un vector.
+
+      - Lo multiplique por el valor máximo del vector.
+
+      - Luego divida el resultado entre el mínimo del vector.
+      
+  - Aplicar la segunda función a las muestras generadas, utilizando `apply`.
+
+<pre>
+# Primera función: generar muestras aleatorias uniformes 
+generar_muestras <- function(m, n) { 
+matriz <- matrix(runif(m * n), nrow = m, ncol = n) 
+return(matriz)} 
+
+# Segunda función: operación con último, máximo y mínimo 
+operacion_vector <- function(x) { 
+ultimo <- x[length(x)] 
+maximo <- max(x) 
+minimo <- min(x) 
+resultado <- (ultimo * maximo) / minimo return(resultado)} 
+
+# Generar 5 muestras (m = 5) de tamaño 4 (n = 4) 
+muestras <- generar_muestras(m = 5, n = 4) 
+
+# Aplicar la segunda función a cada fila de la matriz 
+resultado_muestras <- apply(muestras, MARGIN = 1, FUN = operacion_vector)
+</pre>
+
+Al aplicar las funciones:
+
+<pre>
+# Mostrar el resultado de aplicar la función a cada fila 
+resultado_muestras 
+</pre>
+
+Se obtiene un resultado como el siguiente:
+
+<pre>
+[1] 18.8992251  0.7883051  0.8924190  0.8830174  8.8518827
+</pre>
+
+```{r,include=FALSE,echo=FALSE}
+# Primera función: generar muestras aleatorias uniformes
+generar_muestras <- function(m, n) {
+  matriz <- matrix(runif(m * n), nrow = m, ncol = n)
+  return(matriz)
+}
+
+# Segunda función: operación con último, máximo y mínimo
+operacion_vector <- function(x) {
+  ultimo <- x[length(x)]
+  maximo <- max(x)
+  minimo <- min(x)
+  resultado <- (ultimo * maximo) / minimo
+  return(resultado)
+}
+
+# Generar 5 muestras (m = 5) de tamaño 4 (n = 4)
+set.seed(123) # Para reproducibilidad
+muestras <- generar_muestras(m = 5, n = 4)
+
+# Aplicar la segunda función a cada fila de la matriz
+resultado_muestras <- apply(muestras, MARGIN = 1, FUN = operacion_vector)
+
+# Mostrar el resultado
+resultado_muestras
+```
+</p>
+</div>
+
+---
+
+<br/><br/>
+<h3>Función `lapply`</h3>
+
+Aplica una función a cada elemento de un objeto (generalmente una lista o vector) y devuelve siempre una lista como resultado, sin importar el tipo de salida de la función aplicada.
+
+La sintaxis básica consiste de lo siguiente:
+
+<pre>
+lapply(X, FUN, ...)
+</pre>
+
+Donde:
+
+  - `X`: Un objeto iterable (como un vector, lista o data frame).
+  
+  - `FUN`: La función que quieres aplicar a cada elemento de `X`.
+  
+  - `...`: Argumentos adicionales que quieras pasar a `FUN`.
+  
+  
+<div class="caja-ejemplo"> 
+<h3>Ejemplo:</h3> 
+<p> 
+En este ejemplo se muestra cómo utilizar la función `lapply` posterior a la creación de una función:
+
+Crear una función personalizada que:
+
+  - Reciba un vector numérico.
+
+  - Calcule el cuadrado de cada elemento del vector.
+
+  - Devuelva el vector de cuadrados.
+
+  - Aplicar esta función a cada elemento de una lista que contiene vectores numéricos.
+
+<pre> 
+# Definición de la lista 
+mi_lista <- list(grupo1 = c(1, 2, 3), grupo2 = c(4, 5), grupo3 = c(6, 7, 8, 9)) 
+
+# Definición de la función personalizada 
+cuadrados_vector <- function(x) { 
+return(x^2)} 
+
+# Uso de lapply para aplicar la función a cada elemento 
+resultado_cuadrados <- lapply(mi_lista, cuadrados_vector) 
+</pre>
+
+Al aplicar la función:
+
+<pre> 
+# Mostrar el resultado de aplicar la función a cada grupo 
+resultado_cuadrados 
+</pre>
+
+Se obtiene como resultado:
+
+<pre> 
+$grupo1
+[1] 1 4 9
+
+$grupo2
+[1] 16 25
+
+$grupo3
+[1] 36 49 64 81
+</pre>
+
+```{r,include=FALSE,echo=FALSE}
+# Definición de la lista
+mi_lista <- list(grupo1 = c(1, 2, 3),
+                 grupo2 = c(4, 5),
+                 grupo3 = c(6, 7, 8, 9))
+
+# Definición de la función personalizada
+cuadrados_vector <- function(x) {
+  return(x^2)
+}
+
+# Uso de lapply para aplicar la función a cada elemento
+resultado_cuadrados <- lapply(mi_lista, cuadrados_vector)
+
+# Mostrar el resultado
+resultado_cuadrados
+```
+
+</p> </div>
+
+
+
+---
+
+<br/><br/>
+<h3>Función `sapply`</h3>
+
+También aplica una función a cada elemento de un objeto como `lapply`, pero trata de simplificar el resultado:
+
+  - Si todos los resultados tienen longitud 1, devuelve un vector.
+
+  - Si los resultados son vectores del mismo tamaño (>1), devuelve una matriz.
+
+  - Si no puede simplificar, devuelve una lista (igual que `lapply`).
+  
+La sintaxis básica consiste de lo siguiente:
+
+<pre>
+sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
+</pre>
+
+Donde:
+
+  - `X`: Un objeto iterable (como un vector, lista o data frame).
+  
+  - `FUN`: La función que quieres aplicar a cada elemento de `X`.
+  
+  - `...`: Argumentos adicionales que quieras pasar a `FUN`. 
+  
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+A continuación, se muestra cómo utilizar la función `sapply` para:
+
+- Recorrer los elementos de una lista numérica.
+
+- Calcular el promedio (media) de cada elemento.
+
+- Retornar un vector con los promedios correspondientes.
+
+<pre>
+# Definición de la lista 
+mi_lista <- list(grupo1 = c(2, 4, 6), 
+                 grupo2 = c(10, 12, 14), 
+                 grupo3 = c(1, 3, 5, 7)) 
+
+# Uso de sapply para calcular la media de cada 
+medias <- sapply(mi_lista, mean)
+</pre>
+
+Al aplicar la función:
+
+<pre>
+# Mostrar las medias calculadas medias 
+medias
+</pre>
+
+Se obtiene como resultado:
+
+<pre>
+grupo1 grupo2 grupo3 
+     4     12      4 
+</pre>
+
+```{r,include=FALSE,echo=FALSE}
+# Definición de la lista
+mi_lista <- list(grupo1 = c(2, 4, 6), 
+                 grupo2 = c(10, 12, 14), 
+                 grupo3 = c(1, 3, 5, 7))
+
+# Uso de sapply para calcular la media de cada grupo
+medias <- sapply(mi_lista, mean)
+
+# Mostrar el resultado
+medias
+```
+</p>
+</div>
+
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+En este ejemplo se muestra cómo utilizar la función `sapply` posterior a la creación de una función:
+
+  - Crear una función personalizada que:
+
+    - Calcula el máximo de un conjunto de valores.
+
+    - Lo multiplica por el número de elementos del vector.
+    
+    - Luego divide este producto entre la varianza de los datos.
+    
+  - Aplicar esta función a los elementos de una lista que contiene solo vectores numéricos.
+
+<pre>
+# Definición de la lista 
+mi_lista <- list( grupo1 = c(2, 4, 6), 
+                  grupo2 = c(5, 7, 9, 11), 
+                  grupo3 = c(1, 3)) 
+
+# Definición de la función personalizada 
+mi_funcion <- function(x) { 
+maximo <- max(x) 
+cantidad <- length(x) 
+varianza <- var(x) 
+resultado <- (maximo * cantidad) / varianza return(resultado) } 
+
+# Uso de sapply para aplicar la función a cada grupo 
+resultado_lista <- sapply(mi_lista, mi_funcion)
+</pre>
+
+Al aplicar la función:
+
+<pre>
+# Mostrar el resultado de aplicar la función a cada grupo 
+resultado_lista 
+</pre>
+
+Se obtiene como resultado:
+
+<pre>
+grupo1 grupo2 grupo3 
+   4.5    6.6    3.0 
+</pre>
+
+```{r,include=FALSE,echo=FALSE}
+# Definición de la lista
+mi_lista <- list(
+  grupo1 = c(2, 4, 6),
+  grupo2 = c(5, 7, 9, 11),
+  grupo3 = c(1, 3)
+)
+
+# Definición de la función personalizada
+mi_funcion <- function(x) {
+  maximo <- max(x)
+  cantidad <- length(x)
+  varianza <- var(x)
+  resultado <- (maximo * cantidad) / varianza
+  return(resultado)
+}
+
+# Uso de sapply para aplicar la función a cada grupo
+resultado_lista <- sapply(mi_lista, mi_funcion)
+
+# Mostrar el resultado
+resultado_lista
+```
+</p>
+</div>

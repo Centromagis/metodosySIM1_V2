@@ -1,0 +1,323 @@
+---
+title: <span style="color:#686868"> **Introducción a R**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+</br>
+
+Como introducción al lenguaje, se presentan a continuación algunos recursos fundamentales que facilitan el proceso de iniciación.
+
+<br/><br/>
+<h2>Tipos de objetos</h2>
+<br/><br/>
+
+| Objeto      | tipos                                          | varios tipos objeto                       |
+|:------------|:-----------------------------------------------|:------------------------------------------|
+|  vector     | numéricos, carácter, complejo, lógico          | No                                        |
+|  factor     | numérico, carácter                             | No                                        |
+|  arreglo    | numéricos, carácter, complejo, lógico          | No                                        |
+|  matriz     | numéricos, carácter, complejo, lógico          | No                                        |
+|  data.frame | numéricos, carácter, complejo, lógico          | Si                                        |
+|  ts         | numéricos, carácter, complejo, lógico          | Si                                        |
+|  lista      | numéricos, carácter, complejo, lógico, función, expresión  | Si                            |
+
+<center>
+<sub>
+Tomado de: [R para principiantes](https://bookdown.org/jboscomendoza/r-principiantes4/)
+</sub>
+</center>
+
+
+
+<br/><br/>
+<h3>Vector</h3>
+
+Un **vector**  es una secuencia unidimensional compuesta por elementos del mismo tipo.
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+En este ejemplo se presenta un ejemplo práctico para ilustrar cómo crear y verificar vectores.
+<pre>
+# Creación de vectores numéricos y de caracteres
+# El vector 'a' contiene una secuencia de números enteros del 1 al 9
+a <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+# El vector 'b' contiene una secuencia de caracteres de "a" a "i"
+b <- c("a", "b", "c", "d", "e", "f", "g", "h", "i")
+
+# Verificación de los tipos de datos
+# La función 'class' devuelve el tipo de dato de los objetos 'a' y 'b'
+class(a)
+class(b)
+</pre>
+
+```{r}
+# Creación de vectores numéricos y de caracteres
+# El vector 'a' contiene una secuencia de números enteros del 1 al 9
+a <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+# El vector 'b' contiene una secuencia de caracteres de "a" a "i"
+b <- c("a", "b", "c", "d", "e", "f", "g", "h", "i")
+
+# Verificación de los tipos de datos
+# La función 'class' devuelve el tipo de dato de los objetos 'a' y 'b'
+class(a)
+class(b)
+```
+</p>
+</div>
+
+
+
+<br/><br/>
+<h3>Factor</h3>
+
+Un **factor** es un objeto diseñado para representar datos categóricos mediante niveles o categorías específicas. Este tipo de estructura resulta especialmente útil en el análisis y la manipulación de datos que requieren clasificaciones discretas. A continuación, se presenta un ejemplo de cómo convertir un vector denominado b en factor y, posteriormente, verificar su clase:
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+<pre>
+# La función factor() convierte el vector 'b' en un objeto factor,
+# el cual sirve para representar datos categóricos en R.
+b_factor <- factor(b)
+
+# Se muestra la clase del objeto recién creado. El resultado esperado es "factor".
+class(b_factor)
+</pre>
+
+```{r}
+# La función factor() convierte el vector 'b' en un objeto factor,
+# el cual sirve para representar datos categóricos en R.
+b_factor <- factor(b)
+
+# Se muestra la clase del objeto recién creado. El resultado esperado es "factor".
+class(b_factor)
+```
+</p>
+</div>
+
+
+
+<br><br>
+<h3>Arreglo</h3>
+
+Un **arreglo** es una estructura de datos multidimensional que almacena elementos de un mismo tipo. A continuación, se muestra un ejemplo de la creación de un arreglo llamado `ab`, con dimensiones de 2×3×4, y la verificación de su clase:
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+<pre>
+# Creamos un arreglo con los números del 1 al 24,
+# especificando sus dimensiones como 2×3×4.
+ab = array(1:24, dim = c(2, 3, 4))
+
+# Verificamos la clase del objeto 'ab'.
+# El resultado esperado es "array".
+class(ab)
+</pre>
+
+```{r}
+# Creamos un arreglo con los números del 1 al 24,
+# especificando sus dimensiones como 2×3×4.
+ab = array(1:24, dim = c(2, 3, 4))
+
+# Verificamos la clase del objeto 'ab'.
+# El resultado esperado es "array".
+class(ab)
+```
+</p>
+</div>
+
+
+
+
+
+<br><br>
+<h3>Matriz</h3>
+
+Una **matriz**  es un aarreglo bidimensional que contiene elementos de un mismo tipo. A continuación, se presenta un ejemplo de cómo crear una matriz a partir de un vector denominado `a`, especificando el número de filas y el orden de llenado de datos. Luego, se muestra la matriz resultante y se verifica su clase.
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+ <p>
+<pre>
+# Creamos un vector 'a' con los valores del 1 al 9.
+a <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+# Convertimos el vector 'a' en una matriz 'm' con 3 filas,
+# rellenando los valores por filas (byrow = TRUE).
+m = matrix(a, nrow = 3, byrow = TRUE)
+
+# Mostramos la matriz resultante.
+m
+
+# Verificamos la clase del objeto 'm'.
+# El resultado esperado es "matrix".
+class(m)
+</pre>
+```{r}
+# Creamos un vector 'a' con los valores del 1 al 9.
+a <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+# Convertimos el vector 'a' en una matriz 'm' con 3 filas,
+# rellenando los valores por filas (byrow = TRUE).
+m = matrix(a, nrow = 3, byrow = TRUE)
+
+# Mostramos la matriz resultante.
+m
+
+# Verificamos la clase del objeto 'm'.
+# El resultado esperado es "matrix".
+class(m)
+```
+</p>
+</div>
+
+
+
+
+<br><br>
+<h3>Data frame</h3>
+
+Un **data frame** es una estructura tabular compuesta por filas y columnas, en la que cada columna puede almacenar datos de distintos tipos. Esta característica lo convierte en una de las estructuras más versátiles y utilizadas en análisis de datos. A continuación, se muestra un ejemplo de cómo crear un data frame a partir de varios vectores, así como la visualización de su contenido y la verificación de su clase:
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p>
+<pre>
+# Creación de vectores numéricos y de caracteres
+# El vector 'a' contiene una secuencia de números enteros del 1 al 9.
+a <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+# El vector 'b' contiene una secuencia de caracteres desde 'a' hasta 'i'.
+b <- c("a", "b", "c", "d", "e", "f", "g", "h", "i")
+
+# Creamos un data frame a partir de los vectores 'a' y 'b'.
+df = data.frame(a, b)
+
+# Mostramos el contenido del data frame.
+df
+
+# Verificamos la clase del objeto 'df'.
+class(df)
+</pre>
+
+```{r}
+# Creación de vectores numéricos y de caracteres
+# El vector 'a' contiene una secuencia de números enteros del 1 al 9.
+a <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+# El vector 'b' contiene una secuencia de caracteres desde 'a' hasta 'i'.
+b <- c("a", "b", "c", "d", "e", "f", "g", "h", "i")
+
+# Creamos un data frame a partir de los vectores 'a' y 'b'.
+df = data.frame(a, b)
+
+# Mostramos el contenido del data frame.
+df
+
+# Verificamos la clase del objeto 'df'.
+class(df)
+```
+</p>
+</div>
+
+
+
+<br><br>
+<h3>ts</h3> 
+
+El objeto `ts` se emplea para representar datos secuenciales en el tiempo es la **serie temporal** o **serie de tiempo**. Este tipo de objeto facilita el análisis y la modelación de fenómenos que evolucionan a lo largo de una dimensión temporal. A continuación, se presenta un ejemplo en el que se crea una serie de tiempo a partir de un vector `x`, indicando el año de inicio (`start`) y la frecuencia de muestreo (`frequency`).
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p>
+<pre>
+# Creamos el vector 'x' con valores enteros que van del 1 al 24.
+x = 1:24
+
+# Generamos una serie temporal 't' a partir del vector 'x',
+# especificando el año de inicio como 2000 y la frecuencia de 1,
+# lo que indica una observación por periodo (p. ej., por año).
+t = ts(x, start = 2000, frequency = 1)
+
+# Visualizamos el contenido de la serie temporal.
+t
+
+# Verificamos la clase del objeto 't'.
+# El resultado esperado es "ts".
+class(t)
+</pre>
+
+```{r}
+# Creamos el vector 'x' con valores enteros que van del 1 al 24.
+x = 1:24
+
+# Generamos una serie temporal 't' a partir del vector 'x',
+# especificando el año de inicio como 2000 y la frecuencia de 1,
+# lo que indica una observación por periodo (p. ej., por año).
+t = ts(x, start = 2000, frequency = 1)
+
+# Visualizamos el contenido de la serie temporal.
+t
+
+# Verificamos la clase del objeto 't'.
+# El resultado esperado es "ts".
+class(t)
+```
+</p>
+</div>
+
+
+
+<br><br>
+<h3>Lista</h3> 
+
+Una **lista**  es una colección ordenada y flexible que puede contener elementos de distintos tipos. A continuación, se muestra un ejemplo de cómo crear una lista denominada data_lista, así como la visualización de su contenido y la verificación de su clase:
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p>
+<pre>
+data_lista = list(
+nombre = c("Juan", "Ana", "Harold", "Oscar", "Isabel"),
+edad = c(23,43,25,30,21),
+ciudad = c("Cali", "Bogotá", "Medellín", "Cartagena")
+)
+data_lista
+class(data_lista)
+</pre>
+
+```{r}
+data_lista = list(
+nombre = c("Juan", "Ana", "Harold", "Oscar", "Isabel"),
+edad = c(23,43,25,30,21),
+ciudad = c("Cali", "Bogotá", "Medellín", "Cartagena")
+)
+data_lista
+class(data_lista)
+```
+</p>
+</div>
+
+
+

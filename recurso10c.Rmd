@@ -1,0 +1,129 @@
+---
+title: <span style="color:#686868"> **Función en R**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+
+```
+
+<br/><br/>
+<h2>Función en R</h2>
+
+
+En **R**, una **función** es un conjunto de instrucciones que realiza una tarea específica. Definir funciones permite automatizar procesos y reutilizar código de manera eficiente.
+
+La sintaxis general para crear una función es:
+
+<pre>
+nombre_funcion <- function(argumento1, argumento2, ...) {
+  # Cuerpo de la función
+  # Instrucciones que se ejecutarán
+  return(valor_de_salida)
+}
+</pre>
+
+Donde:
+
+  - `nombre_funcion`: es el nombre asignado a la función.
+
+  - `argumento1, argumento2, ...`: son los parámetros que recibe la función.
+
+  - El cuerpo contiene las operaciones que realizará la función.
+
+  - La función `return()` especifica el valor que la función devolverá como resultado (aunque no siempre es obligatorio utilizar `return()`, su uso es recomendable para funciones más claras).
+
+
+
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+A continuación, se define una función llamada `suma_dos_numeros` que:
+
+  - Recibe dos argumentos numéricos, `x` y `y`.
+
+  - Calcula la suma de ambos números.
+
+  - Retorna el resultado de la operación.
+
+<pre>
+# Definición de la función
+suma_dos_numeros <- function(x, y) {
+  resultado <- x + y
+  return(resultado)
+}
+</pre>
+
+Al aplicar la función con los valores 3 y 5:
+
+<pre>
+# Uso de la función
+suma_dos_numeros(3, 5)
+</pre>
+
+Se obtiene como resultado 8.
+
+```{r,include=FALSE,echo=FALSE}
+# Definición de la función
+suma_dos_numeros <- function(x, y) {
+  resultado <- x + y
+  return(resultado)
+}
+
+# Uso de la función
+suma_dos_numeros(3, 5)
+```
+</p>
+</div>
+
+
+
+
+<br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+A continuación, se presenta una función llamada `suma_divide` que realiza las siguientes operaciones:
+
+  - Recibe un **vector numérico** como argumento.
+
+  - Suma el **primer** y el **último** elemento del vector.
+
+  - Divide la suma obtenida entre 4.
+
+  - Devuelve el valor final calculado.
+
+<pre>
+# Definición de la función
+suma_divide <- function(vec) {
+  primer_elemento <- vec[1]
+  ultimo_elemento <- vec[length(vec)]
+  resultado <- (primer_elemento + ultimo_elemento) / 4
+  return(resultado)
+}
+</pre>
+
+Se define un vector de prueba con los números 5, 8, 12 y 20, y se aplica la función:
+
+<pre>
+# Definir un vector de prueba
+mi_vector <- c(5, 8, 12, 20)
+
+# Aplicar la función
+suma_divide(mi_vector)
+</pre>
+
+El resultado obtenido es: 6.25
+</p>
+</div>

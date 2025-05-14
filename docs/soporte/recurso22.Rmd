@@ -1,0 +1,215 @@
+---
+title: <span style="color:#686868"> **Indicadores de posición**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+
+# install.packages('gtools')
+# install.packages("TeachingSampling")
+devtools::install_github("Centromagis/paqueteMETODOS")
+
+library(readr)
+library(tidyverse)
+library(DT)
+library(paqueteMETODOS)
+#-----------------------------------------------------
+# Tamaños de letras gráficos con ggplot2
+Theme1 = theme(
+axis.title.x = element_text(size = 16),
+axis.text.x = element_text(size = 12),
+axis.title.y = element_text(size = 16),
+axis.text.y = element_text(size = 12),
+axis.text = element_text( size = 12),
+legend.title = element_text(size = 12),
+legend.text = element_text(size = 12),  
+strip.text = element_text(size=12),
+title =element_text(size=12, face='bold')
+)# Tamaño letra por grupos
+
+Theme2 = theme(
+axis.title.x = element_text(size = 26),
+axis.text.x = element_text(size = 20),
+axis.title.y = element_text(size = 26),
+# axis.text.y = element_blank(),
+axis.text = element_text( size = 20),
+legend.title = element_text(size = 20),
+legend.text = element_text(size = 20),  
+strip.text = element_text(size=20),
+title =element_text(size=20, face='bold')
+)# Tamaño letra por grupos
+#-----------------------------------------------------
+data("CarreraLuz22")
+data("evaluacion")
+data("inflacionov22")
+load("docs/data/CarreraLu22F.rda")
+
+```
+
+</br>
+
+<h2>Indicadores</h2>
+
+Al abordar un automóvil, podemos observar un tablero con múltiples indicadores que permiten al conductor monitorear el estado del vehículo. Entre ellos se encuentran el nivel de combustible, la temperatura del motor, el estado de la batería, la señalización de puertas abiertas, la velocidad a la que se viaja, y los indicadores de luces estacionarias o de giro, entre otros. Estos elementos proporcionan información esencial que permite tomar decisiones de manera oportuna.
+
+Todos estos indicadores son el resultado de datos sintetizados mediante diferentes métodos, con el objetivo de presentar información relevante de forma clara y comprensible para el conductor.
+
+
+
+```{r, echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("img/tablero_carro.gif")
+```
+</br>
+
+De manera similar a la situación descrita anteriormente, cuando nos enfrentamos al análisis de datos, es necesario resumirlos utilizando indicadores, tablas y gráficos que permitan una interpretación más sencilla y clara. Por ejemplo, en el caso de los datos cuantitativos, las tablas de frecuencia son herramientas útiles para identificar el valor con mayor frecuencia (el valor más repetido), conocido como **MODA**.
+
+Para las variables cuantitativas, existe una variedad de indicadores que facilitan su caracterización y análisis. Estos se agrupan en las siguientes categorías principales:
+
+- **Indicadores de posición**: Ayudan a determinar la ubicación relativa de los valores dentro del conjunto de datos (como percentiles y cuartiles).
+
+- **Indicadores de centro**: Describen el valor central o representativo de los datos (como la media, mediana y moda).
+
+- **Indicadores de dispersión o variabilidad**: Evalúan la dispersión de los datos en torno a su centro (como la varianza, desviación estándar y rango intercuartílico).
+
+- **Indicadores de forma**: Analizan la distribución de los datos, considerando su asimetría y curtosis.
+
+Estos indicadores, en conjunto, proporcionan una base sólida para comprender las características fundamentales de los datos y tomar decisiones informadas a partir de ellos.
+
+</br></br>
+
+<!-- ======================================================================= -->
+
+<h2>Indicadores de posición</h2>
+
+Los **indicadores de posición** son medidas que dividen un conjunto de datos en partes iguales, permitiendo localizar un valor específico dentro de una distribución. Los indicadores más conocidos son:
+
+- **Deciles**: Dividen los datos en 10 partes iguales.
+- **Cuartiles**: Dividen los datos en 4 partes iguales.
+- **Quintiles**: Dividen los datos en 5 partes iguales.
+- **Percentiles**: Dividen los datos en 100 partes iguales.
+
+Cada indicador se utiliza para analizar y comprender cómo se distribuyen los datos, permitiendo identificar posiciones específicas dentro de la población o muestra. A continuación, se presenta una descripción detallada de cada uno de estos indicadores.
+
+
+<h3>Percentiles</h3>
+
+Los **percentiles** son 99 valores que dividen los datos en cien partes iguales, cada una de las cuales contiene el 1% de las observaciones. Estos valores están representados como \(P_1, P_2, P_3, P_4, \dots, P_{99}\), donde cada percentil indica el punto debajo del cual se encuentra un porcentaje específico de los datos. 
+
+Por ejemplo:
+
+- El percentil \(P_{25}\) corresponde al primer cuartil, que contiene el 25% de los datos.
+
+- El percentil \(P_{50}\) coincide con la mediana, dividiendo los datos en dos mitades iguales.
+
+</br></br>
+
+
+
+
+<h3>Deciles</h3>
+
+Los **deciles** son 9 valores que dividen la muestra en 10 partes iguales, cada una de las cuales contiene el 10% de las observaciones. Estos valores están representados como \(D_1, D_2, D_3, D_4, \cdots, D_9\), y permiten identificar puntos específicos en la distribución de los datos que facilitan su interpretación.
+
+Por ejemplo:
+
+- El decil \(D_1\) marca el punto por debajo del cual se encuentra el 10% de los datos.
+
+- El decil \(D_5\) coincide con la mediana, dividiendo la muestra en dos mitades iguales.
+
+</br></br>
+
+
+
+<h3>Cuartiles</h3>
+
+Los **cuartiles** son 3 valores que dividen la muestra en cuatro partes iguales, cada una de las cuales contiene el 25% de los datos. Estos valores se denotan como:
+
+- \(Q_1\) (primer cuartil): El valor por debajo del cual se encuentra el 25% de los datos.
+
+- \(Q_2\) (segundo cuartil): También conocido como la mediana, que divide los datos en dos mitades iguales.
+
+- \(Q_3\) (tercer cuartil): El valor por debajo del cual se encuentra el 75% de los datos.
+
+Además de ser indicadores fundamentales para describir la distribución de los datos, los cuartiles son utilizados para construir el **diagrama de cajas** (boxplot). Este gráfico no solo permite comparar grupos de manera visual, sino que también facilita la identificación de datos atípicos, proporcionando una herramienta valiosa en el análisis exploratorio de datos.
+</br></br>
+
+
+
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+
+Los percentiles se utilizan ampliamente en ciencia de datos para comprender la distribución de los datos, identificar valores atípicos y realizar análisis comparativos. Estos indicadores son fundamentales para describir el comportamiento de una variable y para tomar decisiones basadas en datos. Como por ejemplo:
+
+**Identificación de valores atípicos**:  Los percentiles son herramientas efectivas para detectar valores extremos o atípicos en un conjunto de datos. Un método comúnmente utilizado para este propósito se basa en los **cuartiles** y los rangos intercuartílicos (IQR, por sus siglas en inglés). Los límites para identificar valores atípicos se calculan como:
+
+\[
+\text{Límite inferior} = Q_1 - 1.5 \times (\text{IQR})
+\]
+\[
+\text{Límite superior} = Q_3 + 1.5 \times (\text{IQR})
+\]
+
+Donde:
+
+- \(Q_1\): Primer cuartil (percentil 25).
+
+- \(Q_3\): Tercer cuartil (percentil 75).
+
+- \(\text{IQR} = Q_3 - Q_1\): Rango intercuartílico.
+
+Los valores que caen fuera de estos límites se consideran atípicos. Este enfoque fue propuesto por John Tukey en 1977 y se utiliza ampliamente en análisis exploratorio de datos.
+
+</br></br>
+
+**Análisis de rendimiento en pruebas estandarizadas**: En el sector educativo, los percentiles son ampliamente utilizados para informar sobre el rendimiento de los estudiantes en pruebas estandarizadas. Por ejemplo, un puntaje en el percentil 75 indica que el estudiante superó al 75% de los participantes en la prueba, lo que posiciona su desempeño en el cuarto superior del grupo.  
+
+</br></br>
+
+**Evaluación de distribuciones de ingresos**: En economía y sociología, los percentiles se utilizan para analizar la distribución de ingresos. Un enfoque común es el uso de **quintiles**, que dividen la población en cinco grupos iguales, cada uno representando el 20% de la distribución de ingresos. Estos quintiles corresponden a los percentiles \(P_{20}\), \(P_{40}\), \(P_{60}\), y \(P_{80}\).  
+
+</br></br>
+
+**Segmentación de audiencia en marketing**: En el ámbito del marketing, los percentiles se utilizan para segmentar audiencias según el comportamiento del cliente. Por ejemplo, se pueden calcular percentiles basados en variables como el gasto promedio, la frecuencia de compra o el tiempo de permanencia en una plataforma. Esto permite identificar grupos específicos como:
+
+- **Clientes premium**: Aquellos en los percentiles superiores (\(P_{80}\) o más), que representan el segmento con mayor valor para la empresa.
+- **Clientes frecuentes pero de bajo gasto**: Aquellos en percentiles medios (\(P_{40}\) a \(P_{60}\)).
+- **Clientes inactivos o de bajo valor**: Aquellos en los percentiles inferiores (\(P_{20}\) o menos).
+</br></br>
+
+**Evaluación de rendimiento en deportes**: En el análisis deportivo, los percentiles se utilizan para evaluar el rendimiento de los atletas en comparación con sus pares en diferentes aspectos, como velocidad, resistencia o fuerza. Por ejemplo:
+
+- Un atleta que se encuentra en el percentil 90 en velocidad significa que supera al 90% de los demás atletas en esta categoría.
+- Un atleta en el percentil 50 en resistencia tiene un rendimiento promedio, igualando a la mitad de los participantes.
+
+</br></br>
+
+**Establecimiento de límites para decisiones empresariales**: En el ámbito empresarial, los percentiles son útiles para establecer límites o umbrales en la toma de decisiones estratégicas. Por ejemplo, una empresa podría utilizar percentiles para identificar y premiar a los empleados con los mejores desempeños basándose en un indicador de rendimiento específico:
+
+- Aquellos empleados que se encuentren en el percentil 95 o superior serían reconocidos o recompensados por su alto rendimiento.
+- Este enfoque ayuda a motivar a los empleados a alcanzar altos estándares y asegura que el reconocimiento esté basado en criterios objetivos.
+
+</br></br>
+
+**Comparación de rendimiento de modelos en aprendizaje automático**: En el desarrollo de modelos de aprendizaje automático, los percentiles pueden ser útiles para comparar el rendimiento de diferentes modelos en distintas regiones de la distribución de datos. Por ejemplo:
+
+- Evaluar cómo se desempeña cada modelo en los percentiles superiores (\(P_{90}\) o más), donde pueden encontrarse valores extremos o casos atípicos.
+- Analizar el rendimiento en los percentiles medios (\(P_{40}\) a \(P_{60}\)) para identificar si el modelo tiene un buen ajuste general en datos promedio.
+- Comparar resultados en los percentiles inferiores (\(P_{10}\) o menos) para determinar la capacidad del modelo de manejar datos con valores bajos o límites críticos.
+
+</br></br>
+
+**Determinación de valores críticos en salud**: En estudios de salud, los percentiles se utilizan para establecer valores de referencia en medidas biológicas clave, como el índice de masa corporal (IMC), la presión arterial, y otros indicadores fisiológicos. Estos valores permiten clasificar a los pacientes en grupos de riesgo y establecer criterios clínicos.
+
+Por ejemplo:
+- Un IMC en el percentil 85 se considera un umbral para clasificar a un paciente en riesgo de sobrepeso.
+- La presión arterial en el percentil 95 puede ser un indicador de hipertensión, requiriendo intervenciones médicas específicas.
+

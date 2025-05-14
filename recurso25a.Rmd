@@ -1,0 +1,277 @@
+---
+title: <span style="color:#686868"> **Indicadores de forma**</span>
+author: "Métodos y Simulación Estadística"
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readr)
+library(tidyverse)
+library(DT)
+library(paqueteMETODOS)
+
+data("CarreraLuz22")
+data("evaluacion")
+data("inflacionov22")
+```
+
+</br></br>
+<h2>Indicadores de forma</h2>
+
+Los **indicadores de forma** son herramientas estadísticas que permiten añadir elementos adicionales a la interpretación de los datos. Estos indicadores complementan las medidas de tendencia central, dispersión y posición, proporcionando información sobre la **simetría** y **apuntamiento** de la distribución de los datos.
+
+
+</br></br>
+<h3>Curtosis</h3>
+
+La **curtosis** es una medida que evalúa la **puntiagudez** de una distribución en comparación con una distribución normal estándar. Este análisis se realiza a través del **coeficiente de curtosis** (\(CA\)), que está directamente relacionado con la dispersión de los datos.
+</br>
+
+Fórmula:
+\[
+CA = \dfrac{1}{s^{4}}\Bigg(\dfrac{1}{n} \sum_{i=1}^{n} (x-\bar{x})^{4} \Bigg) - 3
+\]
+
+Donde:
+
+- \(s^{4}\): Potencia cuarta de la desviación estándar.
+
+- \(\bar{x}\): Media de los datos.
+
+- \(n\): Tamaño del conjunto de datos.
+
+
+</br></br>
+<h4> Clasificación según el coeficiente de curtosis:</h4>
+
+De acuerdo con el valor del coeficiente de curtosis, la distribución se clasifica en tres grupos:
+
+1. **Leptocúrtica** (\(CA > 0\)):  Una curtosis alta (leptocúrtica) indica una mayor concentración de los datos alrededor de la media y valores extremos más frecuentes.
+
+  
+2. **Mesocúrtica** (\(CA = 0\)):  El término mesocúrtica indica que la distribución tiene una **forma simétrica** (aunque la simetría en sí no define la curtosis). Presenta un **nivel de concentración de datos en el centro** que no es ni especialmente alto ni bajo. Las **colas** (es decir, los valores extremos) no son ni más pesadas ni más ligeras de lo esperado para una forma "estándar". En estadística, la distribución que comúnmente se asocia con este comportamiento es la **distribución normal**, también llamada **distribución gaussiana**. 
+
+
+3. **Platicúrtica** (\(CA < 0\)):  Una curtosis baja (platicúrtica) sugiere que los datos están más dispersos y menos concentrados cerca de la media.
+
+
+</br></br>
+<h4>Aplicaciones</h4>
+
+- Evaluar la forma de la distribución en modelos estadísticos.
+
+- Detectar patrones de concentración o dispersión en los datos.
+
+- Determinar si los datos cumplen con los supuestos de normalidad en análisis estadísticos.
+
+---
+
+</br>
+
+En la **Figura 1.10** se comparan las distintas formas de curtosis leptocurtosis (curva roja), mesocurtosis (curva azul) y platicurtosis (curva naranja).
+
+
+```{r, echo=FALSE, fig.height=3, fig.width=9, message=FALSE, warning=FALSE}
+# Distribucion normal
+library(ggfortify)
+p=ggdistribution(dnorm, seq(-5, 5, 0.01), mean = 0, sd = 1,colour = 'blue')
+p=ggdistribution(dnorm, seq(-5, 5, 0.01), mean = 0, sd = .7,colour = 'red', p=p)
+p=ggdistribution(dnorm, seq(-5, 5, 0.01),   mean = 0, sd = 1.5,colour = 'orange', p=p)
+p 
+```
+
+**Figura 1.10** Comparación de las formas de curtosis.
+
+
+</br></br>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+En este ejemplo, se calcula el **coeficiente de curtosis** para el siguiente conjunto de datos:
+
+<pre>
+41.67, 42.23, 45.53, 50.82, 
+52.93, 57.03, 61.13, 62.48, 
+72.77, 75.58, 76.98, 78.05
+</pre>
+
+
+Los códigos en **R** son los siguientes:
+
+<pre>
+# Instalar y cargar la librería necesaria
+# install.packages("e1071")
+library(e1071)
+
+# Datos
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular el coeficiente de curtosis
+kurtosis(x)
+</pre>
+
+```{r, eval=FALSE}
+# Instalar y cargar la librería necesaria
+# install.packages("e1071")
+library(e1071)
+
+# Datos
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular el coeficiente de curtosis
+kurtosis(x)
+```
+
+El coeficiente de curtosis obtenido es: - 1.674344
+
+
+El valor del coeficiente de curtosis es negativo, lo que indica que los datos presentan una forma platicúrtica o aplanada. Esto significa:
+
+- Los datos están menos concentrados alrededor de la media en comparación con una distribución normal.
+
+- Las colas de la distribución son más cortas y menos pronunciadas.
+
+</p>
+</div>
+
+
+<br/><br/> 
+<h3>Asimetría o sesgo</h3>
+
+El **coeficiente de asimetría** o **sesgo** mide qué tanto la forma de la distribución de frecuencias de los datos es **simétrica** o **asimétrica** con respecto a la media. Este indicador es clave para determinar cómo se distribuyen los datos alrededor del valor central.
+
+<br/><br/> 
+<h4>Fórmula</h4>
+
+\[
+CA = \dfrac{1}{s^{3}} \Bigg( \dfrac{1}{n} \sum_{i=1}^{n} (x_{i}-\bar{x})^{3} \Bigg)
+\]
+
+Donde:
+
+- \(s^{3}\): Cubo de la desviación estándar.
+
+- \(\bar{x}\): Media del conjunto de datos.
+
+- \(n\): Tamaño de la muestra.
+
+
+<br/><br/>  
+<h4>Clasificación según el valor del coeficiente</h4>
+
+1. **Simétrica**:  Si el valor del indicador es \(0\), los datos están distribuidos de manera uniforme alrededor de la media y se cumple que:
+   
+   \[
+   \bar{x} = Me
+   \]  
+   
+
+2. **Asimétrica a la izquierda**: Si el valor del indicador es negativo (\(CA < 0\)) indica que la distribución tiene una cola más larga hacia la izquierda y se cumple lo siguiente:  
+   
+   \[
+   \bar{x} < Me
+   \]  
+   
+
+3. **Asimétrica a la derecha**:  Si el valor del indicador es positivo (\(CA > 0\))   indica que la distribución tiene una cola más larga hacia la derecha y se cumple que:
+   
+   \[
+   \bar{x} > Me
+   \]  
+  
+
+<br/><br/> 
+<h4> Importancia</h4>
+
+ El coeficiente de asimetría es útil para:
+ 
+- Evaluar la forma de la distribución en relación con su simetría.
+
+- Identificar sesgos en los datos que puedan influir en análisis estadísticos.
+
+- Determinar si los datos cumplen los supuestos de simetría en algunos modelos estadísticos.
+
+<br/><br/> 
+<h4>Interpretación</h4>
+
+En la **Figura 1.11** se presentan curvas de densidad que ilustran los diferentes tipos de asimetría: **simétrica**, **asimétrica a la izquierda** y **asimétrica a la derecha**. Estas curvas ayudan a visualizar cómo se distribuyen los datos respecto a la media. 
+
+
+
+- **Asimetría negativa (curva roja) ** : Una prueba con resultados asimétricos a la izquierda o negativa, indica que pocos obtuvieron resultados bajos y que muchos alcanzaron resultados altos, pudiendo indicar que la prueba era relativamente fácil (poco con poco y mucho con mucho).
+
+- **Simétrica (curva naranja)** : En este caso una prueba con resultados simétricos indica que los puntajes se ubicaron al rededor de la media y que unos pocos sacaron puntaje bajo y que los que presentaron resultados altos corresponden a un pequeño grupo. Por lo regular estos son los resultados de pruebas estandarizada como pueden ser las pruebas de estado (poco con poco y poco con mucho).
+
+- **Asimetría positiva (curva azul)**  :  Los resultados a pruebas con asimetría a la derecha o positiva, presentan resultados acumulados a la izquierda, es decir que muchos obtuvieron resultados bajos y unos pocos resultados altos. Esto haría pensar que la prueba fue exigente (mucho con poco y poco con mucho).
+
+
+```{r, echo=FALSE, out.width="100%", fig.align = "center", message=FALSE, warning=FALSE}
+knitr::include_graphics("img/RplotAsimetria.png")
+```
+**Figura 1.11** Comparación de las formas de sesgo o asimetrías.
+
+
+<br/><br/>
+<div class="caja-ejemplo">
+<h3>Ejemplo:</h3>
+<p> 
+
+En este ejemplo, se calcula el **coeficiente de asimetría** para el siguiente conjunto de datos:
+
+
+<pre>
+41.67, 42.23, 45.53, 50.82, 
+52.93, 57.03, 61.13, 62.48, 
+72.77, 75.58, 76.98, 78.05
+</pre>
+
+Los códigos en **R** son los siguientes:
+
+<pre>
+# Instalar y cargar la librería necesaria
+# install.packages("e1071")
+library(e1071)
+
+# Datos
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular el coeficiente de asimetría
+skewness(x)
+</pre>
+
+```{r, eval=FALSE}
+# Instalar y cargar la librería necesaria
+# install.packages("e1071")
+library(e1071)
+
+# Datos
+x = c(41.67, 42.23, 45.53, 50.82, 52.93, 57.03, 61.13, 62.48, 72.77, 75.58, 76.98, 78.05)
+
+# Calcular el coeficiente de asimetría
+skewness(x)
+```
+
+El resultado del coeficiente de asimetría calculado es: 0.07062934
+
+
+- El valor del coeficiente de asimetría es cercano a **0**, lo que indica que la distribución de los datos es **aproximadamente simétrica**.
+
+- Esto significa que los datos están distribuidos de manera uniforme alrededor de la media, con colas de longitud similar en ambos lados.
+
+- En este caso, no se observa un sesgo significativo hacia la izquierda ni hacia la derecha, lo que refleja una distribución equilibrada.
+
+
+</p>
+</div>
+
+
+
+
+
