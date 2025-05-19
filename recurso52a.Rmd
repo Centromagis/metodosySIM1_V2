@@ -22,8 +22,8 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = N
 A continuación, se presentan dos enlaces con acceso a un caso de estudio completamente resuelto. El primer enlace dirige a una versión en formato de informe HTML, mientras que el segundo proporciona acceso al repositorio con los archivos fuente en **R**, necesarios para su reproducción.
 
 <ul>
-  <li><a href="https://centromagis.github.io/Informe/" target="_blank">Informe HTML</a></li>
-  <li><a href="https://github.com/Centromagis/Informe.git" target="_blank">Repositorio en GitHub</a></li>
+  <li><a href="https://centromagis.github.io/Informe/" target="_blank">Informe en HTML</a></li>
+  <li><a href="https://github.com/Centromagis/Informe.git" target="_blank">Repositorio de códigos y datos en GitHub</a></li>
 </ul>
 
 
